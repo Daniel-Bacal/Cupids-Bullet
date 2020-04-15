@@ -47,6 +47,7 @@ h4{
 
 .flex-img-child{
     margin-top: 10px;
+    align-self: flex-start;
 }
 
 .img{
