@@ -15,6 +15,9 @@ export default class Boot extends Phaser.Scene{
         this.load.image("main-menu", "assets/main-menu.png");
         this.load.image("btn-background", "assets/button.png");
         this.load.image("background", "assets/background.png");
+        this.load.image("level-select", "assets/level-select.png");
+        this.load.image("level-select-circle", 'assets/level-select-circle.png');
+        this.load.image("level-select-x", "assets/level-select-x.png");
     }
 
     create(){

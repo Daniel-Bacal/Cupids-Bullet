@@ -39,6 +39,11 @@ export default class Login extends Phaser.Scene{
         loginButtons[0].setButtonColor("#431c5c");
         loginButtons[0].setButtonHoverColor("#431c5c");
 
+        loginButtons[1].setButtonOnClick(() => {
+            this.scene.start("LevelSelect");
+            username.remove();
+            password.remove();
+        });
         loginButtons[1].setButtonColor("#431c5c");
         loginButtons[1].setButtonHoverColor("#431c5c");
     }
