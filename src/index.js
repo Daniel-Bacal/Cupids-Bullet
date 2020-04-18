@@ -1,6 +1,10 @@
 import "./styles.css";
 import Phaser from "phaser";
+import SplashScreen from "./SplashScreen.js"
 import MainMenu from "./MainMenu.js";
+import Boot from "./Boot.js"
+import Backstory from "./Backstory"
+import Controls from "./Controls";
 
 const config = {
   type: Phaser.AUTO,
@@ -21,7 +25,8 @@ const config = {
       gravity: { y: 200 }
     }
   },
-  scene: [MainMenu]
+  plugins: ['SceneManager'],
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls]
 };
 
 
