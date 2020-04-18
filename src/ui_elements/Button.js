@@ -1,4 +1,4 @@
-export default function Button(scene, x, y, text, fontSize="16pt", backgroundImage=null, width=0, height=0, backgroundOffsetX=0, backgroundOffsetY=0){
+export default function Button(scene, x, y, text, fontSize="16px", backgroundImage=null, width=0, height=0, backgroundOffsetX=0, backgroundOffsetY=0){
     // Background Image
     let background = null;
     if(backgroundImage !== null){
@@ -48,6 +48,8 @@ export default function Button(scene, x, y, text, fontSize="16pt", backgroundIma
         button.on('pointerdown', () => button.buttonOnClick());
         button.setButtonOnClick = (callback) => {button.buttonOnClick = callback;}
     }
+
+    //TODO: Vertical align text in button
 
     // Button visibility custom function
     button.setButtonVisible = (flag) => setButtonVisible(button, flag);

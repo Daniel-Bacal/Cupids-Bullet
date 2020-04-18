@@ -5,6 +5,7 @@ import MainMenu from "./MainMenu.js";
 import Boot from "./Boot.js"
 import Backstory from "./Backstory"
 import Controls from "./Controls";
+import Login from "./Login";
 
 const config = {
   type: Phaser.AUTO,
@@ -26,7 +27,7 @@ const config = {
     }
   },
   plugins: ['SceneManager'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login]
 };
 
 

@@ -42,6 +42,10 @@ export default class MainMenu extends Phaser.Scene {
       buttons[i].setButtonHoverColor("#DDDDDD");
     }
 
+    buttons[0].setButtonOnClick(() => {
+      this.scene.start("Login");
+    })
+
     buttons[2].setButtonOnClick(() => {
       this.scene.start("Backstory")
     });
