@@ -33,20 +33,17 @@ export default class Signup extends Phaser.Scene{
         let background = this.add.image(0, 0);
         background.setOrigin(0, 0);
 
-        let title = this.add.text(240, 30, "Sign-Up Questionnaire:", {fontFamily: "NoPixel", fontSize: "30px"});
-        title.setOrigin(0.5, 0.5);
-
         this.pageNum = 0;
 
         this.question = this.data["questions"][this.pageNum];
-        this.questionText = this.add.text(240, 80, this.question["text"], {fontFamily: "NoPixel", fontSize: "16px"});
+        this.questionText = this.add.text(240, 60, this.question["text"], {fontFamily: "NoPixel", fontSize: "24px", align: "center", wordWrap: { width: 400, useAdvancedWrap: true }});
         this.questionText.setOrigin(0.5, 0.5);
         
 
         this.answerButtons = [
-            Button(this, 240, 140, this.question["answers"][0]["text"], "14px"),
-            Button(this, 240, 180, this.question["answers"][1]["text"], "14px"),
-            Button(this, 240, 220, this.question["answers"][2]["text"], "14px")
+            Button(this, 240, 140, this.question["answers"][0]["text"], "16px"),
+            Button(this, 240, 180, this.question["answers"][1]["text"], "16px"),
+            Button(this, 240, 220, this.question["answers"][2]["text"], "16px")
         ];
 
         for(let i = 0; i < this.answerButtons.length; i++){
@@ -90,7 +87,7 @@ export default class Signup extends Phaser.Scene{
                 this.questionText.destroy();
                 
                 this.question = this.data["questions"][this.pageNum];
-                this.questionText = this.add.text(240, 80, this.question["text"], {fontFamily: "NoPixel", fontSize: "20px"});
+                this.questionText = this.add.text(240, 60, this.question["text"], {fontFamily: "NoPixel", fontSize: "24px", align: "center", wordWrap: { width: 400, useAdvancedWrap: true }});
                 this.questionText.setOrigin(0.5, 0.5);
                 
 

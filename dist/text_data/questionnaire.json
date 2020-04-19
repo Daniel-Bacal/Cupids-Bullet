@@ -9,10 +9,10 @@
        {"text": "Do you laugh when you see someone get hurt", "answers":[
         {"text": "Only if the injury was funny.", "inc": "hum", "dec": "flirt"}, {"text":"No, never.", "inc": "sinc", "dec":"jock"}, {"text": "I'm laughing just thinking about it.", "inc": "jock", "dec": "sinc"}
        ]},
-       {"text": "When you are speaking publicly, do you imagine\nthe audience in their underwear?", "answers":[
+       {"text": "When you are speaking publicly, do you imagine the audience in their underwear?", "answers":[
         {"text": "Yeah. I like it since I'm usually in my undies too.", "inc": "hum", "dec": "sinc"}, {"text":"Only if I see some cuties.", "inc": "flirt", "dec":"int"}, {"text": "Ew, never!", "inc": "sinc", "dec": "flirt"}
        ]},
-       {"text": "How long, to the nearest second,\ndo you soft boil an egg?", "answers":[
+       {"text": "How long, to the nearest second, do you soft boil an egg?", "answers":[
         {"text": "I just drink my eggs raw.", "inc": "hum jock", "dec": "int"}, {"text":"5 minutes and 16 seconds.", "inc": "int sinc", "dec":"flirt"}, {"text": "7 minutes and 2 seconds. I prefer my eggs HARD boiled.", "inc": "flirt", "dec": "sinc"}
        ]},
        {"text": "Evaluate the following expression", "answers":[
@@ -27,7 +27,7 @@
        {"text": "What is your ideal pet?", "answers":[
         {"text": "A cat, obviously. Felines 'till I die!", "inc": "int sinc", "dec": "jock"}, {"text":"A dog, clearly. Kanines all the way!", "inc": "jock sinc", "dec":"int"}, {"text": "A pet? Isn't that why I'm on here?", "inc": "flirt hum", "dec": "sinc"}
        ]},
-       {"text": "Imagine you've just been kidnapped by\na gang of violent Aliens from Planet Xenorp.\nWhat do you do?", "answers":[
+       {"text": "Imagine you've just been kidnapped by a gang of violent Aliens from Planet Xenorp. What do you do?", "answers":[
         {"text": "I'd fight them, since I could obviously take 'em.", "inc": "jock", "dec": "int"}, {"text":"I'd turn it into an Alien Orgy!", "inc": "flirt hum", "dec":"sinc int"}, {"text": "I'd just comply with their orders in hopes of surviving.", "inc": "sinc int", "dec": "jock hum"}
        ]}
    ]
