@@ -44,14 +44,18 @@ export default class MainMenu extends Phaser.Scene {
 
     buttons[0].setButtonOnClick(() => {
       this.scene.start("Login");
-    })
+    });
+
+    buttons[1].setButtonOnClick(() => {
+      this.scene.start("Signup");
+    });
 
     buttons[2].setButtonOnClick(() => {
-      this.scene.start("Backstory")
+      this.scene.start("Backstory");
     });
 
     buttons[3].setButtonOnClick(() => {
-      this.scene.start("Controls")
+      this.scene.start("Controls");
     });
 
     buttons[4].setButtonOnClick(() => {

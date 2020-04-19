@@ -1,12 +1,13 @@
 import "./styles.css";
 import Phaser from "phaser";
-import SplashScreen from "./SplashScreen.js"
+import SplashScreen from "./SplashScreen.js";
 import MainMenu from "./MainMenu.js";
 import Boot from "./Boot.js"
 import Backstory from "./Backstory"
 import Controls from "./Controls";
 import Login from "./Login";
-import About from "./About"
+import Signup from "./Signup";
+import About from "./About";
 import LevelSelect from "./LevelSelect";
 
 const config = {
@@ -29,7 +30,7 @@ const config = {
     }
   },
   plugins: ['SceneManager'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, About, LevelSelect]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect]
 };
 
 
