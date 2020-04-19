@@ -23,7 +23,6 @@ export default class Signup extends Phaser.Scene{
 
     preload(){
         console.log("Signup");
-        this.load.json("questionnaire","text_data/questionnaire.json");
     }
 
     create(){

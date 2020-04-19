@@ -1,4 +1,20 @@
 import Phaser, {} from "phaser";
+import SplashScreen from "./SplashScreen.js";
+import MainMenu from "./MainMenu.js";
+import Backstory from "./Backstory"
+import Controls from "./Controls";
+import Login from "./Login";
+import Signup from "./Signup";
+import About from "./About";
+import LevelSelect from "./LevelSelect";
+import DatingSim from "./DatingSim";
+import Home from "./tabs/Home"
+import Matches from "./tabs/Matches"
+import Gym from "./tabs/Gym"
+import Haikus from "./tabs/Haikus"
+import Jokes from "./tabs/Jokes"
+import Math from "./tabs/Math"
+import Ads from "./tabs/Ads"
 
 export default class Boot extends Phaser.Scene{
     constructor(){
@@ -11,13 +27,49 @@ export default class Boot extends Phaser.Scene{
         console.log("Boot");
         // Load all game files here
         // TODO: add progress bar
+        // Load images
         this.load.image("splash-screen", "assets/splash-screen.png");
         this.load.image("main-menu", "assets/main-menu.png");
         this.load.image("btn-background", "assets/button.png");
         this.load.image("background", "assets/background.png");
+        this.load.image("purple-background", "assets/purple-background.png");
         this.load.image("level-select", "assets/level-select.png");
         this.load.image("level-select-circle", 'assets/level-select-circle.png');
         this.load.image("level-select-x", "assets/level-select-x.png");
+        this.load.image("home", "assets/tabs/home.png");
+        this.load.image("matches", "assets/tabs/matches.png");
+        this.load.image("gym", "assets/tabs/gym.png");
+        this.load.image("haikus", "assets/tabs/haikus.png");
+        this.load.image("jokes", "assets/tabs/jokes.png");
+        this.load.image("math", "assets/tabs/math.png");
+        this.load.image("invisibutton", "assets/invisibutton.png");
+
+        // Load JSON Files
+        this.load.json("questionnaire","text_data/questionnaire.json");
+
+        // Load Scenes
+        // let scenes = [
+        //     {name: "SplashScreen", path: "./SplashScreen.js"},
+        //     {name: "MainMenu", path: "./MainMenu.js"},
+        //     {name: "Backstory", path: "./Backstory.js"},
+        //     {name: "Controls", path: "./Controls.js"},
+        //     {name: "Login", path: "./Login.js"},
+        //     {name: "Signup", path: "./Signup.js"},
+        //     {name: "About", path: "./About.js"},
+        //     {name: "LevelSelect", path: "./LevelsSelect.js"},
+        //     {name: "DatingSim", path: "./DatingSim.js"},
+        //     {name: "Home", path: "./tabs/Home.js"},
+        //     {name: "Matches", path: "./tabs/Matches.js"},
+        //     {name: "Gym", path: "./tabs/Gym.js"},
+        //     {name: "Haikus", path: "./tabs/Haikus.js"},
+        //     {name: "Jokes", path: "./tabs/Jokes.js"},
+        //     {name: "Math", path: "./tabs/Math.js"},
+        //     {name: "Ads", path: "./tabs/Ads.js"}
+        //     ];
+
+        // for(let i = 0; i < scenes.length; i++){
+        //     this.load.sceneFile(scenes[i].name, scenes[i].path);
+        // }
     }
 
     create(){

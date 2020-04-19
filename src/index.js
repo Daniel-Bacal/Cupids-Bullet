@@ -9,6 +9,14 @@ import Login from "./Login";
 import Signup from "./Signup";
 import About from "./About";
 import LevelSelect from "./LevelSelect";
+import DatingSim from "./DatingSim";
+import Home from "./tabs/Home"
+import Matches from "./tabs/Matches"
+import Gym from "./tabs/Gym"
+import Haikus from "./tabs/Haikus"
+import Jokes from "./tabs/Jokes"
+import Math from "./tabs/Math"
+import Ads from "./tabs/Ads"
 
 const config = {
   type: Phaser.AUTO,
@@ -29,8 +37,8 @@ const config = {
       gravity: { y: 200 }
     }
   },
-  plugins: ['SceneManager'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect]
+  plugins: ['SceneManager', 'Clock'],
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads]
 };
 
 
