@@ -17,6 +17,7 @@ import Haikus from "./tabs/Haikus"
 import Jokes from "./tabs/Jokes"
 import Math from "./tabs/Math"
 import Ads from "./tabs/Ads"
+import PauseMenu from "./tabs/PauseMenu"
 
 const config = {
   type: Phaser.AUTO,
@@ -38,7 +39,7 @@ const config = {
     }
   },
   plugins: ['SceneManager', 'Clock'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu]
 };
 
 

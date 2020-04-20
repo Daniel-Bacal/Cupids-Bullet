@@ -1,5 +1,6 @@
 import Phaser, {} from "phaser"
 import Button from "./ui_elements/Button"
+import { clamp } from "./utils/MathUtils"
 
 export default class DatingSim extends Phaser.Scene{
     constructor(){
@@ -16,15 +17,20 @@ export default class DatingSim extends Phaser.Scene{
         this.initTabs();
 
         this.initTimer();
+        
+        this.initPauseButton();
     }
 
     update(){
+        if(this.previousTime === null) this.setTimer();
         this.handleTimer();
     }
 
     initTabs(){
         this.tabs = ["Home", "Matches", "Gym", "Haikus", "Jokes", "Math"];
         this.scene.launch("Ads", {parent: this});
+        this.scene.launch("PauseMenu", {parent: this});
+        this.scene.sleep("PauseMenu");
 
         this.buttons = {};
         
@@ -36,25 +42,40 @@ export default class DatingSim extends Phaser.Scene{
         }
 
         this.scene.sendToBack("Ads");
-        this.moveToTab("Home");
+        this.currentTab = "Home";
+        this.moveToTab(this.currentTab);
     }
 
     initTimer(){
-        this.startTime = this.time.now;
-        this.totalTime = 60;
+        this.timeActive = 0;
+        this.previousTime = null;
+        this.totalTime = 61;
+        this.timerText = this.add.text(420, 10, "Error", {color: "white", fontSize: "16px", fontFamily: "NoPixel"});
+    }
 
-        this.timerText = this.add.text(450, 10, "Error", {color: "white", fontSize: "16px", fontFamily: "NoPixel"});
+    setTimer(){
+        this.previousTime = this.time.now;
     }
 
     handleTimer(){
-        let timeRemaining = this.totalTime - (this.time.now - this.startTime)/1000;
+        // Increment active time
+        this.timeActive += this.time.now - this.previousTime;
+        this.previousTime = this.time.now;
+        let timeRemaining = this.totalTime - this.timeActive/1000;
 
-        // if(timeRemaining <= 0){
-        //     this.scene.start("MainMenu");
-        // }
+        if(timeRemaining <= 0){
+            this.endDay();
+        } else if(timeRemaining <= 30){
+            this.timerText.setStyle({color: "red"});
+        }
 
         let minutesRemaining = Math.floor(timeRemaining / 60);
         let secondsRemaining = Math.floor(timeRemaining % 60);
+
+        secondsRemaining = secondsRemaining < 10 ? "0" + secondsRemaining : secondsRemaining;
+
+        clamp(minutesRemaining, 0, 59);
+        clamp(secondsRemaining, 0, 59);
 
         // Otherwise, display the clock
         this.timerText.text = minutesRemaining + ":" + secondsRemaining;
@@ -62,13 +83,49 @@ export default class DatingSim extends Phaser.Scene{
 
     }
 
+    endDay(){
+
+        // SAVE GAME DATA
+
+        for(let i = 0; i < this.tabs.length; i++){
+            this.scene.stop(this.tabs[i]);
+        }
+        this.scene.stop("Ads");
+
+        // GO TO END OF DAY SCENE
+        this.scene.start("MainMenu");
+    }
+
     moveToTab(key){
         for(let i = 0; i < this.tabs.length; i++){
             this.scene.sleep(this.tabs[i]);
         }
-        this.scene.wake(key);
+        this.currentTab = key;
+        this.scene.wake(this.currentTab);
         this.scene.sendToBack("Ads");
         this.scene.bringToTop();
+        this.scene.bringToTop("PauseMenu");
     }
 
+    initPauseButton(){
+        this.pauseButton = Button(this, 450, 10, "P");
+        this.pauseButton.setButtonColor("white");
+        this.pauseButton.setButtonOnClick(() => this.pauseGame(true));
+    }
+
+    pauseGame(flag){
+        if(flag){
+            this.scene.wake("PauseMenu");
+            this.scene.pause(this.currentTab);
+            this.scene.pause();
+        } else {
+            this.scene.sleep("PauseMenu");
+
+            // Unpaused, so reset the timer
+            this.previousTime = null;
+
+            this.scene.resume(this.currentTab);
+            this.scene.resume();
+        }    
+    }
 }

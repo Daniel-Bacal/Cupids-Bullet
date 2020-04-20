@@ -1,6 +1,5 @@
 import Phaser, {} from "phaser"
 import AbstractTab from "./AbstractTab"
-import Button from "../ui_elements/Button"
 
 export default class Home extends AbstractTab{
     constructor(){
