@@ -47,6 +47,27 @@ export default class Boot extends Phaser.Scene{
         // Load JSON Files
         this.load.json("questionnaire","text_data/questionnaire.json");
 
+        for(let i = 1; i < 6; i++){
+            this.load.image("body" + i, "assets/NPCAssets/bodies/" + i + ".png");
+            this.load.image("feature" + i, "assets/NPCAssets/features/" + i + ".png");
+        }
+        for(let i = 1; i < 4; i++){
+            this.load.image("background" + i, "assets/NPCAssets/backgrounds/" + i + ".png");
+            for(let j = 1; j < 4; j++){
+                this.load.image("clothes1" + j, "assets/NPCAssets/clothes/clothes1/" + j + ".png");
+                this.load.image("clothes2" + j, "assets/NPCAssets/clothes/clothes2/" + j + ".png");
+                this.load.image("clothes3" + j, "assets/NPCAssets/clothes/clothes3/" + j + ".png");
+
+                this.load.image("eyes1" + j, "assets/NPCAssets/eyes/eyes1/" + j + ".png");
+                this.load.image("eyes2" + j, "assets/NPCAssets/eyes/eyes2/" + j + ".png");
+                this.load.image("eyes3" + j, "assets/NPCAssets/eyes/eyes3/" + j + ".png");
+
+                this.load.image("hair1" + j, "assets/NPCAssets/hair/hair1/" + j + ".png");
+                this.load.image("hair2" + j, "assets/NPCAssets/hair/hair2/" + j + ".png");
+                this.load.image("hair3" + j, "assets/NPCAssets/hair/hair3/" + j + ".png");
+            }
+        }
+
         // Load Scenes
         // let scenes = [
         //     {name: "SplashScreen", path: "./SplashScreen.js"},
