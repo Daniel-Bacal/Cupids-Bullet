@@ -49,23 +49,20 @@ export default class Boot extends Phaser.Scene{
         this.load.json("questionnaire","text_data/questionnaire.json");
 
         for(let i = 1; i < 6; i++){
-            this.load.image("body" + i, "assets/NPCAssets/bodies/" + i + ".png");
-            this.load.image("feature" + i, "assets/NPCAssets/features/" + i + ".png");
+            this.load.image("fBody" + i, "assets/NPCAssets/female/bodies/" + i + ".png");
+            this.load.image("fFeature" + i, "assets/NPCAssets/female/features/" + i + ".png");
+            this.load.image("mBody" + i, "assets/NPCAssets/male/bodies/" + i + ".png");
+            this.load.image("mFeature" + i, "assets/NPCAssets/male/features/" + i + ".png");
+            this.load.image("background" + i, "assets/NPCAssets/backgrounds/" + i + ".png");
         }
         for(let i = 1; i < 4; i++){
-            this.load.image("background" + i, "assets/NPCAssets/backgrounds/" + i + ".png");
             for(let j = 1; j < 4; j++){
-                this.load.image("clothes1" + j, "assets/NPCAssets/clothes/clothes1/" + j + ".png");
-                this.load.image("clothes2" + j, "assets/NPCAssets/clothes/clothes2/" + j + ".png");
-                this.load.image("clothes3" + j, "assets/NPCAssets/clothes/clothes3/" + j + ".png");
-
-                this.load.image("eyes1" + j, "assets/NPCAssets/eyes/eyes1/" + j + ".png");
-                this.load.image("eyes2" + j, "assets/NPCAssets/eyes/eyes2/" + j + ".png");
-                this.load.image("eyes3" + j, "assets/NPCAssets/eyes/eyes3/" + j + ".png");
-
-                this.load.image("hair1" + j, "assets/NPCAssets/hair/hair1/" + j + ".png");
-                this.load.image("hair2" + j, "assets/NPCAssets/hair/hair2/" + j + ".png");
-                this.load.image("hair3" + j, "assets/NPCAssets/hair/hair3/" + j + ".png");
+                this.load.image("fClothes" + i + j, "assets/NPCAssets/female/clothes/clothes" + i + "/" + j + ".png");
+                this.load.image("fEyes" + i + j, "assets/NPCAssets/female/eyes/eyes" + i + "/" + j + ".png");
+                this.load.image("fHair" + i + j, "assets/NPCAssets/female/hair/hair" + i + "/" + j + ".png");
+                this.load.image("mClothes" + i + j, "assets/NPCAssets/male/clothes/clothes" + i + "/" + j + ".png");
+                this.load.image("mEyes" + i + j, "assets/NPCAssets/male/eyes/eyes" + i + "/" + j + ".png");
+                this.load.image("mHair" + i + j, "assets/NPCAssets/male/hair/hair" + i + "/" + j + ".png");
             }
         }
 
