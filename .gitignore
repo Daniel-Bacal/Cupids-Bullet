@@ -65,3 +65,10 @@ node_modules/
 .env
 
 .cache
+
+dist/index.js
+dist/index.js.map
+dist/NoPixel.*
+dist/src.*
+dist/index.html
+dist/NoChalk.*

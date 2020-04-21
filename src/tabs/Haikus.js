@@ -34,6 +34,14 @@ export default class Haikus extends AbstractTab{
 
     initHaikuText(){
         this.haikuText = this.add.text(180, 120, "", {fontFamily: "NoPixel", fontSize: "16px", color: "white", align: "center"});
+    
+        this.feedbackText = this.add.text(180, 150, "",  {fontFamily: "NoPixel", fontSize: "72px", color: "white"})
+        this.feedbackTextFade = this.tweens.add({
+            targets: this.feedbackText,
+            alpha: 0,
+            duration: 1000,
+            ease: 'Power2'
+        }, this);
     }
 
     initHaikuButtons(){
@@ -56,9 +64,21 @@ export default class Haikus extends AbstractTab{
     evaluateResponse(response){
         if(response === this.currentHaiku.isHaiku){
             // Increase player sincerity
+
+            this.feedbackText.text = "Correct!";
+            this.feedbackText.setOrigin(0.5, 0.5);
+            this.feedbackText.setStyle({color: "green"});
+            this.feedbackText.alpha = 1;
         } else {
             // Decrease player sincerity
+
+            this.feedbackText.text = "Incorrect";
+            this.feedbackText.setOrigin(0.5, 0.5);
+            this.feedbackText.setStyle({color: "red"});
+            this.feedbackText.alpha = 1;
         }
+
+        this.feedbackTextFade.restart();
 
         this.currentHaiku = null;
     }
