@@ -1,20 +1,4 @@
 import Phaser, {} from "phaser";
-import SplashScreen from "./SplashScreen.js";
-import MainMenu from "./MainMenu.js";
-import Backstory from "./Backstory"
-import Controls from "./Controls";
-import Login from "./Login";
-import Signup from "./Signup";
-import About from "./About";
-import LevelSelect from "./LevelSelect";
-import DatingSim from "./DatingSim";
-import Home from "./tabs/Home"
-import Matches from "./tabs/Matches"
-import Gym from "./tabs/Gym"
-import Haikus from "./tabs/Haikus"
-import Jokes from "./tabs/Jokes"
-import Math from "./tabs/Math"
-import Ads from "./tabs/Ads"
 
 export default class Boot extends Phaser.Scene{
     constructor(){
@@ -25,6 +9,35 @@ export default class Boot extends Phaser.Scene{
 
     preload(){
         console.log("Boot");
+
+        // Progress bar
+        let background = this.add.graphics();
+        background.fillStyle(0x000000);
+        background.fillRect(0, 0, 480, 270);
+        let progressBar = this.add.graphics();
+        let progressBox = this.add.graphics();
+        progressBox.lineStyle(4, 0xFFFFFF);
+        progressBox.strokeRect(140, 110, 200, 20);
+
+        let assetText = this.add.text(240, 160, "", {fontFamily: "NoPixel"});
+
+        this.load.on('progress', function (value) {
+            progressBar.clear();
+            progressBar.fillStyle(0xffffff, 1);
+            progressBar.fillRect(140, 110, Math.round((192 * value)/2)*2, 20);
+        });
+        
+        this.load.on('fileprogress', function (file) {
+            assetText.setText('Loading asset: ' + file.key);
+            assetText.setOrigin(0.5, 0.5);
+        });
+
+        this.load.on('complete', function () {
+            progressBar.destroy();
+            progressBox.destroy();
+            assetText.destroy();
+        });
+
         // Load all game files here
         // TODO: add progress bar
         // Load images
