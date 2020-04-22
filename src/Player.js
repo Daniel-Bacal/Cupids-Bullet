@@ -6,11 +6,11 @@ export default class Player {
     }; 
 
     incrementStat(statType, step){
-        if (statType=="jock"){this.stats.jock+=step;}
-        else if (statType=="flirt"){this.stats.flirt+=step;}
-        else if (statType=="hum"){this.stats.hum+=step;}
-        else if (statType=="int"){this.stats.int+=step;}
-        else if (statType=="hum"){this.stats.sinc+=step;}
+        if (statType=="jock"){this.stats.jock+=step; if(this.stats.jock <= 0){this.stats.jock=0;}}
+        else if (statType=="flirt"){this.stats.flirt+=step; if(this.stats.flirt <= 0){this.stats.flirt=0;}}
+        else if (statType=="hum"){this.stats.hum+=step; if(this.stats.hum <= 0){this.stats.hum=0;}}
+        else if (statType=="int"){this.stats.int+=step; if(this.stats.int <= 0){this.stats.int=0;}}
+        else if (statType=="hum"){this.stats.sinc+=step; if(this.stats.sinc <= 0){this.stats.sinc=0;}}
     }
 
     getPlayerStats(){

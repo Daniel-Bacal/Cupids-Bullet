@@ -64,6 +64,7 @@ export default class Haikus extends AbstractTab{
     evaluateResponse(response){
         if(response === this.currentHaiku.isHaiku){
             // Increase player sincerity
+            this.parent.player.incrementStat("sinc", 2);
 
             this.feedbackText.text = "Correct!";
             this.feedbackText.setOrigin(0.5, 0.5);
@@ -71,6 +72,7 @@ export default class Haikus extends AbstractTab{
             this.feedbackText.alpha = 1;
         } else {
             // Decrease player sincerity
+            this.parent.player.incrementStat("sinc", -1);
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);

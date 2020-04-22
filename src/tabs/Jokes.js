@@ -80,7 +80,8 @@ export default class Jokes extends AbstractTab{
         }
 
         if(correct){
-            // Increment humor
+
+            this.parent.player.incrementStat("int", 2);
 
             this.feedbackText.text = "Correct!";
             this.feedbackText.setOrigin(0.5, 0.5);
@@ -88,6 +89,8 @@ export default class Jokes extends AbstractTab{
             this.feedbackText.alpha = 1;
         } else {
             // Decrement humor
+
+            this.parent.player.incrementStat("int", -1);
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);
