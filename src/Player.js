@@ -20,4 +20,8 @@ export default class Player {
     setName(playerName){
         this.name=playerName;
     }
+
+    getName(){
+        return this.name;
+    }
 }

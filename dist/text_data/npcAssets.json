@@ -1,9 +1,0 @@
-{
-  "images": [
-    {"type": "backgrounds", "urls" : [
-        "/Users/lacey/IdeaProjects/Cupids-Bullet/dist/assets/NPCAssets/backgrounds/1.png",
-        "/assets/NPCSAssets/backgrounds/2.png",
-        "/assets/NPCAssets/backgrounds/3.png"
-      ]}
-  ]
-}
