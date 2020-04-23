@@ -1,8 +1,8 @@
 import Phaser, {} from "phaser";
-import TextField from "./ui_elements/TextField.js";
-import Button from "./ui_elements/Button";
-import Player from "./Player";
-import MathGenerator from "./utils/MathGenerator";
+import TextField from "../ui_elements/TextField.js";
+import Button from "../ui_elements/Button";
+import Player from "../objects/Player";
+import MathGenerator from "../utils/MathGenerator";
 
 let mathExp;
 let mathGen;

@@ -1,9 +1,9 @@
 import Phaser from "phaser";
 
-class Play extends Phaser.Scene {
+export default class BulletHell extends Phaser.Scene {
   constructor() {
     super({
-      key: "Play"
+      key: "BulletHell"
     });
   }
 
@@ -11,5 +11,3 @@ class Play extends Phaser.Scene {
 
   update(time, delta) {}
 }
-
-export default Play;

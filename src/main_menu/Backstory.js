@@ -1,5 +1,5 @@
 import Phaser, {} from "phaser";
-import Button from "./ui_elements/Button"
+import Button from "../ui_elements/Button"
 
 export default class Backstory extends Phaser.Scene{
     constructor(){

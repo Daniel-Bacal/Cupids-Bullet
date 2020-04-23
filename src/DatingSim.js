@@ -1,7 +1,7 @@
 import Phaser, {} from "phaser"
 import Button from "./ui_elements/Button"
 import { clamp } from "./utils/MathUtils"
-import Player from "./Player";
+import Player from "./objects/Player";
 
 export default class DatingSim extends Phaser.Scene{
     constructor(){

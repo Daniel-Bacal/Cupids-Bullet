@@ -25,7 +25,7 @@
         {"text": "Only a scarf. Nothing else.", "inc": "flirt", "dec": "sinc"}, {"text":"Jeans and a soft T-shirt.", "inc": "sinc", "dec":"hum"}, {"text": "Business casual attire.", "inc": "int", "dec": "jock"}
        ]},
        {"text": "What is your ideal pet?", "answers":[
-        {"text": "A cat, obviously. Felines 'till I die!", "inc": "int sinc", "dec": "jock"}, {"text":"A dog, clearly. Kanines all the way!", "inc": "jock sinc", "dec":"int"}, {"text": "A pet? Isn't that why I'm on here?", "inc": "flirt hum", "dec": "sinc"}
+        {"text": "A cat, obviously. Felines 'till I die!", "inc": "int sinc", "dec": "jock"}, {"text":"A dog, clearly. Canines all the way!", "inc": "jock sinc", "dec":"int"}, {"text": "A pet? Isn't that why I'm on here?", "inc": "flirt hum", "dec": "sinc"}
        ]},
        {"text": "Imagine you've just been kidnapped by a gang of violent Aliens from Planet Xenorp. What do you do?", "answers":[
         {"text": "I'd fight them, since I could obviously take 'em.", "inc": "jock", "dec": "int"}, {"text":"I'd turn it into an Alien Orgy!", "inc": "flirt hum", "dec":"sinc int"}, {"text": "I'd just comply with their orders in hopes of surviving.", "inc": "sinc int", "dec": "jock hum"}

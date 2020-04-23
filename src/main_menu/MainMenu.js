@@ -1,5 +1,5 @@
 import Phaser, {} from "phaser";
-import Button from "./ui_elements/Button.js";
+import Button from "../ui_elements/Button.js";
 
 var scene;
 var splash;

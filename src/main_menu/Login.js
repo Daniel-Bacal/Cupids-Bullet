@@ -1,6 +1,6 @@
 import Phaser, {} from "phaser"
-import TextField from "./ui_elements/TextField.js"
-import Button from "./ui_elements/Button"
+import TextField from "../ui_elements/TextField.js"
+import Button from "../ui_elements/Button"
 
 export default class Login extends Phaser.Scene{
     constructor(){

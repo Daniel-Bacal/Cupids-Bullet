@@ -1,6 +1,6 @@
 import Phaser, {} from "phaser"
 import AbstractTab from "./AbstractTab"
-import Player from "../Player"
+import Player from "../objects/Player"
 
 export default class Home extends AbstractTab{
     constructor(){

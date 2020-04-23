@@ -1,6 +1,6 @@
 import Phaser, {} from "phaser"
 import AbstractTab from "./AbstractTab"
-import Person from "../Person"
+import Person from "../objects/Person"
 
 export default class Matches extends AbstractTab{
     constructor(){

@@ -1,5 +1,5 @@
-import { randIntFrom } from "./utils/MathUtils"
-import NameGenerator from "./utils/NameGenerator";
+import { randIntFrom } from "../utils/MathUtils"
+import NameGenerator from "../utils/NameGenerator";
 import Phaser from "phaser";
 
 export default class Person {
