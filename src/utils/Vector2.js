@@ -35,4 +35,9 @@ export default class Vector2{
     dist(other){
         return Math.sqrt(this.distSq(other));
     }
+
+    normalize(){
+        this.x /= this.mag();
+        this.y /= this.mag();
+    }
 }
