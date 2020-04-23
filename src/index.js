@@ -18,6 +18,7 @@ import Jokes from "./tabs/Jokes"
 import Math from "./tabs/Math"
 import Ads from "./tabs/Ads"
 import PauseMenu from "./tabs/PauseMenu"
+import BulletHell from "./BulletHell";
 
 const config = {
   type: Phaser.AUTO,
@@ -35,12 +36,11 @@ const config = {
   physics: {
     default: "arcade",
     arcade: {
-      debug: false,
-      gravity: { y: 200 }
+      debug: false
     }
   },
   plugins: ['SceneManager', 'Clock'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell]
 };
 
 

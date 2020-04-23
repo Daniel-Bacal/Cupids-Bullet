@@ -63,6 +63,7 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("bullet.png", {
             frameWidth: 16, frameHeight: 16
         })
+        this.load.image("bhPlayer", "assets/Untitled123.png");
 
         // Load JSON Files
         this.load.json("questionnaire","text_data/questionnaire.json");

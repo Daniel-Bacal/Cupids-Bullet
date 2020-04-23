@@ -1,8 +1,11 @@
+import Vector2 from "../utils/Vector2";
+
 export default class Player {
     constructor(){
         this.stats = {jock : 10, flirt: 10, hum: 10, int: 10, sinc: 10};
         this.skills = [];
         this.name="";
+        this.speed = 70;
     }; 
 
     incrementStat(statType, step){
@@ -24,4 +27,5 @@ export default class Player {
     getName(){
         return this.name;
     }
+
 }

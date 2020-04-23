@@ -72,7 +72,7 @@ export default class Signup extends Phaser.Scene{
 
             if (this.pageNum >= this.data["questions"].length){
 
-                this.scene.start("MainMenu");
+                this.scene.start("BulletHell");
                 
             }
 
