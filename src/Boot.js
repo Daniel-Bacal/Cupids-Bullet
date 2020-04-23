@@ -58,6 +58,11 @@ export default class Boot extends Phaser.Scene{
         this.load.image("invisibutton", "assets/invisibutton.png");
         this.load.image("pause-menu", "assets/pause-menu.png");
         this.load.image("player", "assets/player.png");
+        
+        // Load sprites
+        this.load.spritesheet("bullet.png", {
+            frameWidth: 16, frameHeight: 16
+        })
 
         // Load JSON Files
         this.load.json("questionnaire","text_data/questionnaire.json");
