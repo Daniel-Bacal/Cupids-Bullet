@@ -33,5 +33,26 @@ export default function TextField(scene, x, y, width, height, maxChars, style={}
         textFieldElement.style[property] = style[property];
     }
     
+    textFieldElement.lastCaptures = [];
+    textFieldElement.cameFromFocus = false;
+
+    textFieldElement.onfocus = () => {
+        textFieldElement.lastCaptures = scene.game.input.keyboard.captures.slice();
+        console.log(textFieldElement.lastCaptures);
+        for(let i = 0; i < textFieldElement.lastCaptures.length; i++){
+            scene.game.input.keyboard.removeCapture(textFieldElement.lastCaptures[i]);
+        }
+        textFieldElement.cameFromFocus = true;
+    }
+
+    textFieldElement.onblur = () => {
+        if(textFieldElement.cameFromFocus){
+            for(let i = 0; i < textFieldElement.lastCaptures.length; i++){
+                scene.game.input.keyboard.addCapture(textFieldElement.lastCaptures[i]);
+            }
+            textFieldElement.cameFromFocus = false;
+        }
+    }
+    
     return textFieldElement;
 }
