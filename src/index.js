@@ -30,6 +30,7 @@ const config = {
     mode: Phaser.Scale.NONE
   },
   backgroundColor: 0x444444,
+  resolution: 3,
   pixelArt: true,
   physics: {
     default: "arcade",
@@ -44,4 +45,6 @@ const config = {
 
 
 // Automatically uses Boot I guess? I'm not really sure why
-new Phaser.Game(config);
+let game = new Phaser.Game(config);
+
+console.log(game);
