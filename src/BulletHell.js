@@ -104,7 +104,7 @@ export default class BulletHell extends Phaser.Scene {
 
     setUpEnemies(){
         this.enemyManager = new EnemyManager(100, this, "enemy", this.enemyGroup, this.enemyBulletManager);
-        this.enemyManager.requestEnemy(100, 100, new FireAtPlayerBehavior(this.player, this));
+        this.enemyManager.requestEnemy(100, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
     }
 
     setUpControls(){
