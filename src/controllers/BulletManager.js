@@ -25,6 +25,8 @@ export default class BulletManager {
             // Create bullet
             bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
 
+            bullet.isBullet = true;
+
             // Initially set to dead
             bullet.isAlive = false;
 
@@ -39,15 +41,20 @@ export default class BulletManager {
         }
     }
 
+    setCollisionData(collisionData){
+        this.collisionData = collisionData;
+        this.setUpBulletCollisions();
+    }
+
     setUpBulletCollisions(){
         // Set up collisions with any of the input collision data
         for(let i = 0; i < this.collisionData.length; i++){
             this.scene.physics.add.overlap(
                 this.collisionData[i].otherGroup,
                 this.group,
-                () => {
-                    this.collisionData[i].callback
-                    this.killBullet();
+                (obj1, obj2) => {
+                    this.collisionData[i].callback()
+                    this.killBullet(obj2);
                 },
                 null,
                 this);
@@ -76,7 +83,8 @@ export default class BulletManager {
     }
 
     killBullet(bullet){
-        bullet.isAlive - false;
+        console.log("Kill");
+        bullet.isAlive = false;
         bullet.disableBody(true, true);
         this.deadBullets.push(bullet);
     }

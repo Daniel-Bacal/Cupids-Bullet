@@ -1,8 +1,8 @@
 import Phaser from "phaser";
 import BulletManager from "./controllers/BulletManager"
 import EnemyManager from "./controllers/EnemyManager"
-
 import Player from "../src/objects/Player";
+import FireAtPlayerBehavior from "./behaviors/FireAtPlayerBehavior"
 
 const Vector2 = Phaser.Math.Vector2;
 
@@ -17,13 +17,16 @@ export default class BulletHell extends Phaser.Scene {
     create() {
         this.createAnimations();
 
+        this.createGroups();
+
         this.setUpBulletManagers();
 
         // Player
         this.player = new Player();
         this.player.loadFromSession();
-        console.log(this.player.getPlayerStats());
         this.player.initBulletHell(this, this.playerBulletManager);
+
+        this.setUpCollisions();
 
         this.setUpEnemies();
 
@@ -32,6 +35,7 @@ export default class BulletHell extends Phaser.Scene {
 
     update(time, delta) {
         this.updatePlayer();
+        this.enemyManager.doBehaviors();
     }
 
     createAnimations(){
@@ -54,11 +58,30 @@ export default class BulletHell extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
+
+        this.anims.create({
+            key: "enemy_idle",
+            frames: this.anims.generateFrameNumbers("enemy", {
+            start: 0,
+            end: 0
+            }),
+            frameRate: 0,
+            repeat: -1
+        })
+    }
+
+    createGroups(){
+        this.playerBullets = this.physics.add.group();
+        this.enemyBullets = this.physics.add.group();
+        this.enemyGroup = this.physics.add.group();
+    }
+
+    setUpCollisions(){
+
     }
 
     setUpBulletManagers(){
         // Player bullet manager
-        this.playerBullets = this.physics.add.group();
         this.playerBulletManager = new BulletManager(
             100, 
             this,
@@ -69,7 +92,6 @@ export default class BulletHell extends Phaser.Scene {
         );
 
         // Enemy bullet manager
-        this.enemyBullets = this.physics.add.group();
         this.enemyBulletManager = new BulletManager(
             1000,
             this,
@@ -81,7 +103,8 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     setUpEnemies(){
-        this.enemyManager = new EnemyManager();
+        this.enemyManager = new EnemyManager(100, this, "enemy", this.enemyGroup, this.enemyBulletManager);
+        this.enemyManager.requestEnemy(100, 100, new FireAtPlayerBehavior(this.player, this));
     }
 
     setUpControls(){

@@ -1,11 +1,13 @@
 import Phaser from "phaser"
 
-export default class EnemyManage{
-    constructor(maxNumEnemies, scene, sprite, group){
+export default class EnemyManager{
+    constructor(maxNumEnemies, scene, sprite, group, bulletManager){
         this.maxNumEnemies = maxNumEnemies;
         this.scene = scene;
         this.sprite = sprite;
         this.group = group;
+        this.bulletManager = bulletManager
+
         this.deadEnemies = [];
         this.initEnemies();
     }
@@ -14,6 +16,7 @@ export default class EnemyManage{
         let enemy;
         for(let i = 0; i < this.maxNumEnemies; i++){
             enemy = this.scene.physics.add.sprite(0, 0, this.sprite);
+            enemy.bulletManager = this.bulletManager;
             enemy.isAlive = false;
 
             // Add to physics group
@@ -49,10 +52,15 @@ export default class EnemyManage{
         enemy.enableBody(true, xPos, yPos, true, true);
 
         enemy.behavior = behavior;
+        enemy.behavior.setUpEnemy(enemy);
     }
 
     doBehaviors(){
-        
+        this.group.children.iterate((enemy) => {
+            if(enemy.isAlive){
+                enemy.behavior.behave(enemy);
+            }
+        })
     }
 
     handleCollision(){
