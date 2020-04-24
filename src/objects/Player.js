@@ -8,7 +8,6 @@ export default class Player {
         this.skills = [];
         this.name="";
         this.bio = "";
-        this.speed = 200;
     }; 
 
     incrementStat(statType, step){
@@ -36,8 +35,12 @@ export default class Player {
         this.bulletManager = bulletManager;
 
         this.lastBulletFired = -1000;
-        this.bulletCoolDown = 200;
+        this.bulletCoolDown = 280 - this.stats.hum;
         this.bulletSpeed = 500;
+
+        this.speed = 150 + this.stats.hum;
+        this.health = 1600 + this.stats.sinc;
+        this.damage = 50 + this.stats.jock;
 
         this.playerSprite = this.scene.physics.add.sprite(0, 0, "bhPlayer");
         this.playerSprite.setCollideWorldBounds(true);
