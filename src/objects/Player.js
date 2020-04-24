@@ -7,6 +7,7 @@ export default class Player {
         this.stats = {jock : 10, flirt: 10, hum: 10, int: 10, sinc: 10};
         this.skills = [];
         this.name="";
+        this.bio = "";
         this.speed = 200;
     }; 
 
@@ -75,4 +76,25 @@ export default class Player {
           }
     }
 
+    saveToSession(){
+        let playerObj = {};
+        playerObj.stats = this.stats;
+        playerObj.skills = this.skills;
+        playerObj.name = this.name;
+        playerObj.bio = this.bio;
+
+        let current_player = JSON.stringify(playerObj);
+        window.localStorage.setItem("current_player", current_player);
+    }
+
+    loadFromSession(){
+        let current_player = window.localStorage.getItem("current_player");
+        if(current_player){
+            let playerObj = JSON.parse(current_player);
+            this.stats = playerObj.stats;
+            this.skills = playerObj.skills;
+            this.name = playerObj.name;
+            this.bio = playerObj.bio;
+        }
+    }
 }

@@ -48,11 +48,9 @@ export default class Signup extends Phaser.Scene{
                 let decStats = this.question["answers"][i]["dec"].split(" ");
                 for (let j = 0; j < incStats.length; j++){
                     this.player.incrementStat(incStats[j], 1);
-                    console.log("increment " + incStats[j]);
                 }
                 for (let j = 0; j < decStats.length; j++){
                     this.player.incrementStat(decStats[j], -1);
-                    console.log("decrement " + decStats[j]);
                 }
             
                 this.pageNum++;
@@ -72,6 +70,7 @@ export default class Signup extends Phaser.Scene{
 
             if (this.pageNum >= this.data["questions"].length){
 
+                this.player.saveToSession();
                 this.scene.start("BulletHell");
                 
             }
@@ -112,8 +111,6 @@ export default class Signup extends Phaser.Scene{
                     }
                 }
 
-                console.log(this.answerButtons.length);
-
                 for(let i = 0; i < this.answerButtons.length; i++){
                     if (this.answerButtons[i].height === 0){
 
@@ -123,12 +120,10 @@ export default class Signup extends Phaser.Scene{
                         if (this.answerButtons[i].text === this.expressionAnswer){
                             for (let j = 0; j < incStats.length; j++){
                                 this.player.incrementStat(incStats[j], 1);
-                                console.log("increment " + incStats[j]);
                             }
                         }
                         for (let j = 0; j < decStats.length; j++){
                             this.player.incrementStat(decStats[j], -1);
-                            console.log("decrement " + decStats[j]);
                         }
                         //this.pageNum++;
                         //this.destroyText = true;
@@ -139,11 +134,9 @@ export default class Signup extends Phaser.Scene{
                         let decStats = this.question["answers"][i]["dec"].split(" ");
                         for (let j = 0; j < incStats.length; j++){
                             this.player.incrementStat(incStats[j], 1);
-                            console.log("increment " + incStats[j]);
                         }
                         for (let j = 0; j < decStats.length; j++){
                             this.player.incrementStat(decStats[j], -1);
-                            console.log("decrement " + decStats[j]);
                         }
                         this.pageNum++;
                         this.destroyText = true;
@@ -152,9 +145,6 @@ export default class Signup extends Phaser.Scene{
                         this.answerButtons[i].setButtonHoverColor("#DDDDDD");
                     }
                 }
-
-                console.log(this.player.getPlayerStats());
-
             }
         }
     }
