@@ -43,74 +43,77 @@ export default class BulletHell extends Phaser.Scene {
       "bullet",
       playerBullets,
       [],
-      200,
+      500,
       1000);
 
     this.playerSprite = this.physics.add.sprite(0, 0, "bhPlayer");
     this.playerSprite.setCollideWorldBounds(true);
 
-    this.directionX = 0;
-    this.directionY = 0;
+    // TODO: put this in the player class
+    this.player.lastBulletFired = -1000;
+    this.player.bulletCoolDown = 200;
 
     this.input.keyboard.on("keydown", (event) => {
-      if (event.key == "w"){
-        console.log("asd");
-        this.keysPressed.w = -1;
-      }
-      if (event.key == "a"){
-        console.log("asd");
-        this.keysPressed.a = -1;
-      }
-      if (event.key == "s"){
-        console.log("asd");
-        this.keysPressed.s = 1;
-      }
-      if (event.key == "d"){
-        console.log("asd");
-        this.keysPressed.d = 1;
+      if("wasd".includes(event.key)){
+        this.keysPressed[event.key] = "wa".includes(event.key) ? -1 : 1;
       }
     });
 
     this.input.keyboard.on("keyup", (event) => {
-      if (event.key == "w"){
-        console.log("asdasd");
-        this.keysPressed.w = 0;
-      }
-      if (event.key == "a"){
-        console.log("asdasd");
-        this.keysPressed.a = 0;
-      }
-      if (event.key == "s"){
-        console.log("asdasd");
-        this.keysPressed.s = 0;
-      }
-      if (event.key == "d"){
-        console.log("asdasd");
-        this.keysPressed.d = 0;
+      if("wasd".includes(event.key)){
+        this.keysPressed[event.key] = 0;
       }
     });
 
-    this.input.on("pointerup", (pointer) => {
-      let playerPos = this.playerSprite.getCenter();
-      let dest = new Vector2(pointer.x, pointer.y);
-      dest = dest.subtract(playerPos);
-      dest = dest.normalize();
-      this.playerBulletManager.requestBullet(playerPos.x, playerPos.y, dest.x, dest.y);
-    });
+    this.mouseDown = false;
+
+    //initial mouse click for first fire
+    this.input.on("pointerdown", (event) => {
+      this.mouseDown = true;
+    })
+
+    this.input.on("pointerup", (event) => {
+      this.mouseDown = false;
+    })
   }
 
   update(time, delta) {
+    this.updatePlayer();
+  }
 
-    this.directionX = this.keysPressed.a + this.keysPressed.d;
-    this.directionY = this.keysPressed.w + this.keysPressed.s;
+  updatePlayer(){
+    this.movePlayer();
+    this.playerFireBullet();
+  }
 
-    if(this.directionX && this.directionY){
-      this.directionX /= 1.414;
-      this.directionY /= 1.414;
+  movePlayer(){
+    let directionX = this.keysPressed.a + this.keysPressed.d;
+    let directionY = this.keysPressed.w + this.keysPressed.s;
+
+    if(directionX && directionY){
+      directionX /= 1.414;
+      directionY /= 1.414;
     }
 
-    this.playerSprite.setVelocity(this.directionX * this.player.speed,
-      this.directionY * this.player.speed);
+    this.playerSprite.setVelocity(directionX * this.player.speed, directionY * this.player.speed);
+  }
 
+  playerFireBullet(){
+    if(this.mouseDown && this.time.now - this.player.lastBulletFired > this.player.bulletCoolDown){
+      this.player.lastBulletFired = this.time.now
+
+      let clickX = this.input.mousePointer.x;
+      let clickY = this.input.mousePointer.y;
+      
+      let playerCenter = this.playerSprite.getCenter();
+
+      //get normalized direction vecotr from player center to mouse click for bullet to travel
+      let bulletDirection = new Vector2(clickX-playerCenter.x, clickY-playerCenter.y);
+
+      bulletDirection.normalize();
+
+      //bullet renders as a green square atm.
+      this.playerBulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y);
+    }
   }
 }
