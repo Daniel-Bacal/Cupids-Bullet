@@ -65,7 +65,8 @@ export default class BulletManager {
         // Bring a bullet to life
         let bullet = this.deadBullets.pop();
         bullet.isAlive = true;
-        let currentTimesFired = bullet.timesFired++;
+        bullet.timesFired++;
+        let currentTimesFired = bullet.timesFired;
 
         // Enable bullet
         bullet.enableBody(true, xPos, yPos, true, true);

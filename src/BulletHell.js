@@ -79,6 +79,8 @@ export default class BulletHell extends Phaser.Scene {
 
     setUpCollisions(){
         this.physics.add.collider(this.player.getSprite(), this.enemyGroup);
+
+        this.physics.add.collider(this.enemyGroup, this.enemyGroup);
         
         this.playerBulletManager.setCollisionData([{
             otherGroup: this.enemyGroup,
