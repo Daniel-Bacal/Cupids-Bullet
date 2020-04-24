@@ -1,6 +1,8 @@
 import Phaser from "phaser";
-
 import Player from "../src/objects/Player";
+
+var pointer;
+var bulletSpeed = 180;
 
 export default class BulletHell extends Phaser.Scene {
   constructor() {
@@ -42,41 +44,55 @@ export default class BulletHell extends Phaser.Scene {
 
     this.input.keyboard.on("keydown", (event) => {
       if (event.key == "w"){
-        console.log("asd");
         this.keysPressed.w = -1;
       }
       if (event.key == "a"){
-        console.log("asd");
         this.keysPressed.a = -1;
       }
       if (event.key == "s"){
-        console.log("asd");
         this.keysPressed.s = 1;
       }
       if (event.key == "d"){
-        console.log("asd");
         this.keysPressed.d = 1;
       }
     });
 
     this.input.keyboard.on("keyup", (event) => {
       if (event.key == "w"){
-        console.log("asdasd");
         this.keysPressed.w = 0;
       }
       if (event.key == "a"){
-        console.log("asdasd");
         this.keysPressed.a = 0;
       }
       if (event.key == "s"){
-        console.log("asdasd");
         this.keysPressed.s = 0;
       }
       if (event.key == "d"){
-        console.log("asdasd");
         this.keysPressed.d = 0;
       }
     });
+
+    pointer = this.input.activePointer;
+
+    //initial mouse click for first fire
+    this.input.on("pointerdown", (event) => {
+      let clickX = event.x;
+      let clickY = event.y;
+      let playerCenter = this.playerSprite.getCenter();
+
+      //get normalized direction vecotr from player center to mouse click for bullet to travel
+      let bulletDirection = new Phaser.Math.Vector2(clickX-playerCenter.x, clickY-playerCenter.y);
+
+      bulletDirection.normalize();
+
+      //bullet renders as a green square atm.
+      let bullet = this.physics.add.sprite(playerCenter.x, playerCenter.y, "bullet");
+
+      this.bullets.add(bullet);
+
+      bullet.setVelocity(bulletDirection.x * bulletSpeed, bulletDirection.y * bulletSpeed);
+
+    })
 
   }
 
@@ -93,5 +109,11 @@ export default class BulletHell extends Phaser.Scene {
     this.playerSprite.setVelocity(this.directionX * this.player.speed,
       this.directionY * this.player.speed);
 
+
+    //For rapid fire when mouse is held down
+    /**if (pointer.isDown) {
+      let clickX = pointer.x;
+      let clickY = pointer.y;
+    }*/
   }
 }
