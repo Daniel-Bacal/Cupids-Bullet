@@ -3,19 +3,15 @@ import Phaser from "phaser";
 const Vector2 = Phaser.Math.Vector2;
 
 export default class BulletManager {
-    constructor(numBullets, scene, sprite, group, collisionData, bulletSpeed, bulletTimeAlive){
-        /*
-            collisionData = [
-                {otherGroup}
-            ]
-        */
+    constructor(numBullets, scene, sprite, group, collisionData, bulletTimeAlive){
+        // Init instance vars
         this.maxNumBullets = numBullets;
         this.scene = scene;
         this.sprite = sprite;
         this.group = group;
         this.collisionData = collisionData;
 
-        this.bulletSpeed = bulletSpeed;
+        // Init bullet data
         this.bulletTimeAlive = bulletTimeAlive;
 
         this.deadBullets = [];
@@ -23,24 +19,13 @@ export default class BulletManager {
         this.setUpBulletCollisions();
     }
 
-    // update(){
-    //     let bullet;
-    //     for(let i = 0; i < this.bullets.length; i++){
-    //         bullet = this.bullets[i];
-    //         if(bullet.isAlive){
-    //             justDied = bullet.update();
-
-    //             if(justDied){
-    //                 this.deadBullets.push(bullet);
-    //             }
-    //         }
-    //     }
-    // }
-
     initBullets(){
         let bullet;
         for(let i = 0; i < this.maxNumBullets; i++){
+            // Create bullet
             bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
+
+            // Initially set to dead
             bullet.isAlive = false;
 
             // Add to physics group
@@ -55,6 +40,7 @@ export default class BulletManager {
     }
 
     setUpBulletCollisions(){
+        // Set up collisions with any of the input collision data
         for(let i = 0; i < this.collisionData.length; i++){
             this.scene.physics.add.overlap(
                 this.collisionData[i].otherGroup,
@@ -68,7 +54,8 @@ export default class BulletManager {
         }
     }
 
-    requestBullet(xPos, yPos, xDir, yDir){
+    requestBullet(xPos, yPos, xDir, yDir, bulletSpeed){
+        // Bring a bullet to life
         let bullet = this.deadBullets.pop();
         bullet.isAlive = true;
 
@@ -76,7 +63,7 @@ export default class BulletManager {
         bullet.enableBody(true, xPos, yPos, true, true);
 
         // Send bullet with speed in direction
-        bullet.setVelocity(xDir*this.bulletSpeed, yDir*this.bulletSpeed);
+        bullet.setVelocity(xDir*bulletSpeed, yDir*bulletSpeed);
 
         // Set bullet animation
         bullet.anims.play("blue", true);
@@ -94,51 +81,4 @@ export default class BulletManager {
         this.deadBullets.push(bullet);
     }
 
-}
-
-export const BulletOwner = {
-    PLAYER: 0,
-    ENEMY: 1
-}
-
-const Speeds = [
-    5,
-    5
-]
-
-const DeathTimes = [
-    2000,
-    2000
-]
-
-class Bullet{
-    constructor(){
-        this.alive = false;
-        this.direction = new Vector2();
-        this.speed = 0;
-        this.timeAlive = 0;
-        this.deathTime = 0;
-    }
-
-    isAlive(){
-        return this.alive;
-    }
-
-    create(xDir, yDir, speed, deathTime){
-        this.alive = true;
-        this.direction.set(xDir, yDir);
-        this.speed = speed;
-        this.timeAlive = 0;
-        this.deathTime = deathTime;
-    }
-
-    update(deltaTime){
-        this.timeAlive += deltaTime;
-        if(this.timeAlive >= deathTime){
-            // Kill the bullet
-            this.alive = false;
-            return false; // Bullet is dead
-        }
-        return true;    // Bullet is alive
-    }
 }

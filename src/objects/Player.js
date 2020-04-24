@@ -37,6 +37,7 @@ export default class Player {
 
         this.lastBulletFired = -1000;
         this.bulletCoolDown = 200;
+        this.bulletSpeed = 500;
 
         this.playerSprite = this.scene.physics.add.sprite(0, 0, "bhPlayer");
         this.playerSprite.setCollideWorldBounds(true);
@@ -71,8 +72,7 @@ export default class Player {
       
             bulletDirection.normalize();
       
-            //bullet renders as a green square atm.
-            this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y);
+            this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y, this.bulletSpeed);
           }
     }
 
