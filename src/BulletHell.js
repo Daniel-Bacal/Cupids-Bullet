@@ -3,6 +3,7 @@ import BulletManager from "./controllers/BulletManager"
 import EnemyManager from "./controllers/EnemyManager"
 import Player from "../src/objects/Player";
 import FireAtPlayerBehavior from "./behaviors/FireAtPlayerBehavior"
+import ExplodeOnPlayerBehavior from "./behaviors/ExplodeOnPlayerBehavior"
 
 const Vector2 = Phaser.Math.Vector2;
 
@@ -114,6 +115,7 @@ export default class BulletHell extends Phaser.Scene {
 
     setUpEnemies(){
         this.enemyManager = new EnemyManager(100, this, "enemy", this.enemyGroup, this.enemyBulletManager);
+        this.enemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         this.enemyManager.requestEnemy(100, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
     }
 

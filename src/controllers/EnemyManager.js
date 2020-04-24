@@ -50,6 +50,7 @@ export default class EnemyManager{
 
         // Enable enemy
         enemy.enableBody(true, xPos, yPos, true, true);
+        enemy.setCollideWorldBounds(true);
 
         enemy.behavior = behavior;
 
