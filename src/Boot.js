@@ -86,29 +86,6 @@ export default class Boot extends Phaser.Scene{
             }
         }
 
-        // Load Scenes
-        // let scenes = [
-        //     {name: "SplashScreen", path: "./SplashScreen.js"},
-        //     {name: "MainMenu", path: "./MainMenu.js"},
-        //     {name: "Backstory", path: "./Backstory.js"},
-        //     {name: "Controls", path: "./Controls.js"},
-        //     {name: "Login", path: "./Login.js"},
-        //     {name: "Signup", path: "./Signup.js"},
-        //     {name: "About", path: "./About.js"},
-        //     {name: "LevelSelect", path: "./LevelsSelect.js"},
-        //     {name: "DatingSim", path: "./DatingSim.js"},
-        //     {name: "Home", path: "./tabs/Home.js"},
-        //     {name: "Matches", path: "./tabs/Matches.js"},
-        //     {name: "Gym", path: "./tabs/Gym.js"},
-        //     {name: "Haikus", path: "./tabs/Haikus.js"},
-        //     {name: "Jokes", path: "./tabs/Jokes.js"},
-        //     {name: "Math", path: "./tabs/Math.js"},
-        //     {name: "Ads", path: "./tabs/Ads.js"}
-        //     ];
-
-        // for(let i = 0; i < scenes.length; i++){
-        //     this.load.sceneFile(scenes[i].name, scenes[i].path);
-        // }
     }
 
     create(){
