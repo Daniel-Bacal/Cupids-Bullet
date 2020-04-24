@@ -25,7 +25,7 @@ export default class BulletManager {
             // Create bullet
             bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
 
-            bullet.isBullet = true;
+            bullet.timesFired = 0;
 
             // Initially set to dead
             bullet.isAlive = false;
@@ -65,6 +65,7 @@ export default class BulletManager {
         // Bring a bullet to life
         let bullet = this.deadBullets.pop();
         bullet.isAlive = true;
+        let currentTimesFired = bullet.timesFired++;
 
         // Enable bullet
         bullet.enableBody(true, xPos, yPos, true, true);
@@ -78,7 +79,12 @@ export default class BulletManager {
         // Set up bullet death after delay
         this.scene.time.delayedCall(
             this.bulletTimeAlive,
-            () => this.killBullet(bullet)
+            () => {
+                // If the bullet hasn't been refired
+                if(currentTimesFired === bullet.timesFired){
+                    this.killBullet(bullet);
+                }
+            }
         );
     }
 

@@ -68,7 +68,7 @@ export default class EnemyManager{
     }
 
     killEnemy(enemy){
-        enemy.isAlive - false;
+        enemy.isAlive = false;
         enemy.disableBody(true, true);
         this.deadEnemies.push(enemy);
     }
