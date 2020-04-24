@@ -5,7 +5,7 @@ export default class Player {
         this.stats = {jock : 10, flirt: 10, hum: 10, int: 10, sinc: 10};
         this.skills = [];
         this.name="";
-        this.speed = 70;
+        this.speed = 200;
     }; 
 
     incrementStat(statType, step){

@@ -1,6 +1,9 @@
 import Phaser from "phaser";
+import BulletManager from "./controllers/BulletManager"
 
 import Player from "../src/objects/Player";
+
+const Vector2 = Phaser.Math.Vector2;
 
 export default class BulletHell extends Phaser.Scene {
   constructor() {
@@ -12,27 +15,36 @@ export default class BulletHell extends Phaser.Scene {
   }
 
   create() {
-    this.anims.create("bullet", {
+    this.anims.create({
       key: "blue",
       frames: this.anims.generateFrameNumbers("bullet", {
         start: 0,
         end: 1
       }),
-      frameRate: 20,
+      frameRate: 10,
       repeat: -1
     });
 
-    this.anims.create("bullet", {
+    this.anims.create({
       key: "red",
       frames: this.anims.generateFrameNumbers("bullet", {
         start: 2,
         end: 3
       }),
-      frameRate: 20,
+      frameRate: 10,
       repeat: -1
     });
 
-    this.bullets = this.physics.add.group();
+    let playerBullets = this.physics.add.group();
+
+    this.playerBulletManager = new BulletManager(
+      100, 
+      this,
+      "bullet",
+      playerBullets,
+      [],
+      200,
+      1000);
 
     this.playerSprite = this.physics.add.sprite(0, 0, "bhPlayer");
     this.playerSprite.setCollideWorldBounds(true);
@@ -78,6 +90,13 @@ export default class BulletHell extends Phaser.Scene {
       }
     });
 
+    this.input.on("pointerup", (pointer) => {
+      let playerPos = this.playerSprite.getCenter();
+      let dest = new Vector2(pointer.x, pointer.y);
+      dest = dest.subtract(playerPos);
+      dest = dest.normalize();
+      this.playerBulletManager.requestBullet(playerPos.x, playerPos.y, dest.x, dest.y);
+    });
   }
 
   update(time, delta) {

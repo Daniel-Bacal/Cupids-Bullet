@@ -3,41 +3,97 @@ import Phaser from "phaser";
 const Vector2 = Phaser.Math.Vector2;
 
 export default class BulletManager {
-    constructor(){
-        this.maxNumBullets = 1000;
-        this.bullets = new Array(this.maxNumBullets);
+    constructor(numBullets, scene, sprite, group, collisionData, bulletSpeed, bulletTimeAlive){
+        /*
+            collisionData = [
+                {otherGroup}
+            ]
+        */
+        this.maxNumBullets = numBullets;
+        this.scene = scene;
+        this.sprite = sprite;
+        this.group = group;
+        this.collisionData = collisionData;
+
+        this.bulletSpeed = bulletSpeed;
+        this.bulletTimeAlive = bulletTimeAlive;
+
         this.deadBullets = [];
         this.initBullets();
+        this.setUpBulletCollisions();
     }
 
-    update(){
-        let bullet;
-        let justDied;
-        for(let i = 0; i < this.bullets.length; i++){
-            bullet = this.bullets[i];
-            if(bullet.isAlive()){
-                justDied = bullet.update();
+    // update(){
+    //     let bullet;
+    //     for(let i = 0; i < this.bullets.length; i++){
+    //         bullet = this.bullets[i];
+    //         if(bullet.isAlive){
+    //             justDied = bullet.update();
 
-                if(justDied){
-                    this.deadBullets.push(bullet);
-                }
-            }
-        }
-    }
+    //             if(justDied){
+    //                 this.deadBullets.push(bullet);
+    //             }
+    //         }
+    //     }
+    // }
 
     initBullets(){
         let bullet;
         for(let i = 0; i < this.maxNumBullets; i++){
-            bullet = new Bullet();
-            this.bullets[i] = bullet;
+            bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
+            bullet.isAlive = false;
+
+            // Add to physics group
+            this.group.add(bullet);
+
+            // Hide Bullet
+            bullet.disableBody(true, true);
+
+            // Add to dead bullet list
             this.deadBullets.push(bullet);
         }
     }
 
-    addNewBullet(xPos, yPos, xDir, yDir, bulletOwner){
-        let bullet = this.deadBullets.pop();
-        bullet.create(xPos, yPos, xDir, yDir, bulletOwner);
+    setUpBulletCollisions(){
+        for(let i = 0; i < this.collisionData.length; i++){
+            this.scene.physics.add.overlap(
+                this.collisionData[i].otherGroup,
+                this.group,
+                () => {
+                    this.collisionData[i].callback
+                    this.killBullet();
+                },
+                null,
+                this);
+        }
     }
+
+    requestBullet(xPos, yPos, xDir, yDir){
+        let bullet = this.deadBullets.pop();
+        bullet.isAlive = true;
+
+        // Enable bullet
+        bullet.enableBody(true, xPos, yPos, true, true);
+
+        // Send bullet with speed in direction
+        bullet.setVelocity(xDir*this.bulletSpeed, yDir*this.bulletSpeed);
+
+        // Set bullet animation
+        bullet.anims.play("blue", true);
+
+        // Set up bullet death after delay
+        this.scene.time.delayedCall(
+            this.bulletTimeAlive,
+            () => this.killBullet(bullet)
+        );
+    }
+
+    killBullet(bullet){
+        bullet.isAlive - false;
+        bullet.disableBody(true, true);
+        this.deadBullets.push(bullet);
+    }
+
 }
 
 export const BulletOwner = {
@@ -58,8 +114,6 @@ const DeathTimes = [
 class Bullet{
     constructor(){
         this.alive = false;
-        this.owner = null;
-        this.position = new Vector2();
         this.direction = new Vector2();
         this.speed = 0;
         this.timeAlive = 0;
@@ -70,18 +124,15 @@ class Bullet{
         return this.alive;
     }
 
-    create(xPos, yPos, xDir, yDir, bulletOwner){
+    create(xDir, yDir, speed, deathTime){
         this.alive = true;
-        this.owner = bulletOwner;
-        this.position.set(xPos, yPos);
         this.direction.set(xDir, yDir);
-        this.speed = Speeds[bulletOwner];
+        this.speed = speed;
         this.timeAlive = 0;
-        this.deathTime = DeathTimes[bulletOwner];
+        this.deathTime = deathTime;
     }
 
     update(deltaTime){
-        this.position.add(this.direction.x * this.speed, this.direction.y * this.speed);
         this.timeAlive += deltaTime;
         if(this.timeAlive >= deathTime){
             // Kill the bullet
