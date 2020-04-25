@@ -1,5 +1,6 @@
 import Phaser, {} from "phaser"
 import Button from "../ui_elements/Button"
+import Player from "../objects/Player"
 
 export default class LevelSelect extends Phaser.Scene {
     constructor(){
@@ -23,23 +24,30 @@ export default class LevelSelect extends Phaser.Scene {
             {x: 370, y: 165}
         ]
 
-        //TODO: Somehow get player data to know which level they can select
-        let currentDay = 0;
+        let player = new Player();
+        player.loadFromSession();
 
-        this.add.image(locations[currentDay].x, locations[currentDay].y, "level-select-circle");
+        let currentDay = player.getDay();
+
+        // this.add.image(, "level-select-circle");
 
         for(let i = currentDay + 1; i <= 3; i++){
             this.add.image(locations[i].x, locations[i].y, "level-select-x");
         }
 
         let levelSelectButtons = [
-            Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30)
+            Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30),
+            Button(this, locations[currentDay].x, locations[currentDay].y, "", "16px", "level-select-circle", 88, 73)
         ];
         levelSelectButtons[0].setButtonOnClick(() => {
-        this.scene.start("MainMenu");
+            this.scene.start("MainMenu");
         });
         levelSelectButtons[0].setButtonColor("#431c5c");
         levelSelectButtons[0].setButtonHoverColor("#431c5c");
+
+        levelSelectButtons[1].setButtonOnClick(() => {
+            this.scene.start("DayStart");
+        });
     }
 
 }

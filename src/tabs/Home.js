@@ -5,7 +5,6 @@ import Player from "../objects/Player"
 export default class Home extends AbstractTab{
     constructor(){
         super("Home");
-        this.player = new Player();
     }
 
     preload(){
@@ -18,11 +17,7 @@ export default class Home extends AbstractTab{
 
         this.add.image(61, 88, "player");
 
-        //todo: get actual Person created in sign-up
-
-        this.player.setName("CSE380 Student");
-
-        let name = this.player.getName();
+        let name = this.parent.player.getName();
         this.add.text(20, 140, name, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "24px"});
 
         this.add.text(115, 45, "skills", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "24px"});
@@ -32,10 +27,15 @@ export default class Home extends AbstractTab{
         this.generateStats();
 
         this.generateBio();
+
+        let bio = this.parent.player.getBio()
+        let bioText = this.add.text(170, 200, bio, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px", align: "center", wordWrap: { width: 320, useAdvancedWrap: true }});
+        bioText.setOrigin(0.5, 0.5);
+
     }
 
     generateStats(){
-        let stats = this.player.getPlayerStats();
+        let stats = this.parent.player.getPlayerStats();
         let y = 70;
         for(let key in stats){
             let statText = key + ":" + stats[key];

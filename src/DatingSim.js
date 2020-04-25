@@ -8,7 +8,6 @@ export default class DatingSim extends Phaser.Scene{
         super({
             key: "DatingSim"
         });
-        this.player = new Player();
     }
 
     preload(){
@@ -16,6 +15,9 @@ export default class DatingSim extends Phaser.Scene{
     }
 
     create(){
+        this.player = new Player();
+        this.player.loadFromSession();
+
         this.initTabs();
 
         this.initTimer();
@@ -87,12 +89,18 @@ export default class DatingSim extends Phaser.Scene{
 
     endDay(){
 
-        // SAVE GAME DATA
+        // TODO: SAVE GAME DATA
+        this.player.saveToSession();
 
+        this.goToMainMenu();
+    }
+
+    goToMainMenu(){
         for(let i = 0; i < this.tabs.length; i++){
             this.scene.stop(this.tabs[i]);
         }
         this.scene.stop("Ads");
+        this.scene.stop("PauseMenu");
 
         // GO TO END OF DAY SCENE
         this.scene.start("MainMenu");

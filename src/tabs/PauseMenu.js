@@ -23,5 +23,9 @@ export default class PauseMenu extends AbstractTab{
         this.resumeButton = Button(this, 240, 120, "Resume", "16px", "btn-background", 120, 30);
         this.resumeButton.setButtonColor("#431c5c");
         this.resumeButton.setButtonOnClick(() => this.parent.pauseGame(false));
+
+        this.resumeButton = Button(this, 240, 170, "Main Menu", "16px", "btn-background", 120, 30);
+        this.resumeButton.setButtonColor("#431c5c");
+        this.resumeButton.setButtonOnClick(() => this.parent.goToMainMenu());
     }
 }

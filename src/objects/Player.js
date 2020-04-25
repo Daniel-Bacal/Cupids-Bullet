@@ -8,6 +8,7 @@ export default class Player {
         this.skills = [];
         this.name="";
         this.bio = "";
+        this.day = 0;
     }; 
 
     incrementStat(statType, step){
@@ -16,6 +17,14 @@ export default class Player {
         else if (statType=="hum"){this.stats.hum+=step; if(this.stats.hum <= 0){this.stats.hum=0;}}
         else if (statType=="int"){this.stats.int+=step; if(this.stats.int <= 0){this.stats.int=0;}}
         else if (statType=="hum"){this.stats.sinc+=step; if(this.stats.sinc <= 0){this.stats.sinc=0;}}
+    }
+
+    incrementDay(){
+        this.day++;
+    }
+
+    getDay(){
+        return this.day;
     }
 
     getPlayerStats(){
@@ -28,6 +37,14 @@ export default class Player {
 
     getName(){
         return this.name;
+    }
+
+    setBio(bio){
+        this.bio = bio;
+    }
+
+    getBio(){
+        return this.bio;
     }
 
     initBulletHell(scene, bulletManager){
@@ -60,6 +77,18 @@ export default class Player {
         this.directionX = x;
         this.directionY = y;
         this.playerSprite.setVelocity(x * this.speed, y * this.speed);
+
+        if(this.directionX === 0 && this.directionY === 0){
+            this.playerSprite.anims.play('player_idle', true);
+        } else {
+            if(this.directionX > 0){
+                this.playerSprite.flipX = false;
+                this.playerSprite.anims.play('player_walk', true);
+            } else {
+                this.playerSprite.flipX = true;
+                this.playerSprite.anims.play('player_walk', true);
+            }
+        }
     }
 
     getDirection(){
@@ -87,19 +116,23 @@ export default class Player {
         playerObj.skills = this.skills;
         playerObj.name = this.name;
         playerObj.bio = this.bio;
+        playerObj.day = this.day;
 
         let current_player = JSON.stringify(playerObj);
-        window.localStorage.setItem("current_player", current_player);
+        window.sessionStorage.setItem("current_player", current_player);
     }
 
     loadFromSession(){
-        let current_player = window.localStorage.getItem("current_player");
+        let current_player = window.sessionStorage.getItem("current_player");
         if(current_player){
             let playerObj = JSON.parse(current_player);
             this.stats = playerObj.stats;
             this.skills = playerObj.skills;
             this.name = playerObj.name;
             this.bio = playerObj.bio;
+            this.day = playerObj.day;
+            return true;
         }
+        return false;
     }
 }

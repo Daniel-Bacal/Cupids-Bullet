@@ -1,6 +1,7 @@
 import Phaser, {} from "phaser"
 import TextField from "../ui_elements/TextField.js"
 import Button from "../ui_elements/Button"
+import Player from "../objects/Player"
 
 export default class Login extends Phaser.Scene{
     constructor(){
@@ -40,11 +41,20 @@ export default class Login extends Phaser.Scene{
         loginButtons[0].setButtonHoverColor("#431c5c");
 
         loginButtons[1].setButtonOnClick(() => {
-            this.scene.start("DatingSim");
+            this.scene.start("LevelSelect");
             username.remove();
             password.remove();
         });
         loginButtons[1].setButtonColor("#431c5c");
         loginButtons[1].setButtonHoverColor("#431c5c");
+
+        // TODO: get rid of this
+        let player = new Player();
+        if(!player.loadFromSession()){
+            // If there's no player in the session, create a new one
+            player.setName("Anonymous");
+            player.setBio("This is for testing. Change this for production. I am typing this to add more length to the bio.");
+            player.saveToSession();
+        }
     }
 }

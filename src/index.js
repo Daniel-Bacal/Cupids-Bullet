@@ -19,6 +19,7 @@ import Math from "./tabs/Math"
 import Ads from "./tabs/Ads"
 import PauseMenu from "./tabs/PauseMenu"
 import BulletHell from "./BulletHell";
+import DayStart from "./DayStart"
 
 const config = {
   type: Phaser.AUTO,
@@ -40,7 +41,7 @@ const config = {
     }
   },
   plugins: ['SceneManager', 'Clock'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DayStart, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell]
 };
 
 

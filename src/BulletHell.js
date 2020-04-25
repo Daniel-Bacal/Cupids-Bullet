@@ -4,6 +4,7 @@ import EnemyManager from "./controllers/EnemyManager"
 import Player from "../src/objects/Player";
 import FireAtPlayerBehavior from "./behaviors/FireAtPlayerBehavior"
 import ExplodeOnPlayerBehavior from "./behaviors/ExplodeOnPlayerBehavior"
+import Button from "./ui_elements/Button"
 
 const Vector2 = Phaser.Math.Vector2;
 
@@ -16,6 +17,11 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     create() {
+        this.physics.world.setBounds(0, 0, 2*480, 2*270);
+
+        this.background = this.add.image(0, 0, "bullet-hell-background");
+        this.background.setOrigin(0, 0);
+
         this.createAnimations();
 
         this.createGroups();
@@ -27,16 +33,22 @@ export default class BulletHell extends Phaser.Scene {
         this.player.loadFromSession();
         this.player.initBulletHell(this, this.playerBulletManager);
 
+        this.cameras.main.startFollow(this.player.getSprite());
+        this.cameras.main.setBounds(0, 0, 2*480, 2*270);
+
         this.setUpCollisions();
 
         this.setUpEnemies();
 
         this.setUpControls();
+
+        this.initPauseMenu();
     }
 
     update(time, delta) {
         this.updatePlayer();
-        this.enemyManager.doBehaviors();
+        this.fEnemyManager.doBehaviors();
+        this.mEnemyManager.doBehaviors();
     }
 
     createAnimations(){
@@ -125,20 +137,33 @@ export default class BulletHell extends Phaser.Scene {
     createGroups(){
         this.playerBullets = this.physics.add.group();
         this.enemyBullets = this.physics.add.group();
-        this.enemyGroup = this.physics.add.group();
+        this.fEnemyGroup = this.physics.add.group();
+        this.mEnemyGroup = this.physics.add.group();
     }
 
     setUpCollisions(){
-        this.physics.add.collider(this.player.getSprite(), this.enemyGroup);
+        this.physics.add.collider(this.player.getSprite(), this.fEnemyGroup);
+        this.physics.add.collider(this.player.getSprite(), this.mEnemyGroup);
 
-        this.physics.add.collider(this.enemyGroup, this.enemyGroup);
+        this.physics.add.collider(this.fEnemyGroup, this.fEnemyGroup);
+        this.physics.add.collider(this.mEnemyGroup, this.fEnemyGroup);
+        this.physics.add.collider(this.mEnemyGroup, this.mEnemyGroup);
         
         this.playerBulletManager.setCollisionData([{
-            otherGroup: this.enemyGroup,
+            otherGroup: this.fEnemyGroup,
             callback: (enemy, bullet) => {
               enemy.health -= bullet.damage;
               if (enemy.health <= 0){
-                this.enemyManager.killEnemy(enemy);
+                this.fEnemyManager.killEnemy(enemy);
+              }
+            }
+        },
+        {
+            otherGroup: this.mEnemyGroup,
+            callback: (enemy, bullet) => {
+              enemy.health -= bullet.damage;
+              if (enemy.health <= 0){
+                this.mEnemyManager.killEnemy(enemy);
               }
             }
         }]);
@@ -177,9 +202,18 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     setUpEnemies(){
-        this.enemyManager = new EnemyManager(100, this, "fEnemy", this.enemyGroup, this.enemyBulletManager);
-        this.enemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
-        this.enemyManager.requestEnemy(100, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.fEnemyManager = new EnemyManager(100, this, "fEnemy", this.fEnemyGroup, this.enemyBulletManager);
+
+        this.fEnemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.fEnemyManager.requestEnemy(300, 300, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.fEnemyManager.requestEnemy(300, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.fEnemyManager.requestEnemy(400, 200, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+
+        this.mEnemyManager = new EnemyManager(100, this, "mEnemy", this.mEnemyGroup, this.enemyBulletManager);
+        this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.mEnemyManager.requestEnemy(400, 400, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
     }
 
     setUpControls(){
@@ -226,6 +260,35 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     playerFireBullet(){
-        this.player.fireBullet(this.input.mousePointer.x, this.input.mousePointer.y, this.mouseDown, this.time.now);
+        this.player.fireBullet(this.input.mousePointer.x + this.cameras.main.scrollX, this.input.mousePointer.y + this.cameras.main.scrollY, this.mouseDown, this.time.now);
+    }
+
+    initPauseMenu(){
+        this.initPauseButton();
+        this.scene.launch("PauseMenu", {parent: this});
+        this.scene.sleep("PauseMenu");
+        this.scene.bringToTop("PauseMenu");
+    }
+
+    initPauseButton(){
+        this.pauseButton = Button(this, 450, 10, "P");
+        this.pauseButton.setButtonColor("white");
+        this.pauseButton.setButtonOnClick(() => this.pauseGame(true));
+        this.pauseButton.setScrollFactor(0, 0);
+    }
+
+    pauseGame(flag){
+        if(flag){
+            this.scene.wake("PauseMenu");
+            this.scene.pause();
+        } else {
+            this.scene.sleep("PauseMenu");
+            this.scene.resume();
+        }    
+    }
+
+    goToMainMenu(){
+        this.scene.stop("PauseMenu")
+        this.scene.start("MainMenu");
     }
 }
