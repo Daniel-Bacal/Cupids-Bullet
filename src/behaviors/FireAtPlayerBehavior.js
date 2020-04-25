@@ -36,7 +36,7 @@ export default class FireAtPlayerBehavior extends Behavior{
             let playerPosition = this.player.getCenter();
             let dir = new Vector2(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
             dir = dir.normalize();
-            enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, dir.x, dir.y, enemy.bulletSpeed);
+            enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, dir.x, dir.y, enemy.bulletSpeed, enemy.damage);
         }
     }
 }

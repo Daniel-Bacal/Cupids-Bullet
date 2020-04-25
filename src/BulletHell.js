@@ -84,12 +84,22 @@ export default class BulletHell extends Phaser.Scene {
         
         this.playerBulletManager.setCollisionData([{
             otherGroup: this.enemyGroup,
-            callback: () => console.log("Hit Enemy")
+            callback: (enemy, bullet) => {
+              enemy.health -= bullet.damage;
+              if (enemy.health <= 0){
+                this.enemyManager.killEnemy(enemy);
+              }
+            }
         }]);
 
         this.enemyBulletManager.setCollisionData([{
             otherGroup: this.player.getSprite(),
-            callback: () => console.log("Hit Player")
+            callback: (playerSprite, bullet) => {
+              this.player.health -= bullet.damage;
+              if (this.player.health <= 0){
+                this.scene.start("MainMenu");
+              }
+            }
         }]);
     }
 

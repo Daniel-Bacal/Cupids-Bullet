@@ -21,7 +21,7 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
                 enemy.setVelocity(0, 0);
                 for(let i = 0; i < 8; i++){
                     enemy.currentDirection.setToPolar(i*Math.PI/4, 1);
-                    enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, enemy.currentDirection.x, enemy.currentDirection.y, enemy.bulletSpeed);
+                    enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, enemy.currentDirection.x, enemy.currentDirection.y, enemy.bulletSpeed, enemy.damage);
                 }
             } else {
                 let opp = new Vector2(enemy.currentDirection.y, -enemy.currentDirection.x);

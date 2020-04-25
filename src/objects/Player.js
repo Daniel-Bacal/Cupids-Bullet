@@ -39,6 +39,7 @@ export default class Player {
         this.bulletSpeed = 500;
 
         this.speed = 150 + this.stats.hum;
+        this.maxHealth = 1600 + this.stats.sinc;
         this.health = 1600 + this.stats.sinc;
         this.damage = 50 + this.stats.jock;
 
@@ -75,7 +76,7 @@ export default class Player {
       
             bulletDirection.normalize();
       
-            this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y, this.bulletSpeed);
+            this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y, this.bulletSpeed, this.damage);
           }
     }
 

@@ -53,7 +53,7 @@ export default class BulletManager {
                 this.collisionData[i].otherGroup,
                 this.group,
                 (obj1, obj2) => {
-                    this.collisionData[i].callback()
+                    this.collisionData[i].callback(obj1, obj2);
                     this.killBullet(obj2);
                 },
                 null,
@@ -61,7 +61,7 @@ export default class BulletManager {
         }
     }
 
-    requestBullet(xPos, yPos, xDir, yDir, bulletSpeed){
+    requestBullet(xPos, yPos, xDir, yDir, bulletSpeed, damage){
         // Bring a bullet to life
         let bullet = this.deadBullets.pop();
         bullet.isAlive = true;
@@ -70,6 +70,9 @@ export default class BulletManager {
 
         // Enable bullet
         bullet.enableBody(true, xPos, yPos, true, true);
+
+        // Set bullet damage
+        bullet.damage = damage;
 
         // Send bullet with speed in direction
         bullet.setVelocity(xDir*bulletSpeed, yDir*bulletSpeed);
@@ -90,7 +93,6 @@ export default class BulletManager {
     }
 
     killBullet(bullet){
-        console.log("Kill");
         bullet.isAlive = false;
         bullet.disableBody(true, true);
         this.deadBullets.push(bullet);
