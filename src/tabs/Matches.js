@@ -1,11 +1,13 @@
 import Phaser, {} from "phaser"
 import AbstractTab from "./AbstractTab"
 import Person from "../objects/Person"
+import Button from "../ui_elements/Button"
 
 export default class Matches extends AbstractTab{
     constructor(){
         super("Matches");
-        this.person = new Person();
+        this.personArray = [new Person(), new Person(), new Person(), new Person(), new Person()];
+        this.currentPerson;
     }
 
     preload(){
@@ -16,26 +18,59 @@ export default class Matches extends AbstractTab{
         let home = this.add.image(0, 0, "matches");
         home.setOrigin(0, 0);
 
-        let name = this.person.getName();
-        let nameText = this.add.text(61, 130, name, {fill: "#FFFFFF", fontFamily: "NoPixel", fontSize: "8px"});
-        nameText.setOrigin(0.5, 0.5);
+        this.initMatchButtons();
 
-        let appearance = this.person.getAppearance();
-        let preferences = this.person.getPreferences();
+        this.personText = this.add.text(61, 130, "", {fill: "#FFFFFF", fontFamily: "NoPixel", fontSize: "8px"});
+        this.personText.setOrigin(0.5, 0.5);
 
-        for(let i in appearance){
-            this.add.image(61, 88, appearance[i]);
-        }
+        this.currentPerson = this.personArray[0];
+        this.displayCurrentPerson(this.currentPerson);
+    }
 
-        //just printing preferences
-        //todo: generate bio based on preferences
+    displayCurrentPerson(person){
+        let name = person.getName();
+        this.personText.setText(name);
+
+        this.appearance = person.getAppearance();
+        this.preferenceText = person.getPreferences();
+
         this.add.text(60, 140, "preferences:", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"});
 
         let y = 150;
-        for(let key in preferences){
-            this.add.text(60, y, key + ": " + preferences[key], {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"});
+        for(let key in this.preferenceText){
+            this.add.text(60, y, key + ": " + this.preferenceText[key], {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"});
             y = y + 10;
         }
 
+        for(let i in this.appearance){
+            this.add.image(61, 88, this.appearance[i]);
+        }
+    }
+
+    initMatchButtons(){
+        this.match1 = Button(this, 120, 140, "1", "8px");
+        this.match1.setButtonColor("black");
+        this.match1.setButtonHoverColor("#DDDDDD");
+        this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.personArray[0]));
+
+        this.match1 = Button(this, 120, 160, "2", "8px");
+        this.match1.setButtonColor("black");
+        this.match1.setButtonHoverColor("#DDDDDD");
+        this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.personArray[1]));
+
+        this.match1 = Button(this, 120, 180, "3", "8px");
+        this.match1.setButtonColor("black");
+        this.match1.setButtonHoverColor("#DDDDDD");
+        this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.personArray[2]));
+
+        this.match1 = Button(this, 120, 200, "4", "8px");
+        this.match1.setButtonColor("black");
+        this.match1.setButtonHoverColor("#DDDDDD");
+        this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.personArray[3]));
+
+        this.match1 = Button(this, 120, 220, "5", "8px");
+        this.match1.setButtonColor("black");
+        this.match1.setButtonHoverColor("#DDDDDD");
+        this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.personArray[4]));
     }
 }
