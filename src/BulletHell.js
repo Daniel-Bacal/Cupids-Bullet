@@ -61,14 +61,65 @@ export default class BulletHell extends Phaser.Scene {
         });
 
         this.anims.create({
-            key: "enemy_idle",
-            frames: this.anims.generateFrameNumbers("enemy", {
+            key: "player_idle",
+            frames: this.anims.generateFrameNumbers("bhPlayer", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "player_walk",
+            frames: this.anims.generateFrameNumbers("bhPlayer", {
+                start: 0,
+                end: 7
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "fEnemy_idle",
+            frames: this.anims.generateFrameNumbers("fEnemy", {
             start: 0,
             end: 0
             }),
             frameRate: 0,
             repeat: -1
-        })
+        });
+
+        this.anims.create({
+            key: "fEnemy_walk",
+            frames: this.anims.generateFrameNumbers("fEnemy", {
+                start: 0,
+                end: 10
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "mEnemy_idle",
+            frames: this.anims.generateFrameNumbers("mEnemy", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "mEnemy_walk",
+            frames: this.anims.generateFrameNumbers("mEnemy", {
+                start: 0,
+                end: 10
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
     }
 
     createGroups(){
@@ -126,7 +177,7 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     setUpEnemies(){
-        this.enemyManager = new EnemyManager(100, this, "enemy", this.enemyGroup, this.enemyBulletManager);
+        this.enemyManager = new EnemyManager(100, this, "fEnemy", this.enemyGroup, this.enemyBulletManager);
         this.enemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         this.enemyManager.requestEnemy(100, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
     }

@@ -63,12 +63,15 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("bullet", "assets/bullet.png", {
             frameWidth: 16, frameHeight: 16
         });
-
-        this.load.spritesheet("enemy", "assets/enemy.png", {
+        this.load.spritesheet("fEnemy", "assets/girl-sheet.png", {
             frameWidth: 32, frameHeight: 32
-        })
-
-        this.load.image("bhPlayer", "assets/Untitled123.png");
+        });
+        this.load.spritesheet("mEnemy", "assets/boy-sheet.png", {
+            frameWidth: 32, frameHeight: 32
+        });
+        this.load.spritesheet("bhPlayer", "assets/cupid-sheet.png", {
+            frameWidth: 32, frameHeight: 32
+        });
 
         // Load JSON Files
         this.load.json("questionnaire","text_data/questionnaire.json");
