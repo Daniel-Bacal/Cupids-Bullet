@@ -53,7 +53,7 @@ export default class EnemyManager{
         enemy.setCollideWorldBounds(true);
 
         enemy.behavior = behavior;
-
+        enemy.anims.play('fEnemy_walk', true);
         enemy.speed = enemySpeed;
         enemy.health = enemyHealth - playerFlirt;
         enemy.damage = enemyDamage;
