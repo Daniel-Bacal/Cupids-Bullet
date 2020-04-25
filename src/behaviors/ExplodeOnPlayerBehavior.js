@@ -18,7 +18,7 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
 
             if(dist < 50){
                 enemy.waitUntilTime = this.scene.time.now + 1000;
-                enemy.setVelocity(0, 0);
+                this.setEnemyVelocity(enemy, 0, 0);
                 for(let i = 0; i < 8; i++){
                     enemy.currentDirection.setToPolar(i*Math.PI/4, 1);
                     enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, enemy.currentDirection.x, enemy.currentDirection.y, enemy.bulletSpeed, enemy.damage);
@@ -29,8 +29,10 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
                 opp.x /= 200/Phaser.Math.Clamp(dist, 0, 150);
                 opp.y /= 200/Phaser.Math.Clamp(dist, 0, 150);
                 enemy.currentDirection = enemy.currentDirection.add(opp).normalize();
-                enemy.setVelocity(enemy.currentDirection.x*speed, enemy.currentDirection.y*speed);
+                this.setEnemyVelocity(enemy, enemy.currentDirection.x*speed, enemy.currentDirection.y*speed);
             }
+        } else {
+            this.setEnemyVelocity(enemy, 0, 0);
         }
     }
 }

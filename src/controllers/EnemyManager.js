@@ -18,6 +18,7 @@ export default class EnemyManager{
             enemy = this.scene.physics.add.sprite(0, 0, this.sprite);
             enemy.bulletManager = this.bulletManager;
             enemy.isAlive = false;
+            enemy.spriteName = this.sprite;
 
             // Add to physics group
             this.group.add(enemy);

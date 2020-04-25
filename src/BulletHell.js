@@ -43,6 +43,10 @@ export default class BulletHell extends Phaser.Scene {
         this.setUpControls();
 
         this.initPauseMenu();
+
+        this.initPlayerHealth();
+
+        this.setUpWalls();
     }
 
     update(time, delta) {
@@ -139,6 +143,7 @@ export default class BulletHell extends Phaser.Scene {
         this.enemyBullets = this.physics.add.group();
         this.fEnemyGroup = this.physics.add.group();
         this.mEnemyGroup = this.physics.add.group();
+        this.walls = this.physics.add.staticGroup();
     }
 
     setUpCollisions(){
@@ -148,6 +153,10 @@ export default class BulletHell extends Phaser.Scene {
         this.physics.add.collider(this.fEnemyGroup, this.fEnemyGroup);
         this.physics.add.collider(this.mEnemyGroup, this.fEnemyGroup);
         this.physics.add.collider(this.mEnemyGroup, this.mEnemyGroup);
+
+        this.physics.add.collider(this.fEnemyGroup, this.walls);
+        this.physics.add.collider(this.mEnemyGroup, this.walls);
+        this.physics.add.collider(this.player.getSprite(), this.walls);
         
         this.playerBulletManager.setCollisionData([{
             otherGroup: this.fEnemyGroup,
@@ -166,6 +175,10 @@ export default class BulletHell extends Phaser.Scene {
                 this.mEnemyManager.killEnemy(enemy);
               }
             }
+        },
+        {
+            otherGroup: this.walls,
+            callback: (wall, bullet) => {}
         }]);
 
         this.enemyBulletManager.setCollisionData([{
@@ -176,6 +189,10 @@ export default class BulletHell extends Phaser.Scene {
                 this.scene.start("MainMenu");
               }
             }
+        },
+        {
+            otherGroup: this.walls,
+            callback: (wall, bullet) => {}
         }]);
     }
 
@@ -242,9 +259,26 @@ export default class BulletHell extends Phaser.Scene {
         });
     }
 
+    setUpWalls(){
+        for(let i = 0; i < 20; i++){
+            let x = Math.floor(Math.random()*960);
+            let y = Math.floor(Math.random()*540);
+            this.addWall(x, y);
+        }
+    }
+
+    addWall(x, y){
+        this.walls.create(x, y, "wall");
+    }
+
     updatePlayer(){
         this.movePlayer();
         this.playerFireBullet();
+
+        // Player Health
+        this.playerHealthBar.clear();
+        this.playerHealthBar.fillStyle(0xFF0000);
+        this.playerHealthBar.fillRect(5, 5, Math.ceil(200*this.player.getHealthPercent()), 10);
     }
 
     movePlayer(){
@@ -290,5 +324,15 @@ export default class BulletHell extends Phaser.Scene {
     goToMainMenu(){
         this.scene.stop("PauseMenu")
         this.scene.start("MainMenu");
+    }
+
+    initPlayerHealth(){
+        this.playerHealthBar = this.add.graphics();
+        this.playerHealthBar.setScrollFactor(0, 0);
+
+        this.playerHealthBox = this.add.graphics();
+        this.playerHealthBox.lineStyle(2, 0xFFFFFF);
+        this.playerHealthBox.strokeRect(5, 5, 200, 10);
+        this.playerHealthBox.setScrollFactor(0, 0);
     }
 }

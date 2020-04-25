@@ -65,6 +65,10 @@ export default class Player {
         this.playerSprite.anims.play('player_walk', true);
     }
 
+    getHealthPercent(){
+        return this.health/this.maxHealth;
+    }
+
     getSprite(){
         return this.playerSprite;
     }

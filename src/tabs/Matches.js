@@ -23,6 +23,13 @@ export default class Matches extends AbstractTab{
         this.personText = this.add.text(61, 130, "", {fill: "#FFFFFF", fontFamily: "NoPixel", fontSize: "8px"});
         this.personText.setOrigin(0.5, 0.5);
 
+        this.preferences = []
+        let y = 150;
+        for(let i = 0; i <= 5; i++){
+            this.preferences.push(this.add.text(60, y, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}));
+            y = y + 10;
+        }
+
         this.currentPerson = this.personArray[0];
         this.displayCurrentPerson(this.currentPerson);
     }
@@ -36,10 +43,9 @@ export default class Matches extends AbstractTab{
 
         this.add.text(60, 140, "preferences:", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"});
 
-        let y = 150;
+        let i = 0;
         for(let key in this.preferenceText){
-            this.add.text(60, y, key + ": " + this.preferenceText[key], {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"});
-            y = y + 10;
+            this.preferences[i++].text = key + ": " + this.preferenceText[key];
         }
 
         for(let i in this.appearance){

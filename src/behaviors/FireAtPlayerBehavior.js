@@ -25,7 +25,7 @@ export default class FireAtPlayerBehavior extends Behavior{
                 let direction = Math.random()*Math.PI*2;
                 enemy.currentDirection = enemy.currentDirection.setToPolar(direction, 1);
             }
-            enemy.setVelocity(enemy.currentDirection.x*enemy.speed, enemy.currentDirection.y*enemy.speed);
+            this.setEnemyVelocity(enemy, enemy.currentDirection.x*enemy.speed, enemy.currentDirection.y*enemy.speed);
             // Get a random time to stop moving
             enemy.timeLeftMoving = this.scene.time.now + Math.random()*100 + 200;
         }

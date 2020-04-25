@@ -59,6 +59,7 @@ export default class Boot extends Phaser.Scene{
         this.load.image("pause-menu", "assets/pause-menu.png");
         this.load.image("player", "assets/player.png");
         this.load.image("bullet-hell-background", "assets/bullet-hell-background.png");
+        this.load.image("wall", "assets/wall.png");
 
         // Load sprites
         this.load.spritesheet("bullet", "assets/bullet.png", {
