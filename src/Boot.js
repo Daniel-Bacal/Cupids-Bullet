@@ -1,4 +1,5 @@
 import Phaser, {} from "phaser";
+import Player from "./objects/Player"
 
 export default class Boot extends Phaser.Scene{
     constructor(){
@@ -96,6 +97,23 @@ export default class Boot extends Phaser.Scene{
             }
         }
 
+        // Create cheat code player profiles
+        let mcKilla = new Player();
+        mcKilla.setName("TheMcKillaGorilla");
+        mcKilla.setBio("When I'm not teaching, programming, or gaming, I enjoy spending time with family and friends as well as playing the guitar and piano.");
+        mcKilla.setPlayerStats(100, 100, 100, 100, 100);
+        mcKilla.setDay(3);
+        mcKilla.saveToLocalStorage();
+
+        let test = new Player();
+        test.setName("test");
+        test.setBio("This is a test profile.");
+        test.setPlayerStats(10, 10, 10, 10, 10);
+        test.setDay(0);
+        test.saveToLocalStorage();
+
+        // Wipe session player
+        window.sessionStorage.removeItem("current_player");
     }
 
     create(){

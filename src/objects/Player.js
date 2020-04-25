@@ -19,12 +19,24 @@ export default class Player {
         else if (statType=="hum"){this.stats.sinc+=step; if(this.stats.sinc <= 0){this.stats.sinc=0;}}
     }
 
+    setPlayerStats(jock, flirt, hum, int, sinc){
+        this.stats.jock = jock;
+        this.stats.flirt = flirt;
+        this.stats.hum = hum;
+        this.stats.int = int;
+        this.stats.sinc = sinc;
+    }
+
     incrementDay(){
         this.day++;
     }
 
     getDay(){
         return this.day;
+    }
+
+    setDay(day){
+        this.day = day;
     }
 
     getPlayerStats(){
@@ -124,10 +136,39 @@ export default class Player {
 
         let current_player = JSON.stringify(playerObj);
         window.sessionStorage.setItem("current_player", current_player);
+        
+        // Save player file
+        this.saveToLocalStorage();
     }
 
     loadFromSession(){
         let current_player = window.sessionStorage.getItem("current_player");
+        if(current_player){
+            let playerObj = JSON.parse(current_player);
+            this.stats = playerObj.stats;
+            this.skills = playerObj.skills;
+            this.name = playerObj.name;
+            this.bio = playerObj.bio;
+            this.day = playerObj.day;
+            return true;
+        }
+        return false;
+    }
+
+    saveToLocalStorage(){
+        let playerObj = {};
+        playerObj.stats = this.stats;
+        playerObj.skills = this.skills;
+        playerObj.name = this.name;
+        playerObj.bio = this.bio;
+        playerObj.day = this.day;
+
+        let current_player = JSON.stringify(playerObj);
+        window.localStorage.setItem(playerObj.name, current_player);
+    }
+
+    loadFromLocalStorage(username){
+        let current_player = window.localStorage.getItem(username);
         if(current_player){
             let playerObj = JSON.parse(current_player);
             this.stats = playerObj.stats;

@@ -23,38 +23,62 @@ export default class Login extends Phaser.Scene{
 
         let usernameText = this.add.text(160, 100, "Username:", {fontFamily: "NoPixel", fontSize: "16px"});
         usernameText.setOrigin(0.5, 0.5);
-        let passwordText = this.add.text(160, 150, "Password:", {fontFamily: "NoPixel", fontSize: "16px"});
-        passwordText.setOrigin(0.5, 0.5);
-        let username = new TextField(this, 300, 100, 160, 30, 16, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
-        let password = new TextField(this, 300, 150, 160, 30, 16, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
+        // let passwordText = this.add.text(160, 150, "Password:", {fontFamily: "NoPixel", fontSize: "16px"});
+        // passwordText.setOrigin(0.5, 0.5);
+        let username = new TextField(this, 300, 100, 160, 30, 20, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
+        // let password = new TextField(this, 300, 150, 160, 30, 16, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
+
+        let currentPlayerText = this.add.text(140, 150, "Current User:", {fontFamily: "NoPixel", fontSize: "16px"});
+        currentPlayerText.setOrigin(0.5, 0.5);
 
         let loginButtons = [
-            Button(this, 180, 240, "Return", "16px", "btn-background", 80, 30),
-            Button(this, 300, 240, "Login", "16px", "btn-background", 80, 30)
+            Button(this, 100, 240, "Return", "16px", "btn-background", 80, 30),
+            Button(this, 240, 240, "Sign Out", "16px", "btn-background", 80, 30),
+            Button(this, 380, 240, "Login", "16px", "btn-background", 80, 30)
         ];
         loginButtons[0].setButtonOnClick(() => {
             this.scene.start("MainMenu");
             username.remove();
-            password.remove();
+            //password.remove();
         });
         loginButtons[0].setButtonColor("#431c5c");
         loginButtons[0].setButtonHoverColor("#431c5c");
 
         loginButtons[1].setButtonOnClick(() => {
-            this.scene.start("LevelSelect");
-            username.remove();
-            password.remove();
+            player = null;
+            window.localStorage.removeItem("current_player");
+            currentPlayerText.text = "Current User: none"
         });
         loginButtons[1].setButtonColor("#431c5c");
         loginButtons[1].setButtonHoverColor("#431c5c");
 
+        loginButtons[2].setButtonOnClick(() => {
+            if(player === null){
+                let name = username.value;
+                player = new Player();
+                if(player.loadFromLocalStorage(name)){
+                    player.saveToSession();
+                    currentPlayerText.text = "Current User: " + player.getName();
+                } else {
+                    player = null;
+                }
+            } else {
+                this.scene.start("LevelSelect");
+                username.remove();
+            }
+
+            //password.remove();
+        });
+        loginButtons[2].setButtonColor("#431c5c");
+        loginButtons[2].setButtonHoverColor("#431c5c");
+
         // TODO: get rid of this
         let player = new Player();
-        if(!player.loadFromSession()){
-            // If there's no player in the session, create a new one
-            player.setName("Anonymous");
-            player.setBio("This is for testing. Change this for production. I am typing this to add more length to the bio.");
-            player.saveToSession();
+        if(player.loadFromSession()){
+            currentPlayerText.text = "Current User: " + player.getName();
+        } else {
+            currentPlayerText.text = "Current User: none";
+            player = null;
         }
     }
 }

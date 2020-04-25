@@ -20,6 +20,9 @@ export default class EnemyManager{
             enemy.isAlive = false;
             enemy.spriteName = this.sprite;
 
+            // Enemy Health Bar
+            this.initEnemyHealth(enemy)
+
             // Add to physics group
             this.group.add(enemy);
 
@@ -57,6 +60,7 @@ export default class EnemyManager{
         enemy.anims.play(this.sprite + '_walk', true);
         enemy.speed = enemySpeed;
         enemy.health = enemyHealth - playerFlirt;
+        enemy.maxHealth = enemy.health;
         enemy.damage = enemyDamage;
 
         enemy.behavior.setUpEnemy(enemy);
@@ -66,6 +70,8 @@ export default class EnemyManager{
         this.group.children.iterate((enemy) => {
             if(enemy.isAlive){
                 enemy.behavior.behave(enemy);
+
+                this.renderHealthBar(enemy);
             }
         })
     }
@@ -78,5 +84,24 @@ export default class EnemyManager{
         enemy.isAlive = false;
         enemy.disableBody(true, true);
         this.deadEnemies.push(enemy);
+
+        // Hide enemy health bar
+        enemy.healthBox.clear();
+        enemy.healthBar.clear();
+    }
+
+    initEnemyHealth(enemy){
+        enemy.healthBox = this.scene.add.graphics();
+        enemy.healthBar = this.scene.add.graphics();
+    }
+
+    renderHealthBar(enemy){
+        enemy.healthBox.clear();
+        enemy.healthBox.lineStyle(1, 0xFFFFFF);
+        enemy.healthBox.strokeRect(enemy.x - 10, enemy.y + enemy.height/2 + 2, 20, 4);
+
+        enemy.healthBar.clear();
+        enemy.healthBar.fillStyle(0xFF0000);
+        enemy.healthBar.fillRect(enemy.x - 10, enemy.y + enemy.height/2 + 2, 20*enemy.health/enemy.maxHealth, 4)
     }
 }

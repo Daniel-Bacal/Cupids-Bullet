@@ -61,33 +61,54 @@ export default class Signup extends Phaser.Scene{
             this.answerButtons[i].setButtonColor("#FFFFFF");
             this.answerButtons[i].setButtonHoverColor("#DDDDDD");
         }
+
+        // Before anything else, get username
+        this.mustGetUsername = true;
+        this.createdTextField = false;
     }
 
     update(){
 
         if (this.destroyText){
-
-            console.log(this.player.stats);
-
             this.destroyText = false;
 
             if (this.pageNum >= this.data["questions"].length){
-
-                this.player.saveToSession();
-                this.scene.start("BulletHell");
+                // If we've reached the end of the questionnaire, get username, then exit
+                if(this.mustGetUsername){
+                    if(!this.createdTextField){
+                        this.questionText.text = "Please Enter a username:"
+                        for(let i = 0; i < this.answerButtons.length; i++){
+                            this.answerButtons[i].text = "";
+                        }
+                        this.usernameTextField = TextField(this, 240, 135, 150, 20, 20, {fontFamily: "NoPixel", fontSize: "32px", color: "white", borderStyle: "solid", borderColor: "white", borderWidth: "0px 0px 2px 0px"});
+                        this.createdTextField = true;
+                        this.usernameButton = Button(this, 240, 180, "Enter", "16px");
+                        this.usernameButton.setButtonColor("white");
+                        this.usernameButton.setButtonHoverColor("#DDDDDD");
+                        this.usernameButton.setButtonOnClick(() => {
+                            if(this.usernameTextField.value.trim() != ""){
+                                this.player.setName(this.usernameTextField.value);
+                                this.mustGetUsername = false;
+                            }
+                        });
+                    }
+                } else {
+                    this.usernameTextField.remove();
+                    this.player.saveToSession();
+                    this.scene.start("BulletHell");
+                }
+                this.destroyText = true;
                 
-            }
-
-            else{
-
+            } else {
+                // Otherwise, proceed with the questionnaire
                 let btnHeight = 140;
-
                 this.questionText.destroy();
                 
                 this.question = this.data["questions"][this.pageNum];
                 this.questionText = this.add.text(240, 60, this.question["text"], {fontFamily: "NoPixel", fontSize: "24px", align: "center", wordWrap: { width: 400, useAdvancedWrap: true }});
                 this.questionText.setOrigin(0.5, 0.5);
 
+                // If we are on the math question, add a math question
                 if (this.question["text"].split(" ")[0].toLowerCase() === "evaluate"){
                     mathGen = new MathGenerator();
                     currentProblem = mathGen.generateMathTest();
@@ -97,19 +118,19 @@ export default class Signup extends Phaser.Scene{
                 }
 
                 for (let i = 0; i < this.answerButtons.length; i++){
+                    // Add the answer buttons
                     if (this.answerButtons[i].height === 0){
                         if (mathExp){mathExp.destroy();}
                         if (currentProblem){currentProblem = null;}
                         this.answerButtons[i].remove();
-                    }
-                    else{
+                    } else {
                         this.answerButtons[i].destroy();
                     }
+
                     if (this.question["answers"][i]["text"] === ""){
                         this.answerButtons[i] = new TextField(this, 240, btnHeight, 70, 30, 16, {borderStyle: "solid", borderWidth: "2px 2px 2px 2px", borderColor: "white"});
                         btnHeight+=40;
-                    }
-                    else{
+                    } else{
                         this.answerButtons[i] = new Button(this, 240, btnHeight, this.question["answers"][i]["text"], "16px");
                         btnHeight+=40;
                     }
