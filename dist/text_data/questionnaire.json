@@ -16,7 +16,7 @@
         {"text": "I just drink my eggs raw.", "inc": "hum jock", "dec": "int"}, {"text":"5 minutes and 16 seconds.", "inc": "int sinc", "dec":"flirt"}, {"text": "7 minutes and 2 seconds. I prefer my eggs HARD boiled.", "inc": "flirt", "dec": "sinc"}
        ]},
        {"text": "Evaluate the following expression", "answers":[
-        {"text": "Nope.", "inc": "hum", "dec": "int"}, {"text":"That's what nerds and losers are for.", "inc": "jock", "dec":"sinc"}, {"text": "", "inc": "int", "dec": "jock"}
+        {"text": "", "inc": "int", "dec": "jock"}, {"text": "Nope.", "inc": "hum", "dec": "int"}, {"text":"That's what nerds and losers are for.", "inc": "jock", "dec":"sinc"}
        ]},
        {"text": "What are you seeking from this site?", "answers":[
         {"text": "The one article of jewelry to rule them all.", "inc": "hum", "dec": "flirt"}, {"text":"Primarily just a good time. Let's see where things go.", "inc": "flirt", "dec":"sinc"}, {"text": "The love of my life.", "inc": "sinc", "dec": "jock"}

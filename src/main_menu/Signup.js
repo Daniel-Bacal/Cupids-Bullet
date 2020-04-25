@@ -8,6 +8,7 @@ let mathExp;
 let mathGen;
 let currentProblem;
 let mathText;
+let enter;
 
 export default class Signup extends Phaser.Scene{
     constructor(){
@@ -34,7 +35,7 @@ export default class Signup extends Phaser.Scene{
         this.questionText = this.add.text(240, 60, this.question["text"], {fontFamily: "NoPixel", fontSize: "24px", align: "center", wordWrap: { width: 400, useAdvancedWrap: true }});
         this.questionText.setOrigin(0.5, 0.5);
 
-        //this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         
         this.answerButtons = [
             Button(this, 240, 140, this.question["answers"][0]["text"], "16px"),
@@ -66,6 +67,8 @@ export default class Signup extends Phaser.Scene{
 
         if (this.destroyText){
 
+            console.log(this.player.stats);
+
             this.destroyText = false;
 
             if (this.pageNum >= this.data["questions"].length){
@@ -96,6 +99,7 @@ export default class Signup extends Phaser.Scene{
                 for (let i = 0; i < this.answerButtons.length; i++){
                     if (this.answerButtons[i].height === 0){
                         if (mathExp){mathExp.destroy();}
+                        if (currentProblem){currentProblem = null;}
                         this.answerButtons[i].remove();
                     }
                     else{
@@ -114,7 +118,7 @@ export default class Signup extends Phaser.Scene{
                 for(let i = 0; i < this.answerButtons.length; i++){
                     if (this.answerButtons[i].height === 0){
 
-                        let incStats = this.question["answers"][i]["inc"].split(" ");
+                        /**let incStats = this.question["answers"][i]["inc"].split(" ");
                         let decStats = this.question["answers"][i]["dec"].split(" ");
 
                         if (this.answerButtons[i].text === this.expressionAnswer){
@@ -125,6 +129,7 @@ export default class Signup extends Phaser.Scene{
                         for (let j = 0; j < decStats.length; j++){
                             this.player.incrementStat(decStats[j], -1);
                         }
+                        */
                         //this.pageNum++;
                         //this.destroyText = true;
                     }
@@ -147,5 +152,21 @@ export default class Signup extends Phaser.Scene{
                 }
             }
         }
+
+        if(Phaser.Input.Keyboard.JustDown(enter)){
+            if (currentProblem){
+                if (this.answerButtons[0].value){
+                    if (this.answerButtons[0].value == currentProblem.value){
+                        this.player.incrementStat("int", 3);
+                    }
+                    else{
+                        this.player.incrementStat("int", -2);
+                    }
+                    this.pageNum++;
+                    this.destroyText = true;
+                }
+            }
+        }
+
     }
 }
