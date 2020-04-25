@@ -12,6 +12,10 @@ export default class Controls extends Phaser.Scene {
         console.log("Controls");
     }
 
+    init(data){
+        this.returnCallback = data.returnCallback;
+    }
+
     create(){
         let background = this.add.image(0, 0, "background");
         background.setOrigin(0, 0);
@@ -20,7 +24,7 @@ export default class Controls extends Phaser.Scene {
             Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30)
           ];
           controlsButtons[0].setButtonOnClick(() => {
-            this.scene.start("MainMenu");
+            this.returnCallback();
           });
           controlsButtons[0].setButtonColor("#431c5c");
           controlsButtons[0].setButtonHoverColor("#431c5c");

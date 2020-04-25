@@ -61,6 +61,7 @@ export default class Boot extends Phaser.Scene{
         this.load.image("player", "assets/player.png");
         this.load.image("bullet-hell-background", "assets/bullet-hell-background.png");
         this.load.image("wall", "assets/wall.png");
+        this.load.image("modal", "assets/modal.png");
 
         // Load sprites
         this.load.spritesheet("bullet", "assets/bullet.png", {
@@ -96,6 +97,11 @@ export default class Boot extends Phaser.Scene{
                 this.load.image("mHair" + i + j, "assets/NPCAssets/male/hair/hair" + i + "/" + j + ".png");
             }
         }
+
+        // Load Music
+        this.load.audio("MainMenu", "assets/music/MenuMusic.mp3");
+        this.load.audio("Battle", "assets/music/BattleMusic.mp3");
+        //this.load.audio("test", "assets/music/test.mp3");
 
         // Create cheat code player profiles
         let mcKilla = new Player();

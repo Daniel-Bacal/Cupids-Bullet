@@ -17,6 +17,22 @@ export default class LevelSelect extends Phaser.Scene {
         let levelSelect = this.add.image(0, 0, "level-select");
         levelSelect.setOrigin(0, 0);
 
+        // TODO: Put more music
+        // if(this.game.music && this.game.music.isPlaying){
+        //     if(this.game.music.songName !== "test"){
+        //       this.game.music.stop();
+        //       this.game.music = this.sound.add("test", {loop: true});
+        //       this.game.music.play();
+        //       this.game.music.isPlaying = true;
+        //       this.game.music.songName = "test"
+        //     }
+        // } else {
+        //     this.game.music = this.sound.add("test", {loop: true});
+        //     this.game.music.play();
+        //     this.game.music.isPlaying = true;
+        //     this.game.music.songName = "test"
+        // }
+
         let locations = [
             {x: 110, y: 165},
             {x: 195, y: 165},

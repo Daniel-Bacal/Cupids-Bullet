@@ -28,6 +28,21 @@ export default class MainMenu extends Phaser.Scene {
     mainMenu = this.add.image(0, 0, "main-menu");
     mainMenu.setOrigin(0, 0);
 
+    if(this.game.music && this.game.music.isPlaying){
+      if(this.game.music.songName !== "MainMenu"){
+        this.game.music.stop();
+        this.game.music = this.sound.add("MainMenu", {loop: true});
+        this.game.music.play();
+        this.game.music.isPlaying = true;
+        this.game.music.songName = "MainMenu"
+      }
+    } else {
+      this.game.music = this.sound.add("MainMenu", {loop: true});
+      this.game.music.play();
+      this.game.music.isPlaying = true;
+      this.game.music.songName = "MainMenu"
+    }
+
     // Create buttons
     let buttons = [
       Button(this, 380, 120, "Log-In", "24px"),
@@ -55,7 +70,10 @@ export default class MainMenu extends Phaser.Scene {
     });
 
     buttons[3].setButtonOnClick(() => {
-      this.scene.start("Controls");
+      this.scene.start("Controls", {returnCallback: () => {
+        this.scene.start("MainMenu");
+        this.scene.stop("Controls");
+      }});
     });
 
     buttons[4].setButtonOnClick(() => {

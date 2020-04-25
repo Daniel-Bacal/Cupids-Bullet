@@ -47,6 +47,8 @@ export default class BulletHell extends Phaser.Scene {
         this.initPauseMenu();
 
         this.initPlayerHealth();
+
+        this.startMusic();
     }
 
     update(time, delta) {
@@ -332,8 +334,33 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     goToMainMenu(){
+        this.scene.pause("PauseMenu");
+        this.scene.launch("YesNoModal", {
+            yesCallback: () => {
+                this.scene.stop("YesNoModal");
+                this.returnToMainMenu();
+            },
+            noCallback: () => {
+                this.scene.stop("YesNoModal");
+                this.scene.resume("PauseMenu");
+            }
+        });
+        this.scene.bringToTop("YesNoModal");
+    }
+
+    returnToMainMenu(){
         this.scene.stop("PauseMenu")
         this.scene.start("MainMenu");
+        this.scene.stop();
+    }
+
+    goToControls(){
+        this.scene.sleep("PauseMenu");
+        this.scene.launch("Controls", {returnCallback: () => {
+            this.scene.wake("PauseMenu");
+            this.scene.stop("Controls");
+        }});
+        this.scene.bringToTop("Controls");
     }
 
     initPlayerHealth(){
@@ -344,5 +371,22 @@ export default class BulletHell extends Phaser.Scene {
         this.playerHealthBox.lineStyle(2, 0xFFFFFF);
         this.playerHealthBox.strokeRect(5, 5, 200, 10);
         this.playerHealthBox.setScrollFactor(0, 0);
+    }
+
+    startMusic(){
+        if(this.game.music && this.game.music.isPlaying){
+            if(this.game.music.songName !== "Battle"){
+              this.game.music.stop();
+              this.game.music = this.sound.add("Battle", {loop: true});
+              this.game.music.play();
+              this.game.music.isPlaying = true;
+              this.game.music.songName = "Battle"
+            }
+          } else {
+            this.game.music = this.sound.add("Battle", {loop: true});
+            this.game.music.play();
+            this.game.music.isPlaying = true;
+            this.game.music.songName = "Battle"
+          }
     }
 }
