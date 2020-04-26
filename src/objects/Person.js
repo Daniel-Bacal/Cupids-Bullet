@@ -8,25 +8,10 @@ export default class Person {
         this.preferences = {jock : -1, flirt: -1, hum: -1, int: -1, sinc: -1};
         this.name = "";
         this.appearance = ["", "", "", "", "", ""];
-        this.match = 0;
         this.gender = 0;
         this.bio = "";
         this.nameGenerator = new NameGenerator();
         this.generateRandomPerson();
-    }
-
-    setGender(gender){
-        this.gender = gender;
-    }
-    getGender(){
-        return this.gender;
-    }
-
-    setMatch(bool){
-        this.match = bool;
-    }
-    getMatch(){
-        return this.match;
     }
 
     getName(){
@@ -81,5 +66,33 @@ export default class Person {
 
     generateBio(){
         //todo
+    }
+
+    saveToSession(){
+        let personObj = {};
+        personObj.preferences = this.preferences;
+        personObj.name = this.name;
+        personObj.appearance = this.appearance;
+        personObj.bio = this.bio;
+        personObj.gender = this.gender;
+
+        let current_person = JSON.stringify(personObj);
+        window.sessionStorage.setItem("current_person", current_person);
+
+        this.saveToLocalStorage();
+    }
+
+    loadFromSession(){
+        let current_person = window.sessionStorage.getItem("current_person");
+        if(current_person){
+            let personObj = JSON.parse(current_person);
+            this.preferences = personObj.preferences;
+            this.name = personObj.name;
+            this.appearance = personObj.appearance;
+            this.bio = personObj.bio;
+            this.gender = personObj.gender;
+            return true;
+        }
+        return false;
     }
 }

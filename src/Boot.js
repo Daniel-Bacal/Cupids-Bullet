@@ -58,6 +58,9 @@ export default class Boot extends Phaser.Scene{
         this.load.image("math", "assets/tabs/math.png");
         this.load.image("invisibutton", "assets/invisibutton.png");
         this.load.image("pause-menu", "assets/pause-menu.png");
+        this.load.image("swipe", "assets/swipe.png");
+        this.load.image("heart-button", "assets/heart-button.png");
+        this.load.image("x-button", "assets/x-button.png");
         this.load.image("player", "assets/player.png");
         this.load.image("bullet-hell-background", "assets/bullet-hell-background.png");
         this.load.image("wall", "assets/wall.png");
@@ -70,6 +73,9 @@ export default class Boot extends Phaser.Scene{
             frameWidth: 32, frameHeight: 32
         });
         this.load.spritesheet("mEnemy", "assets/boy-sheet.png", {
+            frameWidth: 32, frameHeight: 32
+        });
+        this.load.spritesheet("enemy", "assets/other-sheet.png", {
             frameWidth: 32, frameHeight: 32
         });
         this.load.spritesheet("bhPlayer", "assets/cupid-sheet.png", {

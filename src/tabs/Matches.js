@@ -7,7 +7,6 @@ export default class Matches extends AbstractTab{
     constructor(){
         super("Matches");
         this.personArray = [new Person(), new Person(), new Person(), new Person(), new Person()];
-        this.currentPerson;
     }
 
     preload(){
@@ -23,7 +22,7 @@ export default class Matches extends AbstractTab{
         this.personText = this.add.text(61, 130, "", {fill: "#FFFFFF", fontFamily: "NoPixel", fontSize: "8px"});
         this.personText.setOrigin(0.5, 0.5);
 
-        this.preferences = []
+        this.preferences = [];
         let y = 150;
         for(let i = 0; i <= 5; i++){
             this.preferences.push(this.add.text(60, y, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}));

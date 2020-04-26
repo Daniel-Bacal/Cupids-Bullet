@@ -15,10 +15,10 @@ export default class Behavior{
             enemy.anims.play(enemy.spriteName + '_idle', true);
         } else {
             if(vX < 0){
-                enemy.flipX = false;
+                enemy.flipX = true;
                 enemy.anims.play(enemy.spriteName + '_walk', true);
             } else {
-                enemy.flipX = true;
+                enemy.flipX = false;
                 enemy.anims.play(enemy.spriteName + '_walk', true);
             }
         }
