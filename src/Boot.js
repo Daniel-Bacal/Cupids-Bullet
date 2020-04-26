@@ -66,6 +66,8 @@ export default class Boot extends Phaser.Scene{
         this.load.image("wall", "assets/wall.png");
         this.load.image("modal", "assets/modal.png");
         this.load.image("skill-tree", "assets/skill-tree.png")
+        this.load.image("person-message", "assets/person-message.png");
+        this.load.image("player-message", "assets/player-message.png")
 
         // Load sprites
         this.load.spritesheet("bullet", "assets/bullet.png", {

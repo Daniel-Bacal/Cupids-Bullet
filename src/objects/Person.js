@@ -11,6 +11,12 @@ export default class Person {
         this.gender = 0;
         this.bio = "";
         this.nameGenerator = new NameGenerator();
+        this.relationshipMeter = 0;
+        this.messagesRecieved = {jock : 0, flirt: 0, hum: 0, int: 0, sinc: 0};
+        this.nextMessageTime = Infinity;
+        this.awaitingMessage = true;
+        this.notRead = false;
+        this.messageHistory = [];
         this.generateRandomPerson();
     }
 
@@ -30,11 +36,63 @@ export default class Person {
         return this.bio;
     }
 
+    isAwaitingMessage(){
+        return this.awaitingMessage;
+    }
+
+    setAwaitingMessage(flag){
+        this.awaitingMessage = flag;
+    }
+
+    sendMessage(type, time){
+        // Add to history
+        this.messageHistory.push({text: type, sender: "player"});
+
+        // Increment relationship meter
+        this.relationshipMeter += this.likesMessage(type)*Math.floor(Math.random()*5 + 1) + this.likesMessage(type) === 0 ? Math.floor(Math.random()*2) : 0;
+
+        // Every other message type grows less stale
+        for(let key in this.messagesRecieved){
+            this.messagesRecieved[key] -= 1;
+        }
+        this.messagesRecieved[type] += 2;
+
+        // Messages grow stale - be diverse
+        this.relationshipMeter -= Math.floor(this.messagesRecieved[type]/5);
+
+        // Restrict relationship meter to 0 and 100
+        this.relationshipMeter = Phaser.Math.Clamp(this.relationshipMeter, 0, 100);
+
+        // Set message cooldown
+        this.nextMessageTime = time + Math.floor(Math.random()*10000 + 5000 - 45*this.relationshipMeter);
+
+        this.awaitingMessage = false;
+    }
+
+    likesMessage(type){
+        return this.preferences[type];
+    }
+
+    messagePlayer(){
+        this.messageHistory.push({text: "hello", sender: "person"});
+        this.awaitingMessage = true;
+        this.notRead = true;
+    }
+
+    getMessageHistory(){
+        return this.messageHistory;
+    }
+
+    readMessage(){
+        this.notRead = false;
+    }
+
     generateRandomPerson(){
         this.gender = randIntFrom(0, 2);
         this.generateRandomName();
         this.generateRandomPreferences();
         this.generateRandomAppearance();
+        this.relationshipMeter = Math.floor(Math.random()*20);
     }
 
     generateRandomName(){
