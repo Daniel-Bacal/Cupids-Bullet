@@ -41,8 +41,7 @@ export default class LevelSelect extends Phaser.Scene {
             {x: 370, y: 165}
         ]
 
-        let player = new Player();
-        player.loadFromSession();
+        let player = this.game.player;
 
         let currentDay = player.getDay();
 

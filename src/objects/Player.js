@@ -138,6 +138,7 @@ export default class Player {
         playerObj.name = this.name;
         playerObj.bio = this.bio;
         playerObj.day = this.day;
+        playerObj.skillPoints = this.skillPoints
 
         let current_player = JSON.stringify(playerObj);
         window.sessionStorage.setItem("current_player", current_player);
@@ -155,6 +156,7 @@ export default class Player {
             this.name = playerObj.name;
             this.bio = playerObj.bio;
             this.day = playerObj.day;
+            this.skillPoints = playerObj.skillPoints;
             return true;
         }
         return false;
@@ -167,6 +169,7 @@ export default class Player {
         playerObj.name = this.name;
         playerObj.bio = this.bio;
         playerObj.day = this.day;
+        playerObj.skillPoints = this.skillPoints
 
         let current_player = JSON.stringify(playerObj);
         window.localStorage.setItem(playerObj.name, current_player);
@@ -181,6 +184,7 @@ export default class Player {
             this.name = playerObj.name;
             this.bio = playerObj.bio;
             this.day = playerObj.day;
+            this.skillPoints = playerObj.skillPoints;
             return true;
         }
         return false;

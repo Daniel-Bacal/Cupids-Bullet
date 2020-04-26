@@ -15,8 +15,7 @@ export default class DatingSim extends Phaser.Scene{
     }
 
     create(){
-        this.player = new Player();
-        this.player.loadFromSession();
+        this.player = this.game.player;
 
         this.initTabs();
 

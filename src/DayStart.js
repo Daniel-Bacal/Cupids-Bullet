@@ -9,10 +9,6 @@ export default class DayStart extends Phaser.Scene{
         super({
             key: "DayStart"
         });
-        this.personArray = [new Person(), new Person(), new Person(), new Person(), new Person(),
-            new Person(), new Person(), new Person(), new Person(), new Person()];
-        this.matches = [];
-        this.index = 0;
     }
 
     preload(){
@@ -22,6 +18,11 @@ export default class DayStart extends Phaser.Scene{
     create(){
         let home = this.add.image(0, 0, "swipe");
         home.setOrigin(0, 0);
+
+        this.personArray = [new Person(), new Person(), new Person(), new Person(), new Person(),
+            new Person(), new Person(), new Person(), new Person(), new Person()];
+        this.matches = [];
+        this.index = 0;
 
         this.personText = this.add.text(240, 130, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
         this.personText.setOrigin(0.5, 0.5);

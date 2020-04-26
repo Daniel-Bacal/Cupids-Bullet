@@ -1,6 +1,7 @@
 import Phaser, {} from "phaser"
 import AbstractTab from "./AbstractTab"
 import Player from "../objects/Player"
+import { SkillText }  from "../utils/SkillText"
 
 export default class Home extends AbstractTab{
     constructor(){
@@ -40,7 +41,7 @@ export default class Home extends AbstractTab{
         let stats = this.parent.player.getPlayerStats();
         let y = 70;
         for(let key in stats){
-            let statText = key + ":" + stats[key];
+            let statText = key + ": " + stats[key];
             this.add.text(250, y, statText, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
             y = y + 15;
         }
@@ -52,6 +53,7 @@ export default class Home extends AbstractTab{
         let y = 90;
         for(let i = 0; i < skills.length; i++){
             this.add.image(130, y, skills[i]);
+            this.add.text(150, y, SkillText[skills[i]].effect, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}).setOrigin(0, 0.5);
             y = y + 30;
         }
     }

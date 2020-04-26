@@ -18,17 +18,16 @@ export default class Login extends Phaser.Scene{
         let background = this.add.image(0, 0, "background");
         background.setOrigin(0, 0);
 
+        this.player = null;
+
         let title = this.add.text(240, 30, "Log In:", {fontFamily: "NoPixel", fontSize: "48px"});
         title.setOrigin(0.5, 0.5);
 
         let usernameText = this.add.text(160, 100, "Username:", {fontFamily: "NoPixel", fontSize: "16px"});
         usernameText.setOrigin(0.5, 0.5);
-        // let passwordText = this.add.text(160, 150, "Password:", {fontFamily: "NoPixel", fontSize: "16px"});
-        // passwordText.setOrigin(0.5, 0.5);
         let username = new TextField(this, 300, 100, 160, 30, 20, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
-        // let password = new TextField(this, 300, 150, 160, 30, 16, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
 
-        let currentPlayerText = this.add.text(140, 150, "Current User:", {fontFamily: "NoPixel", fontSize: "16px"});
+        let currentPlayerText = this.add.text(240, 150, "Current User:", {fontFamily: "NoPixel", fontSize: "16px"});
         currentPlayerText.setOrigin(0.5, 0.5);
 
         let loginButtons = [
@@ -39,13 +38,12 @@ export default class Login extends Phaser.Scene{
         loginButtons[0].setButtonOnClick(() => {
             this.scene.start("MainMenu");
             username.remove();
-            //password.remove();
         });
         loginButtons[0].setButtonColor("#431c5c");
         loginButtons[0].setButtonHoverColor("#431c5c");
 
         loginButtons[1].setButtonOnClick(() => {
-            player = null;
+            this.player = null;
             window.sessionStorage.removeItem("current_player");
             currentPlayerText.text = "Current User: none"
         });
@@ -53,32 +51,39 @@ export default class Login extends Phaser.Scene{
         loginButtons[1].setButtonHoverColor("#431c5c");
 
         loginButtons[2].setButtonOnClick(() => {
-            if(player === null){
+            if(this.player === null){
                 let name = username.value;
-                player = new Player();
-                if(player.loadFromLocalStorage(name)){
-                    player.saveToSession();
-                    currentPlayerText.text = "Current User: " + player.getName();
+                this.player = new Player();
+                if(this.player.loadFromLocalStorage(name)){
+                    currentPlayerText.text = "Current User: " + this.player.getName();
                 } else {
-                    player = null;
+                    this.player = null;
                 }
-            } else {
-                this.scene.start("LevelSelect");
-                username.remove();
             }
-
-            //password.remove();
         });
         loginButtons[2].setButtonColor("#431c5c");
         loginButtons[2].setButtonHoverColor("#431c5c");
 
-        // TODO: get rid of this
-        let player = new Player();
-        if(player.loadFromSession()){
-            currentPlayerText.text = "Current User: " + player.getName();
+        this.startGameButton = Button(this, 240, 190, "", "48px");
+        this.startGameButton.setButtonColor("red");
+        this.startGameButton.setButtonHoverColor("#DD0000");
+        this.startGameButton.setButtonOnClick(() => {
+            this.game.player = this.player;
+            this.scene.start("LevelSelect");
+            username.remove();
+        });
+    }
+
+    update(){
+        if(this.player !== null){
+            if(this.startGameButton.text === ""){
+                this.startGameButton.text = "Start Game";
+                this.startGameButton.setOrigin(0.5, 0.5);
+            }
         } else {
-            currentPlayerText.text = "Current User: none";
-            player = null;
+            if(this.startGameButton.text !== ""){
+                this.startGameButton.text = "";
+            }
         }
     }
 }

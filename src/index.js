@@ -50,4 +50,4 @@ const config = {
 // Automatically uses Boot I guess? I'm not really sure why
 let game = new Phaser.Game(config);
 
-console.log(game);
+game.player = null;

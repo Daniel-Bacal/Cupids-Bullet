@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import Button from "./ui_elements/Button"
 import Player from "./objects/Player"
+import { SkillText } from "./utils/SkillText"
 
 export default class SkillTree extends Phaser.Scene{
     constructor(){
@@ -18,19 +19,18 @@ export default class SkillTree extends Phaser.Scene{
         this.background.setOrigin(0, 0);
 
         // Calculate available skills
-        this.player = new Player();
+        this.player = this.game.player;
+
         let latestSkill = "";
-        this.skillPoints = 0;
-        if(this.player.loadFromSession()){
-            if(this.player.skills.length !== 0){
-                latestSkill = this.player.skills[this.player.skills.length];
-            }
-            this.skillPoints = this.player.skillPoints;
+        if(this.player.skills.length > 0){
+            latestSkill = this.player.skills[this.player.skills.length - 1];
         }
+
+        this.skillText = this.add.text(50, 30, this.player.skillPoints, {fontFamily: "NoPixel", fontSize: "16px", color:"white"});
 
         let pref = ['f', 'm', 'b'];
         let centers = [82, 240, 398];
-        let baseLevel = 108;
+        let baseLevel = 102;
         for(let i = 0; i < pref.length; i++){
             let skillGender = 's' + pref[i]
             let x = centers[i]
@@ -49,10 +49,11 @@ export default class SkillTree extends Phaser.Scene{
                 shade.fillStyle(0x000000, 0.3);
                 shade.fillRect(x-8, y-8, 16, 16);
             }
+            this.add.text(x, y + 12, SkillText[skillGender].tooltip, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}).setOrigin(0.5, 0.5);
             for(let j = 1; j < 3; j++){
                 let key = skillGender + j;
                 let x = centers[i] - 38 + 76*(j-1);
-                let y = baseLevel + 44;
+                let y = baseLevel + 50;
 
                 if(latestSkill === "" ){
                     // Can't yet select this
@@ -76,10 +77,11 @@ export default class SkillTree extends Phaser.Scene{
                     shade.fillStyle(0x000000, 0.3);
                     shade.fillRect(x-8, y-8, 16, 16);
                 }
+                this.add.text(x, y + 18, SkillText[key].tooltip, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", align: "center", wordWrap: { width: 70, useAdvancedWrap: true }}).setOrigin(0.5, 0.5);
                 for(let k = 1; k < 3; k++){
                     let key = skillGender + j + "" + k;
                     let x = centers[i] - 40 + 80*(j-1) - 20 + 40*(k-1);
-                    let y = baseLevel + 44 + 54;
+                    let y = baseLevel + 50 + 54;
 
                     if(latestSkill === "" || latestSkill.length <= 2){
                         // Can't yet select this
@@ -103,21 +105,25 @@ export default class SkillTree extends Phaser.Scene{
                         shade.fillStyle(0x000000, 0.3);
                         shade.fillRect(x-8, y-8, 16, 16);
                     }
+                    this.x += 15 - 10*i
+                    this.add.text(x, y + 10, SkillText[key].tooltip, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", align: "center", wordWrap: { width: 34, useAdvancedWrap: true }}).setOrigin(0.5, 0);
                 }
             }
         }
     }
 
     update(){
-        if(this.skillPoints === 0){
+        if(this.player.skillPoints === 0){
             this.scene.start("DatingSim");
         }
+        if(this.skillText.text !== "" + this.player.skillPoints){
+            this.skillText.text = this.player.skillPoints;
+        }
+        
     }
 
     handleSelection(key){
         this.player.skills.push(key);
         this.player.skillPoints--;
-        this.player.saveToSession();
-        this.skillPoints--;
     }
 }
