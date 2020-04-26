@@ -26,6 +26,8 @@ export default class Home extends AbstractTab{
 
         this.generateStats();
 
+        this.generateSkills();
+
         this.generateBio();
 
         let bio = this.parent.player.getBio()
@@ -41,6 +43,16 @@ export default class Home extends AbstractTab{
             let statText = key + ":" + stats[key];
             this.add.text(250, y, statText, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
             y = y + 15;
+        }
+    }
+
+    generateSkills(){
+        let skills = this.parent.player.getPlayerSkills();
+        console.log(skills);
+        let y = 90;
+        for(let i = 0; i < skills.length; i++){
+            this.add.image(130, y, skills[i]);
+            y = y + 30;
         }
     }
 

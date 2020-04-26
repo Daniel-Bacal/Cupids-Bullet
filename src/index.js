@@ -21,6 +21,7 @@ import PauseMenu from "./tabs/PauseMenu"
 import BulletHell from "./BulletHell";
 import DayStart from "./DayStart"
 import YesNoModal from "./ui_elements/YesNoModal"
+import SkillTree from "./SkillTree"
 
 const config = {
   type: Phaser.AUTO,
@@ -42,7 +43,7 @@ const config = {
     }
   },
   plugins: ['SceneManager', 'Clock'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DayStart, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell, YesNoModal]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DayStart, SkillTree, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell, YesNoModal]
 };
 
 

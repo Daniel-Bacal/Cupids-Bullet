@@ -9,6 +9,7 @@ export default class Player {
         this.name="";
         this.bio = "";
         this.day = 0;
+        this.skillPoints = 1;
     }; 
 
     incrementStat(statType, step){
@@ -25,6 +26,10 @@ export default class Player {
         this.stats.hum = hum;
         this.stats.int = int;
         this.stats.sinc = sinc;
+    }
+
+    getPlayerSkills(){
+        return this.skills;
     }
 
     incrementDay(){

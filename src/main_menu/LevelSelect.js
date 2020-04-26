@@ -18,6 +18,7 @@ export default class LevelSelect extends Phaser.Scene {
         levelSelect.setOrigin(0, 0);
 
         // TODO: Put more music
+        if(this.game.music) this.game.music.stop();
         // if(this.game.music && this.game.music.isPlaying){
         //     if(this.game.music.songName !== "test"){
         //       this.game.music.stop();

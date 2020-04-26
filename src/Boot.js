@@ -65,6 +65,7 @@ export default class Boot extends Phaser.Scene{
         this.load.image("bullet-hell-background", "assets/bullet-hell-background.png");
         this.load.image("wall", "assets/wall.png");
         this.load.image("modal", "assets/modal.png");
+        this.load.image("skill-tree", "assets/skill-tree.png")
 
         // Load sprites
         this.load.spritesheet("bullet", "assets/bullet.png", {
@@ -104,9 +105,25 @@ export default class Boot extends Phaser.Scene{
             }
         }
 
+        // Load skills
+        let pref = ['f', 'm', 'b'];
+        for(let i = 0; i < pref.length; i++){
+            let skillGender = 's' + pref[i]
+            this.load.image(skillGender, "assets/skill-icons/" + skillGender + ".png");
+            for(let j = 1; j < 3; j++){
+                let key = skillGender + j;
+                this.load.image(key, "assets/skill-icons/" + key + ".png");
+                for(let k = 1; k < 3; k++){
+                    let key = skillGender + j + "" + k
+                    this.load.image(key, "assets/skill-icons/" + key + ".png");
+                }
+            }
+        }
+
         // Load Music
         this.load.audio("MainMenu", "assets/music/MenuMusic.mp3");
         this.load.audio("Battle", "assets/music/BattleMusic.mp3");
+        this.load.audio("Day1", "assets/music/DatingDay1.mp3")
         //this.load.audio("test", "assets/music/test.mp3");
 
         // Create cheat code player profiles

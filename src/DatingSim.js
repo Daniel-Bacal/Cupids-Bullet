@@ -23,6 +23,8 @@ export default class DatingSim extends Phaser.Scene{
         this.initTimer();
         
         this.initPauseButton();
+
+        this.startMusic();
     }
 
     update(){
@@ -53,7 +55,7 @@ export default class DatingSim extends Phaser.Scene{
     initTimer(){
         this.timeActive = 0;
         this.previousTime = null;
-        this.totalTime = 61;
+        this.totalTime = 5*60 + 1;
         this.timerText = this.add.text(420, 10, "Error", {color: "white", fontSize: "16px", fontFamily: "NoPixel"});
     }
 
@@ -78,8 +80,8 @@ export default class DatingSim extends Phaser.Scene{
 
         secondsRemaining = secondsRemaining < 10 ? "0" + secondsRemaining : secondsRemaining;
 
-        clamp(minutesRemaining, 0, 59);
-        clamp(secondsRemaining, 0, 59);
+        minutesRemaining = clamp(minutesRemaining, 0, 59);
+        secondsRemaining = clamp(secondsRemaining, 0, 59);
 
         // Otherwise, display the clock
         this.timerText.text = minutesRemaining + ":" + secondsRemaining;
@@ -161,5 +163,23 @@ export default class DatingSim extends Phaser.Scene{
             this.scene.stop("Controls");
         }});
         this.scene.bringToTop("Controls");
+    }
+
+    startMusic(){
+        let musicName = "Day" + 1;//this.player.getName();
+        if(this.game.music && this.game.music.isPlaying){
+            if(this.game.music.songName !== musicName){
+              this.game.music.stop();
+              this.game.music = this.sound.add(musicName, {loop: true});
+              this.game.music.play();
+              this.game.music.isPlaying = true;
+              this.game.music.songName = musicName;
+            }
+        } else {
+            this.game.music = this.sound.add(musicName, {loop: true});
+            this.game.music.play();
+            this.game.music.isPlaying = true;
+            this.game.music.songName = musicName
+        }
     }
 }

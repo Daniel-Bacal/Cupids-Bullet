@@ -1,5 +1,6 @@
 import Phaser, {} from "phaser"
 import Button from "./ui_elements/Button"
+import Player from "./objects/Player"
 import Person from "./objects/Person";
 import Matches from "./tabs/Matches";
 
@@ -44,7 +45,7 @@ export default class DayStart extends Phaser.Scene{
 
     displayCurrentPerson(){
         if(this.index === 10){
-            this.scene.start("DatingSim");
+            this.scene.start("SkillTree");
         }
 
         let name = this.personArray[this.index].getName();
@@ -63,7 +64,7 @@ export default class DayStart extends Phaser.Scene{
         this.matches.push(this.personArray[this.index]);
 
         if(this.matches.length === 5){
-            this.scene.start("DatingSim");
+            this.scene.start("SkillTree");
         }
         this.index++;
         this.displayCurrentPerson();
