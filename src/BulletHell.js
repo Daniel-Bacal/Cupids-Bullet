@@ -163,6 +163,7 @@ export default class BulletHell extends Phaser.Scene {
             otherGroup: this.fEnemyGroup,
             callback: (enemy, bullet) => {
               enemy.health -= bullet.damage;
+              this.sound.play("EnemyTakingDamageSFX");
               if (enemy.health <= 0){
                 this.fEnemyManager.killEnemy(enemy);
               }
@@ -172,6 +173,7 @@ export default class BulletHell extends Phaser.Scene {
             otherGroup: this.mEnemyGroup,
             callback: (enemy, bullet) => {
               enemy.health -= bullet.damage;
+              this.sound.play("EnemyTakingDamageSFX");
               if (enemy.health <= 0){
                 this.mEnemyManager.killEnemy(enemy);
               }
@@ -186,6 +188,7 @@ export default class BulletHell extends Phaser.Scene {
             otherGroup: this.player.getSprite(),
             callback: (playerSprite, bullet) => {
               this.player.health -= bullet.damage;
+              this.sound.play("PlayerTakingDamageSFX");
               if (this.player.health <= 0){
                 this.scene.start("MainMenu");
               }

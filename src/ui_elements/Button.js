@@ -33,19 +33,19 @@ export default function Button(scene, x, y, text, fontSize="16px", backgroundIma
         button.on('pointerover', () => startButtonHoverState(button));
         button.on('pointerout', () => endButtonHoverState(button));
         button.buttonOnClick = () => {console.log("click");}
-        button.on('pointerdown', () => button.buttonOnClick());
+        button.on('pointerdown', () => {scene.sound.play("MouseClickSFX"); button.buttonOnClick()});
         button.setButtonOnClick = (callback) => {button.buttonOnClick = callback;}
 
         background.setInteractive({useHandCursor: true});
         background.on('pointerover', () => startButtonHoverState(button));
         background.on('pointerout', () => endButtonHoverState(button));
-        background.on('pointerdown', () => button.buttonOnClick());
+        background.on('pointerdown', () => {scene.sound.play("MouseClickSFX"); button.buttonOnClick();});
     } else {
         button.buttonBackgroundImage = null;
         button.on('pointerover', () => startButtonHoverState(button));
         button.on('pointerout', () => endButtonHoverState(button));
         button.buttonOnClick = () => {console.log("click");}
-        button.on('pointerdown', () => button.buttonOnClick());
+        button.on('pointerdown', () => {scene.sound.play("MouseClickSFX"); button.buttonOnClick();});
         button.setButtonOnClick = (callback) => {button.buttonOnClick = callback;}
     }
 

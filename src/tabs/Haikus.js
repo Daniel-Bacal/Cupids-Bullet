@@ -70,6 +70,7 @@ export default class Haikus extends AbstractTab{
             this.feedbackText.setOrigin(0.5, 0.5);
             this.feedbackText.setStyle({color: "green"});
             this.feedbackText.alpha = 1;
+            this.sound.play("CorrectSFX");
         } else {
             // Decrease player sincerity
             this.parent.player.incrementStat("sinc", -1);
@@ -78,6 +79,7 @@ export default class Haikus extends AbstractTab{
             this.feedbackText.setOrigin(0.5, 0.5);
             this.feedbackText.setStyle({color: "red"});
             this.feedbackText.alpha = 1;
+            this.sound.play("IncorrectSFX");
         }
 
         this.feedbackTextFade.restart();

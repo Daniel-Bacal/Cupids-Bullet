@@ -65,6 +65,16 @@ export default class Jokes extends AbstractTab{
             if((this.currentJoke.word.toLowerCase() + " who") === text || (this.currentJoke.word.toLowerCase() + " who?") === text){
                 correct = true;
             }
+            this.sound.play("CannedLaughterSFX",{
+                mute: false,
+                volume: 0.4,
+                rate: 1,
+                detune: 0,
+                seek: 0,
+                loop: false,
+                delay: 0
+
+            });
         } else {
             // Not sure how to do this one, but oh well
             if("haha lol lmao lmfao rofl".includes(this.textField.value.toLowerCase())){
@@ -87,6 +97,7 @@ export default class Jokes extends AbstractTab{
             this.feedbackText.setOrigin(0.5, 0.5);
             this.feedbackText.setStyle({color: "green"});
             this.feedbackText.alpha = 1;
+            this.sound.play("CorrectSFX");
         } else {
             // Decrement humor
 
@@ -96,6 +107,7 @@ export default class Jokes extends AbstractTab{
             this.feedbackText.setOrigin(0.5, 0.5);
             this.feedbackText.setStyle({color: "red"});
             this.feedbackText.alpha = 1;
+            this.sound.play("IncorrectSFX");
         }
 
         this.feedbackTextFade.restart();

@@ -30,11 +30,13 @@ export default class DayStart extends Phaser.Scene{
         let like = Button(this, 370, 135, "", "8px", "heart-button", 54, 54);
         like.setButtonOnClick(() => {
             this.handleMatch();
+            this.sound.play("SwipeRightSFX");
         });
 
         let dislike = Button(this, 110, 135, "", "8px", "x-button", 54, 54);
         dislike.setButtonOnClick(() => {
             this.handleReject();
+            this.sound.play("SwipeLeftSFX");
         });
 
         this.displayCurrentPerson();
