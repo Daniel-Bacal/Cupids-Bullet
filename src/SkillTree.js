@@ -26,7 +26,7 @@ export default class SkillTree extends Phaser.Scene{
             latestSkill = this.player.skills[this.player.skills.length - 1];
         }
 
-        this.skillText = this.add.text(50, 30, this.player.skillPoints, {fontFamily: "NoPixel", fontSize: "16px", color:"white"});
+        this.skillText = this.add.text(150, 35, this.player.skillPoints, {fontFamily: "NoPixel", fontSize: "16px", color:"white"});
 
         let pref = ['f', 'm', 'b'];
         let centers = [82, 240, 398];
@@ -118,6 +118,7 @@ export default class SkillTree extends Phaser.Scene{
         }
         if(this.skillText.text !== "" + this.player.skillPoints){
             this.skillText.text = this.player.skillPoints;
+            this.skillText.setOrigin(0.5, 0.5);
         }
         
     }

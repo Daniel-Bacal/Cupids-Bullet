@@ -30,6 +30,10 @@ export default class BulletHell extends Phaser.Scene {
 
         // Player
         this.player = this.game.player;
+        if(this.player === null){
+            this.player = new Player();
+        }
+
         this.player.initBulletHell(this, this.playerBulletManager);
 
         this.cameras.main.startFollow(this.player.getSprite());
