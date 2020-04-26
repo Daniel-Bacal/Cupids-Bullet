@@ -76,7 +76,7 @@ export default class Signup extends Phaser.Scene{
                 // If we've reached the end of the questionnaire, get username, then exit
                 if(this.mustGetUsername){
                     if(!this.createdTextField){
-                        this.questionText.text = "Please Enter a username:"
+                        this.questionText.text = "Please Enter a Username:"
                         for(let i = 0; i < this.answerButtons.length; i++){
                             this.answerButtons[i].text = "";
                         }

@@ -46,7 +46,7 @@ export default class Login extends Phaser.Scene{
 
         loginButtons[1].setButtonOnClick(() => {
             player = null;
-            window.localStorage.removeItem("current_player");
+            window.sessionStorage.removeItem("current_player");
             currentPlayerText.text = "Current User: none"
         });
         loginButtons[1].setButtonColor("#431c5c");

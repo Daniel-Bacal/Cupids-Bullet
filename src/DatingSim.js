@@ -92,10 +92,25 @@ export default class DatingSim extends Phaser.Scene{
         // TODO: SAVE GAME DATA
         this.player.saveToSession();
 
-        this.goToMainMenu();
+        this.returnToMainMenu();
     }
 
     goToMainMenu(){
+        this.scene.pause("PauseMenu");
+        this.scene.launch("YesNoModal", {
+            yesCallback: () => {
+                this.scene.stop("YesNoModal");
+                this.returnToMainMenu();
+            },
+            noCallback: () => {
+                this.scene.stop("YesNoModal");
+                this.scene.resume("PauseMenu");
+            }
+        });
+        this.scene.bringToTop("YesNoModal");
+    }
+
+    returnToMainMenu(){
         for(let i = 0; i < this.tabs.length; i++){
             this.scene.stop(this.tabs[i]);
         }
@@ -137,5 +152,14 @@ export default class DatingSim extends Phaser.Scene{
             this.scene.resume(this.currentTab);
             this.scene.resume();
         }    
+    }
+
+    goToControls(){
+        this.scene.sleep("PauseMenu");
+        this.scene.launch("Controls", {returnCallback: () => {
+            this.scene.wake("PauseMenu");
+            this.scene.stop("Controls");
+        }});
+        this.scene.bringToTop("Controls");
     }
 }
