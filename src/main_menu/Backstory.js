@@ -18,7 +18,7 @@ export default class Backstory extends Phaser.Scene{
             Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30)
         ];
         backstoryButtons[0].setButtonOnClick(() => {
-        this.scene.start("MainMenu");
+            athis.scene.start("MainMenu");
         });
         backstoryButtons[0].setButtonColor("#431c5c");
         backstoryButtons[0].setButtonHoverColor("#431c5c");

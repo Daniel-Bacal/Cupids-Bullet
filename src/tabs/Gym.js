@@ -52,6 +52,7 @@ export default class Gym extends AbstractTab{
         this.feedbackText.setOrigin(0.5, 0.5);
         this.feedbackText.setStyle({color: "green"});
         this.feedbackText.alpha = 1;
+        this.sound.play("CorrectSFX");
         
         this.parent.player.incrementStat("jock", 2);
     }

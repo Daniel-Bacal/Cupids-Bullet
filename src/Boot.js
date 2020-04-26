@@ -126,6 +126,22 @@ export default class Boot extends Phaser.Scene{
         this.load.audio("Day1", "assets/music/DatingDay1.mp3")
         //this.load.audio("test", "assets/music/test.mp3");
 
+        this.load.audio("CannedLaughterSFX", "assets/SFX/CannedLaughterSFX.mp3");
+        this.load.audio("ChalkSFX", "assets/SFX/ChalkSFX.mp3");
+        this.load.audio("CorrectSFX", "assets/SFX/CorrectSFX.mp3");
+        this.load.audio("EnemyShootSFX", "assets/SFX/EnemyShootSFX.mp3");
+        this.load.audio("EnemyTakingDamageSFX", "assets/SFX/EnemyTakingDamageSFX.mp3");
+        this.load.audio("HaikuSFX", "assets/SFX/HaikuSFX.mp3");
+        this.load.audio("IncorrectSFX", "assets/SFX/IncorrectSFX.mp3");
+        this.load.audio("MessageReceivedSFX", "assets/SFX/MessageReceivedSFX.mp3");
+        this.load.audio("MessageSentSFX", "assets/SFX/MessageSentSFX.mp3");
+        this.load.audio("MouseClickSFX", "assets/SFX/MouseClickSFX.mp3");
+        this.load.audio("PlayerShootSFX", "assets/SFX/PlayerShootSFX.mp3");
+        this.load.audio("PlayerTakingDamageSFX", "assets/SFX/PlayerTakingDamageSFX.mp3");
+        this.load.audio("SkillPointSpentSFX", "assets/SFX/SkillPointSpentSFX.mp3");
+        this.load.audio("SwipeLeftSFX", "assets/SFX/SwipeLeftSFX.mp3");
+        this.load.audio("SwipeRightSFX", "assets/SFX/SwipeRightSFX.mp3");
+
         // Create cheat code player profiles
         let mcKilla = new Player();
         mcKilla.setName("TheMcKillaGorilla");
