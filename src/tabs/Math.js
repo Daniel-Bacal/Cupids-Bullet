@@ -80,7 +80,8 @@ export default class MathTab extends AbstractTab{
         let value = parseInt(this.textField.value);
         if(value === this.currentProblem.value){
             // Increment intelligence
-            this.parent.player.incrementStat("int", 2);
+            this.parent.player.incrementStat("int", 1);
+            this.parent.displayProgress("intelligence", 1);
 
             this.feedbackText.text = "Correct!";
             this.feedbackText.setOrigin(0.5, 0.5);
@@ -90,6 +91,7 @@ export default class MathTab extends AbstractTab{
         } else {
             // Decrement intelligence
             this.parent.player.incrementStat("int", -1);
+            this.parent.displayProgress("intelligence", -1);
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);

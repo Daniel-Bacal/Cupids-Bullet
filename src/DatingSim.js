@@ -240,4 +240,28 @@ export default class DatingSim extends Phaser.Scene{
             this.unreadMessageText.setOrigin(0.5, 0.5);
         }
     }
+
+    displayProgress(stat, change){
+        if(!this.feedbackText){
+            this.feedbackText = this.add.text(0, 0, "", {fontFamily: "NoPixel", fontSize: "16px"})
+        }
+
+        if(!this.feedbackTextFade){
+            this.feedbackTextFade = this.tweens.add({
+                targets: this.feedbackText,
+                alpha: 0,
+                y: "-=50",
+                duration: 1000,
+                ease: 'Power2'
+            }, this);
+        }
+
+        this.feedbackText.setPosition(Math.floor(Math.random()*400 + 40), Math.floor(Math.random()*200 + 35));
+        this.feedbackText.text = stat + " " + (change > 0 ? "+" + change : change);
+        this.feedbackText.setOrigin(0.5, 0.5);
+        this.feedbackText.setStyle(change > 0 ? {color: "green"} : {color: "red"});
+        this.feedbackText.alpha = 1;
+
+        this.feedbackTextFade.restart();
+    }
 }
