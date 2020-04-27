@@ -39,6 +39,8 @@ export default class BulletHell extends Phaser.Scene {
         this.cameras.main.startFollow(this.player.getSprite());
         this.cameras.main.setBounds(0, 0, 2*480, 2*270);
 
+        this.initPlayerSkills();
+
         this.setUpCollisions();
 
         this.setUpEnemies();
@@ -50,6 +52,7 @@ export default class BulletHell extends Phaser.Scene {
         this.initPauseMenu();
 
         this.initPlayerHealth();
+
 
         this.startMusic();
     }
@@ -229,10 +232,10 @@ export default class BulletHell extends Phaser.Scene {
     setUpEnemies(){
         this.fEnemyManager = new EnemyManager(100, this, "fEnemy", this.fEnemyGroup, this.enemyBulletManager);
 
-        this.fEnemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
-        this.fEnemyManager.requestEnemy(300, 300, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
-        this.fEnemyManager.requestEnemy(300, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
-        this.fEnemyManager.requestEnemy(400, 200, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.fEnemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.fEnemyManager.requestEnemy(300, 300, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.fEnemyManager.requestEnemy(300, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.fEnemyManager.requestEnemy(400, 200, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
 
         // this.fEnemyManager.requestEnemy(150, 150, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         // this.fEnemyManager.requestEnemy(350, 350, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
@@ -240,10 +243,10 @@ export default class BulletHell extends Phaser.Scene {
         // this.fEnemyManager.requestEnemy(450, 250, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
 
         this.mEnemyManager = new EnemyManager(100, this, "mEnemy", this.mEnemyGroup, this.enemyBulletManager);
-        this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
-        this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
-        this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
-        this.mEnemyManager.requestEnemy(400, 400, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.mEnemyManager.requestEnemy(400, 400, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
 
         // this.mEnemyManager.requestEnemy(250, 150, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         // this.mEnemyManager.requestEnemy(450, 250, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
@@ -323,7 +326,7 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     initPauseButton(){
-        this.pauseButton = Button(this, 450, 10, "P");
+        this.pauseButton = Button(this, 450, 10, "\u23F8");
         this.pauseButton.setButtonColor("white");
         this.pauseButton.setButtonOnClick(() => this.pauseGame(true));
         this.pauseButton.setScrollFactor(0, 0);
@@ -377,6 +380,20 @@ export default class BulletHell extends Phaser.Scene {
         this.playerHealthBox.lineStyle(2, 0xFFFFFF);
         this.playerHealthBox.strokeRect(5, 5, 200, 10);
         this.playerHealthBox.setScrollFactor(0, 0);
+    }
+
+    initPlayerSkills(){
+      let skills = this.player.skills;
+      console.log(skills[0]);
+      if (skills[0] == "sf"){
+        this.weakEnemy = "pink";
+      }
+      else if (skills[0] == "sm"){
+        this.weakEnemy = "blue";
+      }
+      else if (skills[0] == "sb"){
+        this.weakEnemy = "purple";
+      }
     }
 
     startMusic(){

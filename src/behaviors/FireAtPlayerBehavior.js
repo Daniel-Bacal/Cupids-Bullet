@@ -11,6 +11,10 @@ export default class FireAtPlayerBehavior extends Behavior{
         enemy.currentDirection = new Vector2();
         enemy.speed = 100;
         enemy.timeLeftMoving = -1000;
+        console.log(enemy.weakEnemy);
+        if (enemy.weakEnemy == "blue"){
+            enemy.health/=2;
+        }
     }
 
     behave(enemy){

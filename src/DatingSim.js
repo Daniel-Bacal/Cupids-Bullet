@@ -134,7 +134,7 @@ export default class DatingSim extends Phaser.Scene{
     }
 
     initPauseButton(){
-        this.pauseButton = Button(this, 450, 10, "P");
+        this.pauseButton = Button(this, 450, 10, "\u23F8");
         this.pauseButton.setButtonColor("white");
         this.pauseButton.setButtonOnClick(() => this.pauseGame(true));
     }

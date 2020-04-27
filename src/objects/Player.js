@@ -5,7 +5,7 @@ const Vector2 = Phaser.Math.Vector2;
 export default class Player {
     constructor(){
         this.stats = {jock : 10, flirt: 10, hum: 10, int: 10, sinc: 10};
-        this.skills = [];
+        this.skills = ["sm"];
         this.name="";
         this.bio = "";
         this.day = 0;
@@ -69,7 +69,7 @@ export default class Player {
         this.bulletManager = bulletManager;
 
         this.lastBulletFired = -1000;
-        this.bulletCoolDown = 280 - this.stats.hum;
+        this.bulletCoolDown = 300 - this.stats.hum;
         this.bulletSpeed = 500;
 
         this.speed = 150 + this.stats.hum;
