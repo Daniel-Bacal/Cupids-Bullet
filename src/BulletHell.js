@@ -90,7 +90,6 @@ export default class BulletHell extends Phaser.Scene {
             frameRate: 0,
             repeat: -1
         });
-
         this.anims.create({
             key: "player_walk",
             frames: this.anims.generateFrameNumbers("bhPlayer", {
@@ -101,6 +100,8 @@ export default class BulletHell extends Phaser.Scene {
             repeat: -1
         });
 
+        //
+
         this.anims.create({
             key: "fEnemy_idle",
             frames: this.anims.generateFrameNumbers("fEnemy", {
@@ -110,7 +111,6 @@ export default class BulletHell extends Phaser.Scene {
             frameRate: 0,
             repeat: -1
         });
-
         this.anims.create({
             key: "fEnemy_walk",
             frames: this.anims.generateFrameNumbers("fEnemy", {
@@ -120,6 +120,35 @@ export default class BulletHell extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         });
+        this.anims.create({
+            key: "fEnemy_damage",
+            frames: this.anims.generateFrameNumbers("fEnemy", {
+                start: 11,
+                end: 17
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "fEnemy_death",
+            frames: this.anims.generateFrameNumbers("fEnemy", {
+                start: 18,
+                end: 26
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "fEnemy_front_walk",
+            frames: this.anims.generateFrameNumbers("fEnemy", {
+                start: 27,
+                end: 34
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        //
 
         this.anims.create({
             key: "mEnemy_idle",
@@ -130,12 +159,86 @@ export default class BulletHell extends Phaser.Scene {
             frameRate: 0,
             repeat: -1
         });
-
         this.anims.create({
             key: "mEnemy_walk",
             frames: this.anims.generateFrameNumbers("mEnemy", {
                 start: 0,
                 end: 10
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "mEnemy_damage",
+            frames: this.anims.generateFrameNumbers("mEnemy", {
+                start: 11,
+                end: 17
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "mEnemy_death",
+            frames: this.anims.generateFrameNumbers("mEnemy", {
+                start: 18,
+                end: 26
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "mEnemy_front_walk",
+            frames: this.anims.generateFrameNumbers("mEnemy", {
+                start: 27,
+                end: 34
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        //
+
+        this.anims.create({
+            key: "oEnemy_idle",
+            frames: this.anims.generateFrameNumbers("oEnemy", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "oEnemy_walk",
+            frames: this.anims.generateFrameNumbers("oEnemy", {
+                start: 0,
+                end: 10
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "oEnemy_damage",
+            frames: this.anims.generateFrameNumbers("oEnemy", {
+                start: 11,
+                end: 17
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "oEnemy_death",
+            frames: this.anims.generateFrameNumbers("oEnemy", {
+                start: 18,
+                end: 32
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "oEnemy_front_walk",
+            frames: this.anims.generateFrameNumbers("oEnemy", {
+                start: 33,
+                end: 40
             }),
             frameRate: 8,
             repeat: -1
@@ -240,6 +343,12 @@ export default class BulletHell extends Phaser.Scene {
         // this.fEnemyManager.requestEnemy(450, 250, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
 
         this.mEnemyManager = new EnemyManager(100, this, "mEnemy", this.mEnemyGroup, this.enemyBulletManager);
+        this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+        this.mEnemyManager.requestEnemy(400, 400, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
+
+        this.mEnemyManager = new EnemyManager(100, this, "oEnemy", this.mEnemyGroup, this.enemyBulletManager);
         this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);

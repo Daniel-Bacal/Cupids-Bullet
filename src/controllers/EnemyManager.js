@@ -81,6 +81,15 @@ export default class EnemyManager{
     }
 
     killEnemy(enemy){
+        this.afterDeath(enemy);
+
+        // enemy.anims.play(enemy.spriteName + '_death', false);
+        //
+        // enemy.on("animationcomplete", () => this.afterDeath(enemy));
+    }
+
+    afterDeath(enemy){
+        enemy.anims.play(enemy.spriteName + '_death', false);
         enemy.isAlive = false;
         enemy.disableBody(true, true);
         this.deadEnemies.push(enemy);
