@@ -29,6 +29,7 @@ export default class DatingSim extends Phaser.Scene{
 
         this.initTimer();
         
+        console.log(this.player.skills);
         this.initPauseButton();
 
         this.startMusic();

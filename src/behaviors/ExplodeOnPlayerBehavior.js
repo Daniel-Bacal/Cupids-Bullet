@@ -26,6 +26,7 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
             } else {
                 let opp = new Vector2(enemy.currentDirection.y, -enemy.currentDirection.x);
                 let speed = 200 - Phaser.Math.Clamp(dist, 0, 200)*Phaser.Math.Clamp(dist, 0, 200)/40000*150;
+                if (this.speed == 50){ speed /= 2; }
                 opp.x /= 200/Phaser.Math.Clamp(dist, 0, 150);
                 opp.y /= 200/Phaser.Math.Clamp(dist, 0, 150);
                 enemy.currentDirection = enemy.currentDirection.add(opp).normalize();

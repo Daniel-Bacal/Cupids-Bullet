@@ -3,13 +3,15 @@ import Phaser from "phaser";
 const Vector2 = Phaser.Math.Vector2;
 
 export default class BulletManager {
-    constructor(numBullets, scene, sprite, group, collisionData, bulletTimeAlive){
+    constructor(numBullets, scene, sprite, group, collisionData, bulletTimeAlive, bulletScale){
         // Init instance vars
         this.maxNumBullets = numBullets;
         this.scene = scene;
         this.sprite = sprite;
         this.group = group;
         this.collisionData = collisionData;
+        this.bulletScale = bulletScale;
+        console.log(this.bulletScale);
 
         // Init bullet data
         this.bulletTimeAlive = bulletTimeAlive;
@@ -24,6 +26,10 @@ export default class BulletManager {
         for(let i = 0; i < this.maxNumBullets; i++){
             // Create bullet
             bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
+
+            if (this.bulletScale){
+                bullet.setScale(this.bulletScale, this.bulletScale);
+            }
 
             bullet.timesFired = 0;
 

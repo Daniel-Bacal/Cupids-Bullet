@@ -22,24 +22,24 @@ export default class BulletHell extends Phaser.Scene {
         this.background = this.add.image(0, 0, "bullet-hell-background");
         this.background.setOrigin(0, 0);
 
-        this.createAnimations();
-
-        this.createGroups();
-
-        this.setUpBulletManagers();
-
         // Player
         this.player = this.game.player;
         if(this.player === null){
             this.player = new Player();
         }
 
+        this.initPlayerSkills();
+
+        this.createAnimations();
+
+        this.createGroups();
+
+        this.setUpBulletManagers();
+
         this.player.initBulletHell(this, this.playerBulletManager);
 
         this.cameras.main.startFollow(this.player.getSprite());
         this.cameras.main.setBounds(0, 0, 2*480, 2*270);
-
-        this.initPlayerSkills();
 
         this.setUpCollisions();
 
@@ -53,6 +53,7 @@ export default class BulletHell extends Phaser.Scene {
 
         this.initPlayerHealth();
 
+        console.log(this.doubleBullet);
 
         this.startMusic();
     }
@@ -174,6 +175,9 @@ export default class BulletHell extends Phaser.Scene {
               if (enemy.health <= 0){
                 this.fEnemyManager.killEnemy(enemy);
               }
+              if (this.player.bulletStun){
+                enemy.waitUntilTime += 1500;
+              }
             }
         },
         {
@@ -183,6 +187,9 @@ export default class BulletHell extends Phaser.Scene {
               this.sound.play("EnemyTakingDamageSFX");
               if (enemy.health <= 0){
                 this.mEnemyManager.killEnemy(enemy);
+              }
+              if (this.player.bulletStun){
+                //Stun blue char
               }
             }
         },
@@ -215,7 +222,8 @@ export default class BulletHell extends Phaser.Scene {
             "bullet",
             this.playerBullets,
             [],
-            1000
+            1000,
+            this.bulletScale
         );
 
         // Enemy bullet manager
@@ -225,17 +233,18 @@ export default class BulletHell extends Phaser.Scene {
             "bullet",
             this.enemyBullets,
             [],
-            1000
-        )
+            1000,
+            this.enemyScale
+        );
     }
 
     setUpEnemies(){
         this.fEnemyManager = new EnemyManager(100, this, "fEnemy", this.fEnemyGroup, this.enemyBulletManager);
 
-        this.fEnemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
-        this.fEnemyManager.requestEnemy(300, 300, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
-        this.fEnemyManager.requestEnemy(300, 100, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
-        this.fEnemyManager.requestEnemy(400, 200, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.fEnemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+        this.fEnemyManager.requestEnemy(300, 300, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+        this.fEnemyManager.requestEnemy(300, 100, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+        this.fEnemyManager.requestEnemy(400, 200, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
 
         // this.fEnemyManager.requestEnemy(150, 150, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         // this.fEnemyManager.requestEnemy(350, 350, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
@@ -243,10 +252,10 @@ export default class BulletHell extends Phaser.Scene {
         // this.fEnemyManager.requestEnemy(450, 250, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
 
         this.mEnemyManager = new EnemyManager(100, this, "mEnemy", this.mEnemyGroup, this.enemyBulletManager);
-        this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
-        this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
-        this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
-        this.mEnemyManager.requestEnemy(400, 400, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt, this.weakEnemy);
+        this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+        this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+        this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+        this.mEnemyManager.requestEnemy(400, 400, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
 
         // this.mEnemyManager.requestEnemy(250, 150, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         // this.mEnemyManager.requestEnemy(450, 250, new FireAtPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
@@ -315,7 +324,12 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     playerFireBullet(){
+      if (this.doubleBullet){
+        this.player.fireBullet(this.input.mousePointer.x + this.cameras.main.scrollX, this.input.mousePointer.y + this.cameras.main.scrollY, this.mouseDown, this.time.now, this.doubleBullet)
+      }
+      else{
         this.player.fireBullet(this.input.mousePointer.x + this.cameras.main.scrollX, this.input.mousePointer.y + this.cameras.main.scrollY, this.mouseDown, this.time.now);
+      }
     }
 
     initPauseMenu(){
@@ -387,12 +401,72 @@ export default class BulletHell extends Phaser.Scene {
       console.log(skills[0]);
       if (skills[0] == "sf"){
         this.weakEnemy = "pink";
+        if (skills[1] == "sf1"){
+          this.player.speed += 100;
+          if (skills[2] == "sf11"){
+            this.player.speed += 100;
+          }
+          else if (skills[2] == "sf12"){
+            //Acvtive Invisibility
+            //If player is invis. Have them stop shooting and wander randomly.
+          }
+        }
+        else if (skills[1] == "sf2"){
+          this.player.bulletSpeed += 250;
+          if (skills[2] == "sf21"){
+            this.player.bulletSpeed += 250;
+          }
+          else if (skills[2] == "sf22"){
+            //TODO
+            this.player.bulletStun = true;
+          }
+        }
       }
       else if (skills[0] == "sm"){
         this.weakEnemy = "blue";
+        if (skills[1] == "sm1"){
+          this.player.damage += 50;
+          if (skills[2] == "sm11"){
+            this.player.damage += 50;
+          }
+          else if (skills[2] == "sm12"){
+            //TODO
+            this.piercingBullets = true;
+          }
+        }
+        else if (skills[1] == "sm2"){
+          this.bulletScale = 1.5;
+          if (skills[2] == "sm21"){
+            this.bulletScale = 2;
+          }
+          else if (skills[2] == "sm22"){
+            this.doubleBullet = true;
+          }
+        }
       }
       else if (skills[0] == "sb"){
         this.weakEnemy = "purple";
+        if (skills[1] == "sb1"){
+          this.enemyScale = 1.5;
+          if (skills[2] == "sb11"){ 
+            this.slowerEnemies = true;
+          }
+          else if (skills[2] == "sb12"){
+            //Active Freeze
+            //If within radius, freeze enemies for a time. If is frozen, do NOTHING. Pass in 0,0 for set velocity
+          }
+        }
+        else if (skills[1] == "sb2"){
+          this.enemyScale = 0.7;
+          if (skills[2] == "sb21"){
+            //Random Enemy Death
+
+          }
+          else if (skills[2] == "sb22"){
+            //AOE Damage
+            //Check though all enemy managers. Iterate through enemies group. Check if alive and within the radius.
+          }
+        }
       }
     }
 
