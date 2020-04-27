@@ -2,6 +2,7 @@ import Phaser, {} from "phaser"
 import Button from "./ui_elements/Button"
 import { clamp } from "./utils/MathUtils"
 import Player from "./objects/Player";
+import Person from "./objects/Person"
 
 export default class DatingSim extends Phaser.Scene{
     constructor(){
@@ -17,6 +18,13 @@ export default class DatingSim extends Phaser.Scene{
     create(){
         this.player = this.game.player;
 
+        this.personArray = [new Person(), new Person(), new Person(), new Person(), new Person()];
+
+        this.unreadMessage = false;
+        this.showingUnreadMessage = false;
+        this.unreadMessageGraphic = this.add.graphics();
+        this.unreadMessageText = this.add.text(115, 5, "", {fill: "white", fontFamily: "NoPixel", fontSize: "8px"});
+
         this.initTabs();
 
         this.initTimer();
@@ -29,6 +37,8 @@ export default class DatingSim extends Phaser.Scene{
     update(){
         if(this.previousTime === null) this.setTimer();
         this.handleTimer();
+
+        this.handleMessaging();
     }
 
     initTabs(){
@@ -179,6 +189,55 @@ export default class DatingSim extends Phaser.Scene{
             this.game.music.play();
             this.game.music.isPlaying = true;
             this.game.music.songName = musicName
+        }
+    }
+
+    messagePlayer(person){
+        console.log("recieved");
+        this.sound.play("MessageReceivedSFX");
+        person.messagePlayer();
+        this.unreadMessage = true;
+    }
+
+    handleMessaging(){
+        let allMessagesRead = true;
+        let numUnreadMessages = 0;
+        for(let i = 0; i < this.personArray.length; i++){
+            let person = this.personArray[i];
+
+            // If person should message player, do so
+            if(person.nextMessageTime < this.time.now){
+                this.messagePlayer(person);
+                person.nextMessageTime = Infinity;
+            }
+
+            if(person.notRead){
+                // Player hasn't read recieved message
+                allMessagesRead = false;
+                numUnreadMessages++;
+            }
+        }
+        
+        if(allMessagesRead){
+            this.unreadMessage = false;
+        }
+
+        if(this.unreadMessage && !this.showingUnreadMessage){
+            this.unreadMessageGraphic.fillStyle(0xFF0000);
+            this.unreadMessageGraphic.fillCircle(115, 5, 4);
+            this.showingUnreadMessage = true;
+        } else if(!this.unreadMessage && this.showingUnreadMessage){
+            this.unreadMessageGraphic.clear();
+
+            this.showingUnreadMessage = false;
+        }
+
+        if(this.unreadMessage){
+            this.unreadMessageText.text = numUnreadMessages;
+            this.unreadMessageText.setOrigin(0.5, 0.5);
+        } else {
+            this.unreadMessageText.text = "";
+            this.unreadMessageText.setOrigin(0.5, 0.5);
         }
     }
 }

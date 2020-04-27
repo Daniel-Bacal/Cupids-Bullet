@@ -118,7 +118,6 @@ export default class SkillTree extends Phaser.Scene{
         }
         if(this.skillText.text !== "" + this.player.skillPoints){
             this.skillText.text = this.player.skillPoints;
-            this.skillText.setOrigin(0.5, 0.5);
         }
         
     }
