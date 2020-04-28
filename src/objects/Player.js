@@ -17,7 +17,7 @@ export default class Player {
         else if (statType=="flirt"){this.stats.flirt+=step; if(this.stats.flirt <= 0){this.stats.flirt=0;}}
         else if (statType=="hum"){this.stats.hum+=step; if(this.stats.hum <= 0){this.stats.hum=0;}}
         else if (statType=="int"){this.stats.int+=step; if(this.stats.int <= 0){this.stats.int=0;}}
-        else if (statType=="hum"){this.stats.sinc+=step; if(this.stats.sinc <= 0){this.stats.sinc=0;}}
+        else if (statType=="sinc"){this.stats.sinc+=step; if(this.stats.sinc <= 0){this.stats.sinc=0;}}
     }
 
     setPlayerStats(jock, flirt, hum, int, sinc){

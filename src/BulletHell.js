@@ -52,12 +52,46 @@ export default class BulletHell extends Phaser.Scene {
         this.initPlayerHealth();
 
         this.startMusic();
+
+        this.hasStarted = false;
+        this.countdownTimer = null;
+        this.roundedTimer = 4;
+        this.countdownText = this.add.text(240, 135, "", {fontFamily: "NoPixel", fontSize: "96px", color: "white"});
+        this.countdownAnimation = this.tweens.add({
+            targets: this.countdownText,
+            alpha: {from: 0, to: 1},
+            scaleX: {from: 10, to: 1},
+            scaleY: {from: 10, to: 1},
+            duration: 500,
+            ease: 'Power2'
+          }, this);
     }
 
     update(time, delta) {
-        this.updatePlayer();
-        this.fEnemyManager.doBehaviors();
-        this.mEnemyManager.doBehaviors();
+        if(!this.hasStarted){
+            if(this.countdownTimer === null){
+                this.countdownTimer = this.time.now - 1;
+            }
+
+            if(this.countdownTimer < this.time.now){
+                this.countdownTimer = this.time.now + 1000;
+                this.roundedTimer--;
+                if(this.roundedTimer < 0){
+                    this.hasStarted = true;
+                    this.countdownText.destroy();
+                } else if(this.roundedTimer <= 0){
+                    this.countdownText.text = "Go!";
+                } else {
+                    this.countdownText.text = this.roundedTimer;
+                }
+                this.countdownText.setOrigin(0.5, 0.5);
+                this.countdownAnimation.restart();
+            }
+        } else {
+            this.updatePlayer();
+            this.fEnemyManager.doBehaviors();
+            this.mEnemyManager.doBehaviors();
+        }
     }
 
     createAnimations(){

@@ -73,8 +73,8 @@ export default class Gym extends AbstractTab{
         this.feedbackText.alpha = 1;
         this.sound.play("CorrectSFX");
         
-        this.parent.player.incrementStat("jock", 3);
-        this.parent.displayProgress("jock", 3);
+        this.parent.player.incrementStat("jock", 2);
+        this.parent.displayProgress("jock", 2);
 
         for(let i = 0; i < this.parent.personArray.length; i++){
             if(this.parent.personArray[i].likesMessage("jock")){

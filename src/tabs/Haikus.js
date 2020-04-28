@@ -64,8 +64,8 @@ export default class Haikus extends AbstractTab{
     evaluateResponse(response){
         if(response === this.currentHaiku.isHaiku){
             // Increase player sincerity
-            this.parent.player.incrementStat("sinc", 1);
-            this.parent.displayProgress("sincerity", 1);
+            this.parent.player.incrementStat("sinc", 2);
+            this.parent.displayProgress("sincerity", 2);
 
             for(let i = 0; i < this.parent.personArray.length; i++){
                 if(this.parent.personArray[i].likesMessage("sinc")){
@@ -80,8 +80,8 @@ export default class Haikus extends AbstractTab{
             this.sound.play("CorrectSFX");
         } else {
             // Decrease player sincerity
-            this.parent.player.incrementStat("sinc", -1);
-            this.parent.displayProgress("sincerity", -1);
+            this.parent.player.incrementStat("sinc", -2);
+            this.parent.displayProgress("sincerity", -2);
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);
