@@ -67,7 +67,10 @@ export default class Boot extends Phaser.Scene{
         this.load.image("modal", "assets/modal.png");
         this.load.image("skill-tree", "assets/skill-tree.png")
         this.load.image("person-message", "assets/person-message.png");
-        this.load.image("player-message", "assets/player-message.png")
+        this.load.image("player-message", "assets/player-message.png");
+        this.load.image("end-of-day", "assets/end-of-day.png");
+        this.load.image("heart-box", "assets/heart-box.png");
+        this.load.image("status-heart", "assets/status-heart.png");
 
         // Load sprites
         this.load.spritesheet("bullet", "assets/bullet.png", {
@@ -84,6 +87,9 @@ export default class Boot extends Phaser.Scene{
         });
         this.load.spritesheet("bhPlayer", "assets/cupid-sheet.png", {
             frameWidth: 32, frameHeight: 32
+        });
+        this.load.spritesheet("arm", "assets/arm.png", {
+            frameWidth: 186, frameHeight: 157
         });
 
         // Load JSON Files

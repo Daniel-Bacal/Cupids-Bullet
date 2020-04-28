@@ -4,6 +4,8 @@ import { clamp } from "./utils/MathUtils"
 import Player from "./objects/Player";
 import Person from "./objects/Person"
 
+var cheatSkip;
+
 export default class DatingSim extends Phaser.Scene{
     constructor(){
         super({
@@ -18,7 +20,7 @@ export default class DatingSim extends Phaser.Scene{
     create(){
         this.player = this.game.player;
 
-        this.personArray = [new Person(), new Person(), new Person(), new Person(), new Person()];
+        this.personArray = this.game.matches;
 
         this.unreadMessage = false;
         this.showingUnreadMessage = false;
@@ -33,9 +35,16 @@ export default class DatingSim extends Phaser.Scene{
         this.initPauseButton();
 
         this.startMusic();
+
+        cheatSkip = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F1);
     }
 
     update(){
+        // Check for cheats
+        if(Phaser.Input.Keyboard.JustDown(cheatSkip)){
+            this.goToScene("ChooseDate");
+        }
+
         if(this.previousTime === null) this.setTimer();
         this.handleTimer();
 
@@ -100,11 +109,7 @@ export default class DatingSim extends Phaser.Scene{
     }
 
     endDay(){
-
-        // TODO: SAVE GAME DATA
-        this.player.saveToSession();
-
-        this.returnToMainMenu();
+        this.goToScene("ChooseDate");
     }
 
     goToMainMenu(){
@@ -112,7 +117,7 @@ export default class DatingSim extends Phaser.Scene{
         this.scene.launch("YesNoModal", {
             yesCallback: () => {
                 this.scene.stop("YesNoModal");
-                this.returnToMainMenu();
+                this.goToScene("MainMenu");
             },
             noCallback: () => {
                 this.scene.stop("YesNoModal");
@@ -122,7 +127,7 @@ export default class DatingSim extends Phaser.Scene{
         this.scene.bringToTop("YesNoModal");
     }
 
-    returnToMainMenu(){
+    goToScene(sceneName){
         for(let i = 0; i < this.tabs.length; i++){
             this.scene.stop(this.tabs[i]);
         }
@@ -130,7 +135,7 @@ export default class DatingSim extends Phaser.Scene{
         this.scene.stop("PauseMenu");
 
         // GO TO END OF DAY SCENE
-        this.scene.start("MainMenu");
+        this.scene.start(sceneName);
     }
 
     moveToTab(key){
@@ -240,5 +245,29 @@ export default class DatingSim extends Phaser.Scene{
             this.unreadMessageText.text = "";
             this.unreadMessageText.setOrigin(0.5, 0.5);
         }
+    }
+
+    displayProgress(stat, change){
+        if(!this.feedbackText){
+            this.feedbackText = this.add.text(0, 0, "", {fontFamily: "NoPixel", fontSize: "16px"})
+        }
+
+        if(!this.feedbackTextFade){
+            this.feedbackTextFade = this.tweens.add({
+                targets: this.feedbackText,
+                alpha: 0,
+                y: "-=50",
+                duration: 1000,
+                ease: 'Power2'
+            }, this);
+        }
+
+        this.feedbackText.setPosition(Math.floor(Math.random()*400 + 40), Math.floor(Math.random()*200 + 35));
+        this.feedbackText.text = stat + " " + (change > 0 ? "+" + change : change);
+        this.feedbackText.setOrigin(0.5, 0.5);
+        this.feedbackText.setStyle(change > 0 ? {color: "green"} : {color: "red"});
+        this.feedbackText.alpha = 1;
+
+        this.feedbackTextFade.restart();
     }
 }

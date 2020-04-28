@@ -90,8 +90,14 @@ export default class Jokes extends AbstractTab{
         }
 
         if(correct){
+            this.parent.player.incrementStat("hum", 1);
+            this.parent.displayProgress("humor", 1);
 
-            this.parent.player.incrementStat("int", 2);
+            for(let i = 0; i < this.parent.personArray.length; i++){
+                if(this.parent.personArray[i].likesMessage("hum")){
+                    this.parent.personArray[i].incrementRelationshipMeter(1);
+                }
+            }
 
             this.feedbackText.text = "Correct!";
             this.feedbackText.setOrigin(0.5, 0.5);
@@ -101,7 +107,8 @@ export default class Jokes extends AbstractTab{
         } else {
             // Decrement humor
 
-            this.parent.player.incrementStat("int", -1);
+            this.parent.player.incrementStat("hum", -1);
+            this.parent.displayProgress("humor", -1);
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);

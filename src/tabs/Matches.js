@@ -169,6 +169,15 @@ export default class Matches extends AbstractTab{
         this.sound.play("MessageSentSFX");
         this.currentPerson.sendMessage(type, this.time.now);
         this.hideMessageOptions();
+
+        // Increment Stats
+        if(this.currentPerson.likesMessage(type) === 1){
+            this.parent.player.incrementStat("flirt", 1);
+            this.parent.displayProgress("flirt", 1);
+        } else if(this.currentPerson.likesMessage(type) === -1){
+            this.parent.player.incrementStat("flirt", -1);
+            this.parent.displayProgress("flirt", -1);
+        }
     }
 
     showMessageOptions(){

@@ -21,6 +21,14 @@ export default class Home extends AbstractTab{
         let name = this.parent.player.getName();
         this.add.text(20, 140, name, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "24px"});
 
+        this.betterTexts = {
+            "hum": "humor",
+            "int": "intell.",
+            "jock": "jock",
+            "sinc": "sincerity",
+            "flirt": "flirt"
+        }
+
         this.add.text(115, 45, "skills", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "24px"});
 
         this.add.text(250, 45, "stats", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "24px"});
@@ -37,12 +45,22 @@ export default class Home extends AbstractTab{
 
     }
 
+    update(){
+        let stats = this.parent.player.getPlayerStats();
+        let i = 0;
+        for(let key in stats){
+            let statText = this.betterTexts[key] + ": " + stats[key];
+            this.statTexts[i++].text = statText;
+        }
+    }
+
     generateStats(){
         let stats = this.parent.player.getPlayerStats();
         let y = 70;
+        this.statTexts = [];
         for(let key in stats){
             let statText = key + ": " + stats[key];
-            this.add.text(250, y, statText, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
+            this.statTexts.push(this.add.text(250, y, statText, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}));
             y = y + 15;
         }
     }
@@ -50,11 +68,11 @@ export default class Home extends AbstractTab{
     generateSkills(){
         let skills = this.parent.player.getPlayerSkills();
         console.log(skills);
-        let y = 90;
+        let y = 80;
         for(let i = 0; i < skills.length; i++){
-            this.add.image(130, y, skills[i]);
-            this.add.text(150, y, SkillText[skills[i]].effect, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}).setOrigin(0, 0.5);
-            y = y + 30;
+            this.add.image(120, y, skills[i]);
+            this.add.text(130, y, SkillText[skills[i]].effect, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}).setOrigin(0, 0.5);
+            y = y + 20;
         }
     }
 
