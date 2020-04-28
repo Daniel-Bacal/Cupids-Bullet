@@ -6,7 +6,7 @@
        {"text": "When did you last read a book?", "answers":[
         {"text": "Last night.", "inc":"int", "dec":"jock"}, {"text": "It's been a little while.", "inc":"sinc", "dec":"hum"}, {"text": "What's a book?", "inc":"hum", "dec":"int"}
        ]},
-       {"text": "Do you laugh when you see someone get hurt", "answers":[
+       {"text": "Do you laugh when you see someone get hurt?", "answers":[
         {"text": "Only if the injury was funny.", "inc": "hum", "dec": "flirt"}, {"text":"No, never.", "inc": "sinc", "dec":"jock"}, {"text": "I'm laughing just thinking about it.", "inc": "jock", "dec": "sinc"}
        ]},
        {"text": "When you are speaking publicly, do you imagine the audience in their underwear?", "answers":[
@@ -15,7 +15,7 @@
        {"text": "How long, to the nearest second, do you soft boil an egg?", "answers":[
         {"text": "I just drink my eggs raw.", "inc": "hum jock", "dec": "int"}, {"text":"5 minutes and 16 seconds.", "inc": "int sinc", "dec":"flirt"}, {"text": "7 minutes and 2 seconds. I prefer my eggs HARD boiled.", "inc": "flirt", "dec": "sinc"}
        ]},
-       {"text": "Evaluate the following expression", "answers":[
+       {"text": "Evaluate the following expression:", "answers":[
         {"text": "", "inc": "int", "dec": "jock"}, {"text": "Nope.", "inc": "hum", "dec": "int"}, {"text":"That's what nerds and losers are for.", "inc": "jock", "dec":"sinc"}
        ]},
        {"text": "What are you seeking from this site?", "answers":[

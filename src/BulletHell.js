@@ -9,6 +9,8 @@ import { level1, level2, level3 } from "./levels/levels"
 
 const Vector2 = Phaser.Math.Vector2;
 
+let space; 
+
 export default class BulletHell extends Phaser.Scene {
     constructor() {
         super({
@@ -59,6 +61,8 @@ export default class BulletHell extends Phaser.Scene {
         this.initPauseMenu();
 
         this.initPlayerHealth();
+
+        space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         this.startMusic();
 
@@ -118,6 +122,16 @@ export default class BulletHell extends Phaser.Scene {
                 if(this.time.now > this.endTimer){
                     this.goToScene("EndOfDay");
                 }    
+            }
+            if (Phaser.Input.Keyboard.JustDown(space)){
+                if (this.activeFreeze){
+                  this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
+                  this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
+                }
+                if (this.activeAOEDamage){
+                  this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.fEnemyManager.killEnemy(enemy);}}}});
+                  this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.mEnemyManager.killEnemy(enemy);}}}});
+                }
             }
             this.fEnemyManager.doBehaviors();
             this.mEnemyManager.doBehaviors();
@@ -705,8 +719,6 @@ export default class BulletHell extends Phaser.Scene {
             this.slowerEnemies = true;
           }
           else if (skills[2] == "sb12"){
-            //Active Freeze
-            //If within radius, freeze enemies for a time. If is frozen, do NOTHING. Pass in 0,0 for set velocity
             this.activeFreeze = true;
           }
         }
@@ -717,8 +729,9 @@ export default class BulletHell extends Phaser.Scene {
 
           }
           else if (skills[2] == "sb22"){
-            //AOE Damage
-            //Check though all enemy managers. Iterate through enemies group. Check if alive and within the radius.
+            this.activeAOEDamage = true;
+            this.activeAOEDamageRadius = 100;
+            this.activeAOEDamageAmount = 200;
           }
         }
       }
