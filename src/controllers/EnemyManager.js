@@ -21,7 +21,7 @@ export default class EnemyManager{
             enemy.spriteName = this.sprite;
 
             // Enemy Health Bar
-            this.initEnemyHealth(enemy)
+            this.initEnemyHealth(enemy);
 
             // Add to physics group
             this.group.add(enemy);
@@ -56,8 +56,9 @@ export default class EnemyManager{
         enemy.enableBody(true, xPos, yPos, true, true);
         enemy.setCollideWorldBounds(true);
 
-        enemy.behavior = behavior;
         enemy.anims.play(this.sprite + '_walk', true);
+
+        enemy.behavior = behavior;
         enemy.health = enemyHealth;
         enemy.maxHealth = enemy.health;
         enemy.damage = enemyDamage;
@@ -69,7 +70,6 @@ export default class EnemyManager{
         this.group.children.iterate((enemy) => {
             if(enemy.isAlive){
                 enemy.behavior.behave(enemy);
-
                 this.renderHealthBar(enemy);
             }
         })
@@ -80,22 +80,23 @@ export default class EnemyManager{
     }
 
     killEnemy(enemy){
-        this.afterDeath(enemy);
+        enemy.isDying = true;
 
-        // enemy.anims.play(enemy.spriteName + '_death', false);
-        //
-        // enemy.on("animationcomplete", () => this.afterDeath(enemy));
+        enemy.setVelocity(0, 0);
+
+        enemy.anims.play(enemy.spriteName + '_death', true);
+
+        enemy.healthBox.clear();
+        enemy.healthBar.clear();
+        enemy.isAlive = false;
+
+        enemy.on("animationcomplete", () => this.afterDeath(enemy));
     }
 
     afterDeath(enemy){
-        enemy.anims.play(enemy.spriteName + '_death', false);
-        enemy.isAlive = false;
         enemy.disableBody(true, true);
         this.deadEnemies.push(enemy);
-
         // Hide enemy health bar
-        enemy.healthBox.clear();
-        enemy.healthBar.clear();
     }
 
     initEnemyHealth(enemy){

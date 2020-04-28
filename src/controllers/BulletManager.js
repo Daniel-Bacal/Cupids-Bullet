@@ -76,7 +76,7 @@ export default class BulletManager {
         }
     }
 
-    requestBullet(xPos, yPos, xDir, yDir, bulletSpeed, damage){
+    requestBullet(xPos, yPos, xDir, yDir, bulletSpeed, damage, animKey){
         // Bring a bullet to life
         let bullet = this.deadBullets.pop();
         bullet.lastCollision = null;
@@ -95,7 +95,7 @@ export default class BulletManager {
         bullet.setVelocity(xDir*bulletSpeed, yDir*bulletSpeed);
 
         // Set bullet animation
-        bullet.anims.play("blue", true);
+        bullet.anims.play(animKey, true);
 
         // Set up bullet death after delay
         this.scene.time.delayedCall(

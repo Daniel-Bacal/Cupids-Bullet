@@ -11,6 +11,10 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
     }
 
     behave(enemy){
+        if(enemy.isDying){
+            return;
+        }
+
         if (!enemy.stunDuration && !enemy.freezeDuration) {
             if(this.scene.time.now > enemy.waitUntilTime){
                 let enemyPosition = enemy.getCenter();
@@ -22,7 +26,7 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
                     this.setEnemyVelocity(enemy, 0, 0);
                     for(let i = 0; i < 8; i++){
                         enemy.currentDirection.setToPolar(i*Math.PI/4, 1);
-                        enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, enemy.currentDirection.x, enemy.currentDirection.y, enemy.bulletSpeed, enemy.damage);
+                        enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, enemy.currentDirection.x, enemy.currentDirection.y, enemy.bulletSpeed, enemy.damage, "red");
                     }
                 } else {
                     let opp = new Vector2(enemy.currentDirection.y, -enemy.currentDirection.x);

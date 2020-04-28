@@ -99,17 +99,31 @@ export default class Player {
         this.directionY = y;
         this.playerSprite.setVelocity(x * this.speed, y * this.speed);
 
-        if(this.directionX === 0 && this.directionY === 0){
-            this.playerSprite.anims.play('player_idle', true);
-        } else {
-            if(this.directionX > 0){
-                this.playerSprite.flipX = false;
-                this.playerSprite.anims.play('player_walk', true);
-            } else {
-                this.playerSprite.flipX = true;
-                this.playerSprite.anims.play('player_walk', true);
-            }
+        if(this.dir == "w"){
+            //should be back facing sprite
+            this.way = "_front";
         }
+        else if(this.dir == "a"){
+            this.way = "";
+            this.playerSprite.flipX = true;
+        }
+        else if(this.dir == "s"){
+            this.way = "_front";
+        }
+        else if(this.dir == "d"){
+            this.way = "";
+            this.playerSprite.flipX = false;
+        }
+
+        // else {
+        //     if(this.directionX > 0){
+        //         this.playerSprite.flipX = false;
+        //         this.playerSprite.anims.play('player_walk', true);
+        //     } else {
+        //         this.playerSprite.flipX = true;
+        //         this.playerSprite.anims.play('player_walk', true);
+        //     }
+        // }
     }
 
     getDirection(){
@@ -131,12 +145,12 @@ export default class Player {
                 let newBulletDirection = new Vector2(bulletDirection.x, bulletDirection.y);
                 let angle = Math.atan2(bulletDirection.y, bulletDirection.x);
                 newBulletDirection.setToPolar(angle + Math.PI/12, 1);
-                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, newBulletDirection.x, newBulletDirection.y, this.bulletSpeed, this.damage);
+                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, newBulletDirection.x, newBulletDirection.y, this.bulletSpeed, this.damage, "heart");
                 newBulletDirection.setToPolar(angle - Math.PI/12, 1);
-                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, newBulletDirection.x, newBulletDirection.y, this.bulletSpeed, this.damage);
+                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, newBulletDirection.x, newBulletDirection.y, this.bulletSpeed, this.damage, "heart");
             }
             else{
-                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y, this.bulletSpeed, this.damage);
+                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y, this.bulletSpeed, this.damage, "heart");
             }
           }
     }

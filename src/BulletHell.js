@@ -161,6 +161,16 @@ export default class BulletHell extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: "heart",
+            frames: this.anims.generateFrameNumbers("bullet", {
+                start: 4,
+                end: 7
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
             key: "player_idle",
             frames: this.anims.generateFrameNumbers("bhPlayer", {
                 start: 0,
@@ -177,6 +187,42 @@ export default class BulletHell extends Phaser.Scene {
             }),
             frameRate: 8,
             repeat: -1
+        });
+        this.anims.create({
+            key: "player_damage",
+            frames: this.anims.generateFrameNumbers("bhPlayer", {
+                start: 8,
+                end: 16
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "player_death",
+            frames: this.anims.generateFrameNumbers("bhPlayer", {
+                start: 13,
+                end: 21
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "player_front_walk",
+            frames: this.anims.generateFrameNumbers("bhPlayer", {
+                start: 22,
+                end: 29
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "player_front_damage",
+            frames: this.anims.generateFrameNumbers("bhPlayer", {
+                start: 30,
+                end: 31
+            }),
+            frameRate: 8,
+            repeat: 0
         });
 
         //
@@ -205,8 +251,8 @@ export default class BulletHell extends Phaser.Scene {
                 start: 11,
                 end: 17
             }),
-            frameRate: 8,
-            repeat: -1
+            frameRate: 16,
+            repeat: 0
         });
         this.anims.create({
             key: "fEnemy_death",
@@ -215,13 +261,31 @@ export default class BulletHell extends Phaser.Scene {
                 end: 26
             }),
             frameRate: 8,
-            repeat: -1
+            repeat: 0
         });
         this.anims.create({
             key: "fEnemy_front_walk",
             frames: this.anims.generateFrameNumbers("fEnemy", {
                 start: 27,
-                end: 34
+                end: 33
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "fEnemy_front_damage",
+            frames: this.anims.generateFrameNumbers("fEnemy", {
+                start: 34,
+                end: 37
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "fEnemy_back_walk",
+            frames: this.anims.generateFrameNumbers("fEnemy", {
+                start: 38,
+                end: 44
             }),
             frameRate: 8,
             repeat: -1
@@ -253,8 +317,8 @@ export default class BulletHell extends Phaser.Scene {
                 start: 11,
                 end: 17
             }),
-            frameRate: 8,
-            repeat: -1
+            frameRate: 16,
+            repeat: 0
         });
         this.anims.create({
             key: "mEnemy_death",
@@ -263,13 +327,31 @@ export default class BulletHell extends Phaser.Scene {
                 end: 26
             }),
             frameRate: 8,
-            repeat: -1
+            repeat: 0
         });
         this.anims.create({
             key: "mEnemy_front_walk",
             frames: this.anims.generateFrameNumbers("mEnemy", {
                 start: 27,
                 end: 34
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "mEnemy_front_damage",
+            frames: this.anims.generateFrameNumbers("mEnemy", {
+                start: 35,
+                end: 38
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "mEnemy_back_walk",
+            frames: this.anims.generateFrameNumbers("mEnemy", {
+                start: 39,
+                end: 46
             }),
             frameRate: 8,
             repeat: -1
@@ -301,8 +383,8 @@ export default class BulletHell extends Phaser.Scene {
                 start: 11,
                 end: 17
             }),
-            frameRate: 8,
-            repeat: -1
+            frameRate: 16,
+            repeat: 0
         });
         this.anims.create({
             key: "oEnemy_death",
@@ -311,13 +393,31 @@ export default class BulletHell extends Phaser.Scene {
                 end: 32
             }),
             frameRate: 8,
-            repeat: -1
+            repeat: 0
         });
         this.anims.create({
             key: "oEnemy_front_walk",
             frames: this.anims.generateFrameNumbers("oEnemy", {
                 start: 33,
                 end: 40
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "oEnemy_front_damage",
+            frames: this.anims.generateFrameNumbers("oEnemy", {
+                start: 41,
+                end: 44
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "oEnemy_back_walk",
+            frames: this.anims.generateFrameNumbers("oEnemy", {
+                start: 45,
+                end: 52
             }),
             frameRate: 8,
             repeat: -1
@@ -350,10 +450,15 @@ export default class BulletHell extends Phaser.Scene {
         this.physics.add.collider(this.mEnemyGroup, this.walls);
         this.physics.add.collider(this.oEnemyGroup, this.walls);
         this.physics.add.collider(this.player.getSprite(), this.walls);
-        
+
         this.playerBulletManager.setCollisionData([{
             otherGroup: this.fEnemyGroup,
             callback: (enemy, bullet) => {
+                if(enemy.isDying){
+                    return;
+                }
+                enemy.anims.play(enemy.spriteName + enemy.way + '_damage', true);
+                enemy.on("animationcomplete", () => enemy.anims.play(enemy.spriteName + enemy.way + '_walk', true));
               enemy.health -= bullet.damage;
               this.sound.play("EnemyTakingDamageSFX");
               if (enemy.health <= 0){
@@ -371,6 +476,11 @@ export default class BulletHell extends Phaser.Scene {
         {
             otherGroup: this.mEnemyGroup,
             callback: (enemy, bullet) => {
+                if(enemy.isDying){
+                    return;
+                }
+                enemy.anims.play(enemy.spriteName + enemy.way + '_damage', true);
+                enemy.on("animationcomplete", () => enemy.anims.play(enemy.spriteName + enemy.way + '_walk', true));
               enemy.health -= bullet.damage;
               this.sound.play("EnemyTakingDamageSFX");
               if (enemy.health <= 0){
@@ -388,6 +498,11 @@ export default class BulletHell extends Phaser.Scene {
         {
             otherGroup: this.oEnemyGroup,
             callback: (enemy, bullet) => {
+                if(enemy.isDying){
+                    return;
+                }
+                enemy.anims.play(enemy.spriteName + enemy.way + '_damage', true);
+                enemy.on("animationcomplete", () => enemy.anims.play(enemy.spriteName + enemy.way + '_walk', true));
               enemy.health -= bullet.damage;
               this.sound.play("EnemyTakingDamageSFX");
               if (enemy.health <= 0){
@@ -410,11 +525,20 @@ export default class BulletHell extends Phaser.Scene {
         this.enemyBulletManager.setCollisionData([{
             otherGroup: this.player.getSprite(),
             callback: (playerSprite, bullet) => {
-              this.player.health -= bullet.damage;
-              this.sound.play("PlayerTakingDamageSFX");
-              if (this.player.health <= 0){
-                this.scene.start("MainMenu");
-              }
+                // this.player.getSprite().anims.play('player' + this.player.way + '_damage', true);
+                // // this.player.getSprite().anims.play('player_damage', true);
+                // this.player.getSprite().on("animationcomplete", () =>
+                //     this.player.health -= bullet.damage,
+                // this.sound.play("PlayerTakingDamageSFX"));
+                this.player.health -= bullet.damage;
+                this.sound.play("PlayerTakingDamageSFX")
+                if (this.player.health <= 0){
+                    this.scene.start("MainMenu");
+                }
+                //   this.player.getSprite().anims.play('player_death', true);
+                //   // this.player.getSprite().anims.play('player_damage', true);
+                //   this.player.getSprite().on("animationcomplete", () =>
+                // this.scene.start("MainMenu"));
             }
         },
         {
@@ -544,12 +668,14 @@ export default class BulletHell extends Phaser.Scene {
         // Set up key controls
         this.input.keyboard.on("keydown", (event) => {
             if("wasd".includes(event.key)){
+                this.player.dir = event.key;
                 this.keysPressed[event.key] = "wa".includes(event.key) ? -1 : 1;
             }
         });
 
         this.input.keyboard.on("keyup", (event) => {
             if("wasd".includes(event.key)){
+                this.player.dir = event.key;
                 this.keysPressed[event.key] = 0;
             }
         });
@@ -573,6 +699,7 @@ export default class BulletHell extends Phaser.Scene {
     updatePlayer(){
         this.movePlayer();
         this.playerFireBullet();
+        this.player.getSprite().anims.play('player' + this.player.way + '_walk', true);
 
         // Player Health
         this.playerHealthBar.clear();

@@ -13,6 +13,10 @@ export default class FireAtPlayerBehavior extends Behavior{
     }
 
     behave(enemy){
+        if(enemy.isDying){
+            return;
+        }
+
         if (!enemy.stunDuration && !enemy.freezeDuration) {
             let enemyPosition = enemy.getCenter();
 
@@ -36,7 +40,7 @@ export default class FireAtPlayerBehavior extends Behavior{
                 let playerPosition = this.player.getCenter();
                 let dir = new Vector2(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
                 dir = dir.normalize();
-                enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, dir.x, dir.y, enemy.bulletSpeed, enemy.damage);
+                enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, dir.x, dir.y, enemy.bulletSpeed, enemy.damage, "blue");
             }
         }
         else{
