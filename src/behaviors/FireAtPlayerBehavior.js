@@ -13,7 +13,7 @@ export default class FireAtPlayerBehavior extends Behavior{
     }
 
     behave(enemy){
-        if (!enemy.stunDuration) {
+        if (!enemy.stunDuration && !enemy.freezeDuration) {
             let enemyPosition = enemy.getCenter();
 
             if(enemy.timeLeftMoving <= this.scene.time.now){
@@ -41,7 +41,12 @@ export default class FireAtPlayerBehavior extends Behavior{
         }
         else{
             this.setEnemyVelocity(enemy, 0, 0);
-            enemy.stunDuration--;
+            if (enemy.stunDuration){
+                enemy.stunDuration--;
+            }
+            if (enemy.freezeDuration){
+                enemy.freezeDuration--;
+            }
         }
     }
 }

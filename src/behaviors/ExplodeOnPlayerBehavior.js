@@ -11,7 +11,7 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
     }
 
     behave(enemy){
-        if (!enemy.stunDuration) {
+        if (!enemy.stunDuration && !enemy.freezeDuration) {
             if(this.scene.time.now > enemy.waitUntilTime){
                 let enemyPosition = enemy.getCenter();
                 enemy.currentDirection = this.player.getCenter().clone().subtract(enemyPosition).normalize()
@@ -39,7 +39,12 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
         }
         else {
             this.setEnemyVelocity(enemy, 0, 0);
-            enemy.stunDuration--;
+            if (enemy.stunDuration){
+                enemy.stunDuration--;
+            }
+            if (enemy.freezeDuration){
+                enemy.freezeDuration--;
+            }
         }
     }
 }
