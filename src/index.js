@@ -23,6 +23,7 @@ import DayStart from "./DayStart"
 import YesNoModal from "./ui_elements/YesNoModal"
 import SkillTree from "./SkillTree"
 import ChooseDate from "./ChooseDate";
+import EndOfDay from "./EndOfDay"
 
 const config = {
   type: Phaser.AUTO,
@@ -44,7 +45,7 @@ const config = {
     }
   },
   plugins: ['SceneManager', 'Clock'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DayStart, SkillTree, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell, YesNoModal, ChooseDate]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DayStart, SkillTree, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell, YesNoModal, ChooseDate, EndOfDay]
 };
 
 
