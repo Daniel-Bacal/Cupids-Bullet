@@ -132,10 +132,42 @@ export default class BulletHell extends Phaser.Scene {
                   this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.fEnemyManager.killEnemy(enemy);}}}});
                   this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.mEnemyManager.killEnemy(enemy);}}}});
                 }
+                if(this.invisiblePlayer){
+                    console.log("triggerInvis")
+                    this.player.isInvisible = true;
+                    this.player.invisibilityCountdownTimer = this.time.now + 5000;
+                    this.player.getSprite().alpha = 0.2;
+                }
             }
             this.fEnemyManager.doBehaviors();
             this.mEnemyManager.doBehaviors();
             this.oEnemyManager.doBehaviors();
+
+            if(this.randomEnemyDeath){
+                let chance = Math.random();
+                let group;
+                let em;
+                if(chance < 0.33){
+                    group = this.fEnemyGroup;
+                    em = this.fEnemyManager;
+                } else if(chance < 0.66){
+                    group = this.mEnemyGroup;
+                    em = this.mEnemyManager;
+                } else {
+                    group = this.oEnemyGroup;
+                    em = this.oEnemyManager;
+                }
+
+                let killedEnemy = false;
+                group.children.iterate((enemy) => {
+                    if(!killedEnemy && enemy.isAlive && Math.random() < 0.0005){
+                        console.log("Killed Enemy");
+                        em.killEnemy(enemy);
+                        this.numEnemiesRemaining--;
+                        killedEnemy = true;
+                    }
+                });
+            }
         }
     }
 
@@ -700,6 +732,11 @@ export default class BulletHell extends Phaser.Scene {
         this.playerFireBullet();
         this.player.getSprite().anims.play('player' + this.player.way + '_walk', true);
 
+        if(this.player.isInvisible && this.time.now >= this.player.invisibilityCountdownTimer){
+            this.player.isInvisible = false;
+            this.player.getSprite().alpha = 1;
+        }
+
         // Player Health
         this.playerHealthBar.clear();
         this.playerHealthBar.fillStyle(0xFF0000);
@@ -804,6 +841,8 @@ export default class BulletHell extends Phaser.Scene {
           else if (skills[2] == "sf12"){
             //Active Invisibility
             //If player is invis. Have them stop shooting and wander randomly.
+            this.invisiblePlayer = true;
+            console.log("Player invis");
           }
         }
         else if (skills[1] == "sf2"){
@@ -852,7 +891,8 @@ export default class BulletHell extends Phaser.Scene {
           this.enemyScale = 0.7;
           if (skills[2] == "sb21"){
             //Random Enemy Death
-
+            this.randomEnemyDeath = true;
+            console.log("randomEnemyDeath");
           }
           else if (skills[2] == "sb22"){
             this.activeAOEDamage = true;

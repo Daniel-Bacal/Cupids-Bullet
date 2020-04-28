@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import Button from "./ui_elements/Button"
 import Player from "./objects/Player"
 import { SkillText } from "./utils/SkillText"
+import Tooltip from "./ui_elements/Tooltip"
 
 export default class SkillTree extends Phaser.Scene{
     constructor(){
@@ -28,6 +29,8 @@ export default class SkillTree extends Phaser.Scene{
 
         this.skillText = this.add.text(150, 35, this.player.skillPoints, {fontFamily: "NoPixel", fontSize: "16px", color:"white"});
 
+        this.tooltip = new Tooltip(this);
+
         let pref = ['f', 'm', 'b'];
         let centers = [82, 240, 398];
         let baseLevel = 102;
@@ -39,6 +42,8 @@ export default class SkillTree extends Phaser.Scene{
                 // Can choose any
                 let button = Button(this, x, y, "", "16px", skillGender, 16, 16);
                 button.setButtonOnClick(() => this.handleSelection(skillGender));
+                button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[skillGender].effect, 0xFFFFFF));
+                button.setButtonOnStopHover(() => this.tooltip.hideTooltip());
             } else if(latestSkill.includes(skillGender)){
                 // Have selected
                 this.add.image(x, y, skillGender);
@@ -69,6 +74,8 @@ export default class SkillTree extends Phaser.Scene{
                     } else {
                         let button = Button(this, x, y, "", "16px", key, 16, 16);
                         button.setButtonOnClick(() => this.handleSelection(key));
+                        button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, "white"));
+                        button.setButtonOnStopHover(() => this.tooltip.hideTooltip());
                     }
                 } else {
                     // Can't select this, different tree
@@ -97,6 +104,8 @@ export default class SkillTree extends Phaser.Scene{
                         } else {
                             let button = Button(this, x, y, "", "16px", key, 16, 16);
                             button.setButtonOnClick(() => this.handleSelection(key));
+                            button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, "white"));
+                            button.setButtonOnStopHover(() => this.tooltip.hideTooltip());
                         }
                     } else {
                         // Can't select this, different tree

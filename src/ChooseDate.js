@@ -76,6 +76,22 @@ export default class ChooseDate extends Phaser.Scene{
             buttonX += xInc;
         }
 
+        if(this.game.music) this.game.music.stop();
+        if(this.game.music && this.game.music.isPlaying){
+            if(this.game.music.songName !== "level-select"){
+              this.game.music.stop();
+              this.game.music = this.sound.add("level-select", {loop: true});
+              this.game.music.play();
+              this.game.music.isPlaying = true;
+              this.game.music.songName = "level-select"
+            }
+        } else {
+            this.game.music = this.sound.add("level-select", {loop: true});
+            this.game.music.play();
+            this.game.music.isPlaying = true;
+            this.game.music.songName = "level-select"
+        }
+
         // TODO: animate this text
         this.selectText = this.add.text(87, 199, "Select a date", {fontFamily: "NoPixel", fontSize: "48px", color: "#431c5c"}).setOrigin(0, 0);
     }

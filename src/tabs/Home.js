@@ -23,7 +23,7 @@ export default class Home extends AbstractTab{
 
         this.betterTexts = {
             "hum": "humor",
-            "int": "intell.",
+            "int": "intellgence",
             "jock": "jock",
             "sinc": "sincerity",
             "flirt": "flirt"

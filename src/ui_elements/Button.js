@@ -27,6 +27,16 @@ export default function Button(scene, x, y, text, fontSize="16px", backgroundIma
     // Button events
     button.setInteractive({useHandCursor: true});
 
+    button.buttonOnHover = () => {};
+    button.setButtonOnHover = (callback) => {
+        button.buttonOnHover = callback;
+    };
+
+    button.buttonOnStopHover = () => {};
+    button.setButtonOnStopHover = (callback) => {
+        button.buttonOnStopHover = callback;
+    };
+
     // Background
     if(background !== null){
         button.buttonBackgroundImage = background;
@@ -62,6 +72,7 @@ function startButtonHoverState(button){
     if(button.buttonBackgroundImage !== null){
         button.buttonBackgroundImage.tint = 0xeeeeee;
     }
+    button.buttonOnHover();
 }
 
 function endButtonHoverState(button){
@@ -69,6 +80,7 @@ function endButtonHoverState(button){
     if(button.buttonBackgroundImage !== null){
         button.buttonBackgroundImage.clearTint();
     }
+    button.buttonOnStopHover();
 }
 
 function setButtonVisible(button, flag){

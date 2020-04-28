@@ -15,6 +15,21 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
             return;
         }
 
+        if(this.player.isInvisible){
+            if(!enemy.timeLeftMoving){
+                enemy.timeLeftMoving = 0;
+            }
+            if(enemy.timeLeftMoving <= this.scene.time.now){
+                // Get a new direction
+                let direction = Math.random()*Math.PI*2;
+                enemy.currentDirection = enemy.currentDirection.setToPolar(direction, 1);
+                this.setEnemyVelocity(enemy, enemy.currentDirection.x*this.speed, enemy.currentDirection.y*this.speed);
+                // Get a random time to stop moving
+                enemy.timeLeftMoving = this.scene.time.now + Math.random()*100 + 200;
+            }
+            return
+        }
+
         if (!enemy.stunDuration && !enemy.freezeDuration) {
             if(this.scene.time.now > enemy.waitUntilTime){
                 let enemyPosition = enemy.getCenter();

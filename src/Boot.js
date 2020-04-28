@@ -132,7 +132,7 @@ export default class Boot extends Phaser.Scene{
         this.load.audio("MainMenu", "assets/music/MenuMusic.mp3");
         this.load.audio("Battle", "assets/music/BattleMusic.mp3");
         this.load.audio("Day1", "assets/music/DatingDay1.mp3")
-        //this.load.audio("test", "assets/music/test.mp3");
+        this.load.audio("level-select", "assets/music/level-select.mp3");
 
         this.load.audio("CannedLaughterSFX", "assets/SFX/CannedLaughterSFX.mp3");
         this.load.audio("ChalkSFX", "assets/SFX/ChalkSFX.mp3");
