@@ -36,6 +36,14 @@ export default class DatingSim extends Phaser.Scene{
 
         this.startMusic();
 
+        this.feedbackText = this.add.text(0, 135, "", {fontFamily: "NoPixel", fontSize: "16px"});
+        this.feedbackTextFade = this.tweens.add({
+            targets: this.feedbackText,
+            alpha: 0,
+            y: "-=50",
+            duration: 1000,
+            ease: 'Power2'
+        }, this);
         cheatSkip = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F1);
     }
 
@@ -248,21 +256,8 @@ export default class DatingSim extends Phaser.Scene{
     }
 
     displayProgress(stat, change){
-        if(!this.feedbackText){
-            this.feedbackText = this.add.text(0, 0, "", {fontFamily: "NoPixel", fontSize: "16px"})
-        }
-
-        if(!this.feedbackTextFade){
-            this.feedbackTextFade = this.tweens.add({
-                targets: this.feedbackText,
-                alpha: 0,
-                y: "-=50",
-                duration: 1000,
-                ease: 'Power2'
-            }, this);
-        }
-
-        this.feedbackText.setPosition(Math.floor(Math.random()*400 + 40), Math.floor(Math.random()*200 + 35));
+        this.feedbackText.x = Math.floor(Math.random()*400 + 40);
+        this.feedbackText.y = Math.floor(Math.random()*200 + 35);
         this.feedbackText.text = stat + " " + (change > 0 ? "+" + change : change);
         this.feedbackText.setOrigin(0.5, 0.5);
         this.feedbackText.setStyle(change > 0 ? {color: "green"} : {color: "red"});

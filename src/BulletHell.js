@@ -48,6 +48,7 @@ export default class BulletHell extends Phaser.Scene {
         this.setUpEnemies();
 
         this.numEnemiesRemaining;
+        console.log("day: " + this.player.day);
         this.setUpLevel(this.player.day);
         this.numEnemiesRemainingText = this.add.text(240, 10, "", {fontFamily: "NoPixel", fontSize: "16px", color: "white"});
         this.numEnemiesRemainingText.setScrollFactor(0, 0);
@@ -644,11 +645,11 @@ export default class BulletHell extends Phaser.Scene {
             case 1:
                 level = level2;
                 break;
-            case 3:
-                level = level3
+            case 2:
+                level = level3;
                 break;
             default:
-                level = leve1;
+                level = level1;
         }
 
         this.numEnemiesRemaining = 0;

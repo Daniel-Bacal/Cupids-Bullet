@@ -95,7 +95,7 @@ export default class Signup extends Phaser.Scene{
                 } else {
                     this.usernameTextField.remove();
                     this.player.saveToLocalStorage();
-                    this.scene.start("BulletHell");
+                    this.scene.start("MainMenu");
                 }
                 this.destroyText = true;
                 
