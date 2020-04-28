@@ -15,13 +15,13 @@ export default class Behavior{
 
         if(enemy.body.angle >= 0.79 && enemy.body.angle <= 2.35){
             enemy.way = "";
-            enemy.flipX = false;
+            enemy.flipX = true;
         }else if((enemy.body.angle >= -3.15 && enemy.body.angle < -2.35) ||
             (enemy.body.angle <= 3.15 && enemy.body.angle > 2.35)){
             enemy.way = "_front";
         }else if(enemy.body.angle <= -0.79 && enemy.body.angle > -2.35){
             enemy.way = "";
-            enemy.flipX = true;
+            enemy.flipX = false;
         }else{
             enemy.way = "_front";
         }

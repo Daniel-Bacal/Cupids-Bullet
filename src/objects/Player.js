@@ -99,6 +99,17 @@ export default class Player {
         this.directionY = y;
         this.playerSprite.setVelocity(x * this.speed, y * this.speed);
 
+        if(this.directionX !== 0){
+            if(this.directionY === 0){
+                this.dir = this.directionX === 1 ? "d" : "a";
+            }
+            // Otherwise leave it as the most recently set direction
+        } else {
+            if(this.directionY !== 0){
+                this.dir = this.directionY === 1 ? "s" : "w";
+            }
+        }
+
         if(this.dir == "w"){
             //should be back facing sprite
             this.way = "_front";
