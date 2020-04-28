@@ -23,6 +23,7 @@ export default class DayStart extends Phaser.Scene{
             new Person(), new Person(), new Person(), new Person(), new Person()];
         this.matches = [];
         this.index = 0;
+        this.numRejections = 0;
 
         this.personText = this.add.text(240, 130, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
         this.personText.setOrigin(0.5, 0.5);
@@ -47,7 +48,11 @@ export default class DayStart extends Phaser.Scene{
     }
 
     displayCurrentPerson(){
-        if(this.index === 10){
+        if(this.numRejections === 5){
+            for(let i = this.index; i < this.personArray.length; i++){
+                this.matches.push(this.personArray[i]);
+            }
+            this.game.matches = this.matches;
             this.scene.start("SkillTree");
         }
 
@@ -67,6 +72,7 @@ export default class DayStart extends Phaser.Scene{
         this.matches.push(this.personArray[this.index]);
 
         if(this.matches.length === 5){
+            this.game.matches = this.matches;
             this.scene.start("SkillTree");
         }
         this.index++;
@@ -75,6 +81,7 @@ export default class DayStart extends Phaser.Scene{
 
     handleReject(){
         this.index++;
+        this.numRejections++;
         this.displayCurrentPerson();
     }
 }

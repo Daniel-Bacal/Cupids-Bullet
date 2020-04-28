@@ -49,8 +49,8 @@ export default class Person {
         this.messageHistory.push({text: type, sender: "player"});
 
         // Increment relationship meter
-        this.relationshipMeter += this.likesMessage(type)*Math.floor(Math.random()*5 + 1) + this.likesMessage(type) === 0 ? Math.floor(Math.random()*2) : 0;
-
+        this.relationshipMeter += this.likesMessage(type)*Math.floor(Math.random()*4 + 1) + (this.likesMessage(type) === 0 ? Math.floor(Math.random()*2) : 0);
+        console.log(this.relationshipMeter);
         // Every other message type grows less stale
         for(let key in this.messagesRecieved){
             this.messagesRecieved[key] -= 1;
@@ -67,6 +67,11 @@ export default class Person {
         this.nextMessageTime = time + Math.floor(Math.random()*10000 + 5000 - 45*this.relationshipMeter);
 
         this.awaitingMessage = false;
+    }
+
+    incrementRelationshipMeter(inc){
+        this.relationshipMeter += inc;
+        this.relationshipMeter = Phaser.Math.Clamp(this.relationshipMeter, 0, 100);
     }
 
     likesMessage(type){

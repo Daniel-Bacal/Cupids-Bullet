@@ -83,6 +83,12 @@ export default class MathTab extends AbstractTab{
             this.parent.player.incrementStat("int", 1);
             this.parent.displayProgress("intelligence", 1);
 
+            for(let i = 0; i < this.parent.personArray.length; i++){
+                if(this.parent.personArray[i].likesMessage("int")){
+                    this.parent.personArray[i].incrementRelationshipMeter(1);
+                }
+            }
+
             this.feedbackText.text = "Correct!";
             this.feedbackText.setOrigin(0.5, 0.5);
             this.feedbackText.setStyle({color: "green"});

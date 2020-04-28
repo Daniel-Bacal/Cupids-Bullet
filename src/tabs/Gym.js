@@ -75,6 +75,12 @@ export default class Gym extends AbstractTab{
         
         this.parent.player.incrementStat("jock", 3);
         this.parent.displayProgress("jock", 3);
+
+        for(let i = 0; i < this.parent.personArray.length; i++){
+            if(this.parent.personArray[i].likesMessage("jock")){
+                this.parent.personArray[i].incrementRelationshipMeter(1);
+            }
+        }
     }
 
     createArmAnimations(){
