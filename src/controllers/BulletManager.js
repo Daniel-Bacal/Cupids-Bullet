@@ -3,13 +3,16 @@ import Phaser from "phaser";
 const Vector2 = Phaser.Math.Vector2;
 
 export default class BulletManager {
-    constructor(numBullets, scene, sprite, group, collisionData, bulletTimeAlive){
-        // Init instance vars
+    constructor(numBullets, scene, sprite, group, collisionData, bulletTimeAlive, bulletScale, bulletHealth = 1){
+        // Init instance vars  
         this.maxNumBullets = numBullets;
         this.scene = scene;
         this.sprite = sprite;
         this.group = group;
         this.collisionData = collisionData;
+        this.bulletScale = bulletScale;
+        this.bulletHealth = bulletHealth;
+        console.log(this.bulletHealth);
 
         // Init bullet data
         this.bulletTimeAlive = bulletTimeAlive;
@@ -24,6 +27,12 @@ export default class BulletManager {
         for(let i = 0; i < this.maxNumBullets; i++){
             // Create bullet
             bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
+
+            if (this.bulletScale){
+                bullet.setScale(this.bulletScale, this.bulletScale);
+            }
+
+            bullet.health = this.bulletHealth;
 
             bullet.timesFired = 0;
 
@@ -53,8 +62,14 @@ export default class BulletManager {
                 this.collisionData[i].otherGroup,
                 this.group,
                 (obj1, obj2) => {
-                    this.collisionData[i].callback(obj1, obj2);
-                    this.killBullet(obj2);
+                    if (obj1 != obj2.lastCollision){
+                        this.collisionData[i].callback(obj1, obj2);
+                        obj2.lastCollision = obj1;
+                        obj2.health--;
+                        if (obj2.health <= 0){
+                            this.killBullet(obj2); 
+                        }
+                    }
                 },
                 null,
                 this);
@@ -64,6 +79,8 @@ export default class BulletManager {
     requestBullet(xPos, yPos, xDir, yDir, bulletSpeed, damage){
         // Bring a bullet to life
         let bullet = this.deadBullets.pop();
+        bullet.lastCollision = null;
+        bullet.health = this.bulletHealth;
         bullet.isAlive = true;
         bullet.timesFired++;
         let currentTimesFired = bullet.timesFired;

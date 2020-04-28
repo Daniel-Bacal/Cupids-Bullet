@@ -69,7 +69,7 @@ export default class Player {
         this.bulletManager = bulletManager;
 
         this.lastBulletFired = -1000;
-        this.bulletCoolDown = 280 - this.stats.hum;
+        this.bulletCoolDown = 300 - this.stats.hum;
         this.bulletSpeed = 500;
 
         this.speed = 150 + this.stats.hum;
@@ -116,7 +116,7 @@ export default class Player {
         return new Vector2(x, y);
     }
     
-    fireBullet(clickX, clickY, mouseDown, currentTime){
+    fireBullet(clickX, clickY, mouseDown, currentTime, doubleBullet = false){
         if(mouseDown && currentTime - this.lastBulletFired > this.bulletCoolDown){
             this.lastBulletFired = currentTime;
             
@@ -126,8 +126,18 @@ export default class Player {
             let bulletDirection = new Vector2(clickX-playerCenter.x, clickY-playerCenter.y);
       
             bulletDirection.normalize();
-      
-            this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y, this.bulletSpeed, this.damage);
+
+            if (doubleBullet){
+                let newBulletDirection = new Vector2(bulletDirection.x, bulletDirection.y);
+                let angle = Math.atan2(bulletDirection.y, bulletDirection.x);
+                newBulletDirection.setToPolar(angle + Math.PI/12, 1);
+                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, newBulletDirection.x, newBulletDirection.y, this.bulletSpeed, this.damage);
+                newBulletDirection.setToPolar(angle - Math.PI/12, 1);
+                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, newBulletDirection.x, newBulletDirection.y, this.bulletSpeed, this.damage);
+            }
+            else{
+                this.bulletManager.requestBullet(playerCenter.x, playerCenter.y, bulletDirection.x, bulletDirection.y, this.bulletSpeed, this.damage);
+            }
           }
     }
 

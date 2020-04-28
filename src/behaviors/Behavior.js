@@ -1,7 +1,8 @@
 export default class Behavior{
-    constructor(player, scene){
+    constructor(player, scene, speed){
         this.player = player;
         this.scene = scene;
+        this.speed = speed;
     }
 
     setUpEnemy(enemy){}

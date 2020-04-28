@@ -48,7 +48,7 @@ export default class EnemyManager{
         }
     }
 
-    requestEnemy(xPos, yPos, behavior, enemySpeed, enemyHealth, enemyDamage, playerFlirt){
+    requestEnemy(xPos, yPos, behavior, enemyHealth, enemyDamage){
         let enemy = this.deadEnemies.pop();
         enemy.isAlive = true;
 
@@ -58,8 +58,7 @@ export default class EnemyManager{
 
         enemy.behavior = behavior;
         enemy.anims.play(this.sprite + '_walk', true);
-        enemy.speed = enemySpeed;
-        enemy.health = enemyHealth - playerFlirt;
+        enemy.health = enemyHealth;
         enemy.maxHealth = enemy.health;
         enemy.damage = enemyDamage;
 
