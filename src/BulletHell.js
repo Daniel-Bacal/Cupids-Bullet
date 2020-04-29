@@ -16,10 +16,10 @@ export default class BulletHell extends Phaser.Scene {
         super({
         key: "BulletHell"
         });
-        this.keysPressed = {w: 0, a: 0, s: 0, d: 0};
     }
 
     create() {
+        this.keysPressed = {w: 0, a: 0, s: 0, d: 0};
         this.physics.world.setBounds(0, 0, 2*480, 2*270);
 
         this.background = this.add.image(0, 0, "bullet-hell-background");
@@ -121,6 +121,10 @@ export default class BulletHell extends Phaser.Scene {
                       this.victoryTextAnimation.restart();
                 }
                 if(this.time.now > this.endTimer){
+                    if(this.player.day === 2){
+                        // You've won (for now) TODO: finish this
+                        this.goToScene("GameWin");
+                    }
                     this.goToScene("EndOfDay");
                 }    
             }
@@ -566,7 +570,7 @@ export default class BulletHell extends Phaser.Scene {
                 this.player.health -= bullet.damage;
                 this.sound.play("PlayerTakingDamageSFX")
                 if (this.player.health <= 0){
-                    this.scene.start("MainMenu");
+                    this.goToScene("GameOver");
                 }
                 //   this.player.getSprite().anims.play('player_death', true);
                 //   // this.player.getSprite().anims.play('player_damage', true);
@@ -661,12 +665,12 @@ export default class BulletHell extends Phaser.Scene {
         let x;
         let y;
         let type;
-        for(let i = 0; i < level1.length; i++){
+        for(let i = 0; i < level.length; i++){
             row = Math.floor(i/numCols);
             col = i%numCols;
             x = col*cellSize;
             y = row*cellSize;
-            type = level1.charAt(i);
+            type = level.charAt(i);
             switch(type){
                 case 'W':
                     // Create wall

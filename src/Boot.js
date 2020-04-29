@@ -71,6 +71,9 @@ export default class Boot extends Phaser.Scene{
         this.load.image("end-of-day", "assets/end-of-day.png");
         this.load.image("heart-box", "assets/heart-box.png");
         this.load.image("status-heart", "assets/status-heart.png");
+        this.load.image("game-win", "assets/game-win.png");
+        this.load.image("game-over", "assets/game-over.png");
+        this.load.image("choice-background", "assets/choice-background.png");
 
         // Load sprites
         this.load.spritesheet("bullet", "assets/bullet.png", {
@@ -133,6 +136,8 @@ export default class Boot extends Phaser.Scene{
         this.load.audio("Battle", "assets/music/BattleMusic.mp3");
         this.load.audio("Day1", "assets/music/DatingDay1.mp3")
         this.load.audio("level-select", "assets/music/level-select.mp3");
+        this.load.audio("victory-music", "assets/music/victory-music.mp3");
+        this.load.audio("game-over", "assets/music/game-over.mp3");
 
         this.load.audio("CannedLaughterSFX", "assets/SFX/CannedLaughterSFX.mp3");
         this.load.audio("ChalkSFX", "assets/SFX/ChalkSFX.mp3");

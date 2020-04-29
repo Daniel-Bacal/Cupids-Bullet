@@ -13,6 +13,7 @@ export default class EndOfDay extends Phaser.Scene{
 
         // Save player
         this.game.player.day++;
+        console.log("day: " + this.game.player.day);
         if(this.game.player.day > 3){
             this.game.player.day = 3;
         }
@@ -24,14 +25,87 @@ export default class EndOfDay extends Phaser.Scene{
         let background = this.add.graphics();
         background.fillStyle(0x000000);
         background.fillRect(0, 0, 480, 270);
-        this.add.text(240, 50, "Day " + (this.game.player.day) + " Complete", {fontFamily: "NoPixel", fontSize: "48px", color: "white"}).setOrigin(0.5, 0.5);
-        this.add.text(240, 125, "You landed a date", {fontFamily: "NoPixel", fontSize: "16px", color: "white"}).setOrigin(0.5, 0.5);
-        let btn = Button(this, 240, 200, "Continue");
+
+        let text = "Day " + (this.game.player.day) + " Complete";
+        let x = 75 - 600;
+        let lastWidth = 0;
+        let delay = (text.length - 1)*40 + 2500;
+        for(let i = 0; i < text.length; i++){
+            let c = text.charAt(i);
+            if(c === 'l'){
+                lastWidth -= 10;
+            }
+            let t = this.add.text(x + lastWidth, 50, c, {fontFamily: "NoPixel", fontSize: "48px", color: "white"}).setOrigin(0.5, 0.5);
+            if(c === 'l'){
+                lastWidth += 10;
+            }
+            lastWidth += t.displayWidth;
+            this.add.tween({
+                targets: t,
+                x: "+=600",
+                ease: "power2",
+                duration: 500,
+                delay: delay
+            });
+            delay -= 40;
+        }
+
+        
+        
+        text = "You landed a date";
+        x = 170 - 600;
+        lastWidth = 0;
+        delay = (text.length - 1)*40 + 4500;
+        for(let i = 0; i < text.length; i++){
+            let c = text.charAt(i);
+            if(c === 'l'){
+                lastWidth -= 3;
+            }
+            let t = this.add.text(x + lastWidth, 125, c, {fontFamily: "NoPixel", fontSize: "16px", color: "white"}).setOrigin(0.5, 0.5);
+            if(c === 'l'){
+                lastWidth += 3;
+            }
+            lastWidth += t.displayWidth;
+            this.add.tween({
+                targets: t,
+                x: "+=600",
+                ease: "power2",
+                duration: 500,
+                delay: delay
+            });
+            delay -= 40;
+        }
+        
+        let btn = Button(this, 240, 200 + 200, "Continue");
         btn.setButtonColor("white");
         btn.setButtonHoverColor("#DDDDDD");
         btn.setButtonOnClick(() => {
             this.scene.start("LevelSelect");
-        })
+        });
+
+        this.add.tween({
+            targets: [btn, btn.buttonBackgroundImage],
+            y: "-=200",
+            ease: "power4",
+            duration: 1000,
+            delay: 6800
+        });
+
+        let musicName = "victory-music"
+        if(this.game.music && this.game.music.isPlaying){
+            if(this.game.music.songName !== musicName){
+              this.game.music.stop();
+              this.game.music = this.sound.add(musicName, {loop: false});
+              this.game.music.play();
+              this.game.music.isPlaying = true;
+              this.game.music.songName = musicName;
+            }
+        } else {
+            this.game.music = this.sound.add(musicName, {loop: false});
+            this.game.music.play();
+            this.game.music.isPlaying = true;
+            this.game.music.songName = musicName;
+        }
     }
 
 
