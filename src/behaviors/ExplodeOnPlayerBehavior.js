@@ -50,6 +50,8 @@ export default class ExplodeOnPlayerBehavior extends Behavior{
                     opp.x /= 200/Phaser.Math.Clamp(dist, 0, 150);
                     opp.y /= 200/Phaser.Math.Clamp(dist, 0, 150);
                     enemy.currentDirection = enemy.currentDirection.add(opp).normalize();
+                    let rand = (new Vector2(Math.random(), Math.random())).normalize().divide(new Vector2(10, 10));
+                    enemy.currentDirection = enemy.currentDirection.add(rand).normalize();
                     this.setEnemyVelocity(enemy, enemy.currentDirection.x*speed, enemy.currentDirection.y*speed);
                 }
             } else {

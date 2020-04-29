@@ -4,6 +4,7 @@ import EnemyManager from "./controllers/EnemyManager"
 import Player from "../src/objects/Player";
 import FireAtPlayerBehavior from "./behaviors/FireAtPlayerBehavior"
 import ExplodeOnPlayerBehavior from "./behaviors/ExplodeOnPlayerBehavior"
+import FireShotgunAtPlayerBehavior from "./behaviors/FireShotgunAtPlayerBehavior"
 import Button from "./ui_elements/Button"
 import { level1, level2, level3 } from "./levels/levels"
 
@@ -32,6 +33,7 @@ export default class BulletHell extends Phaser.Scene {
         }
 
         this.bulletHealth = 1;
+        this.enemyScale = 1;
 
         this.initPlayerSkills();
 
@@ -473,16 +475,17 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     setUpCollisions(){
-        this.physics.add.collider(this.player.getSprite(), this.fEnemyGroup);
-        this.physics.add.collider(this.player.getSprite(), this.mEnemyGroup);
-        this.physics.add.collider(this.player.getSprite(), this.oEnemyGroup);
+        // TODO: Having colliders allows players and enemies to be pushed into walls
+        // this.physics.add.collider(this.player.getSprite(), this.fEnemyGroup);
+        // this.physics.add.collider(this.player.getSprite(), this.mEnemyGroup);
+        // this.physics.add.collider(this.player.getSprite(), this.oEnemyGroup);
 
-        this.physics.add.collider(this.fEnemyGroup, this.fEnemyGroup);
-        this.physics.add.collider(this.mEnemyGroup, this.fEnemyGroup);
-        this.physics.add.collider(this.mEnemyGroup, this.mEnemyGroup);
-        this.physics.add.collider(this.fEnemyGroup, this.oEnemyGroup);
-        this.physics.add.collider(this.mEnemyGroup, this.oEnemyGroup);
-        this.physics.add.collider(this.oEnemyGroup, this.oEnemyGroup);
+        // this.physics.add.collider(this.fEnemyGroup, this.fEnemyGroup);
+        // this.physics.add.collider(this.mEnemyGroup, this.fEnemyGroup);
+        // this.physics.add.collider(this.mEnemyGroup, this.mEnemyGroup);
+        // this.physics.add.collider(this.fEnemyGroup, this.oEnemyGroup);
+        // this.physics.add.collider(this.mEnemyGroup, this.oEnemyGroup);
+        // this.physics.add.collider(this.oEnemyGroup, this.oEnemyGroup);
 
         this.physics.add.collider(this.fEnemyGroup, this.walls);
         this.physics.add.collider(this.mEnemyGroup, this.walls);
@@ -560,7 +563,55 @@ export default class BulletHell extends Phaser.Scene {
             callback: (wall, bullet) => {}
         }]);
 
-        this.enemyBulletManager.setCollisionData([{
+        this.fEnemyBulletManager.setCollisionData([{
+            otherGroup: this.player.getSprite(),
+            callback: (playerSprite, bullet) => {
+                // this.player.getSprite().anims.play('player' + this.player.way + '_damage', true);
+                // // this.player.getSprite().anims.play('player_damage', true);
+                // this.player.getSprite().on("animationcomplete", () =>
+                //     this.player.health -= bullet.damage,
+                // this.sound.play("PlayerTakingDamageSFX"));
+                this.player.health -= bullet.damage;
+                this.sound.play("PlayerTakingDamageSFX")
+                if (this.player.health <= 0){
+                    this.goToScene("GameOver");
+                }
+                //   this.player.getSprite().anims.play('player_death', true);
+                //   // this.player.getSprite().anims.play('player_damage', true);
+                //   this.player.getSprite().on("animationcomplete", () =>
+                // this.scene.start("MainMenu"));
+            }
+        },
+        {
+            otherGroup: this.walls,
+            callback: (wall, bullet) => {}
+        }]);
+
+        this.mEnemyBulletManager.setCollisionData([{
+            otherGroup: this.player.getSprite(),
+            callback: (playerSprite, bullet) => {
+                // this.player.getSprite().anims.play('player' + this.player.way + '_damage', true);
+                // // this.player.getSprite().anims.play('player_damage', true);
+                // this.player.getSprite().on("animationcomplete", () =>
+                //     this.player.health -= bullet.damage,
+                // this.sound.play("PlayerTakingDamageSFX"));
+                this.player.health -= bullet.damage;
+                this.sound.play("PlayerTakingDamageSFX")
+                if (this.player.health <= 0){
+                    this.goToScene("GameOver");
+                }
+                //   this.player.getSprite().anims.play('player_death', true);
+                //   // this.player.getSprite().anims.play('player_damage', true);
+                //   this.player.getSprite().on("animationcomplete", () =>
+                // this.scene.start("MainMenu"));
+            }
+        },
+        {
+            otherGroup: this.walls,
+            callback: (wall, bullet) => {}
+        }]);
+
+        this.oEnemyBulletManager.setCollisionData([{
             otherGroup: this.player.getSprite(),
             callback: (playerSprite, bullet) => {
                 // this.player.getSprite().anims.play('player' + this.player.way + '_damage', true);
@@ -599,8 +650,30 @@ export default class BulletHell extends Phaser.Scene {
         );
 
         // Enemy bullet manager
-        this.enemyBulletManager = new BulletManager(
+        this.fEnemyBulletManager = new BulletManager(
+            300,
+            this,
+            "bullet",
+            this.enemyBullets,
+            [],
+            500,
+            0.7*this.enemyScale
+        );
+
+        // Enemy bullet manager
+        this.mEnemyBulletManager = new BulletManager(
+            300,
+            this,
+            "bullet",
+            this.enemyBullets,
+            [],
             1000,
+            this.enemyScale
+        );
+
+        // Enemy bullet manager
+        this.oEnemyBulletManager = new BulletManager(
+            300,
             this,
             "bullet",
             this.enemyBullets,
@@ -611,7 +684,7 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     setUpEnemies(){
-        this.fEnemyManager = new EnemyManager(100, this, "fEnemy", this.fEnemyGroup, this.enemyBulletManager);
+        this.fEnemyManager = new EnemyManager(100, this, "fEnemy", this.fEnemyGroup, this.fEnemyBulletManager);
 
         // this.fEnemyManager.requestEnemy(100, 100, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
         // this.fEnemyManager.requestEnemy(300, 300, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
@@ -623,13 +696,13 @@ export default class BulletHell extends Phaser.Scene {
         // this.fEnemyManager.requestEnemy(350, 150, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
         // this.fEnemyManager.requestEnemy(450, 250, new ExplodeOnPlayerBehavior(this.player, this), 120, 500, 50, this.player.stats.flirt);
 
-        this.mEnemyManager = new EnemyManager(100, this, "mEnemy", this.mEnemyGroup, this.enemyBulletManager);
+        this.mEnemyManager = new EnemyManager(100, this, "mEnemy", this.mEnemyGroup, this.mEnemyBulletManager);
         // this.mEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
         // this.mEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
         // this.mEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
         // this.mEnemyManager.requestEnemy(400, 400, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
 
-        this.oEnemyManager = new EnemyManager(100, this, "oEnemy", this.oEnemyGroup, this.enemyBulletManager);
+        this.oEnemyManager = new EnemyManager(100, this, "oEnemy", this.oEnemyGroup, this.oEnemyBulletManager);
         // this.oEnemyManager.requestEnemy(200, 100, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="purple" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
         // this.oEnemyManager.requestEnemy(400, 200, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="purple" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
         // this.oEnemyManager.requestEnemy(300, 500, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="purple" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
@@ -679,7 +752,7 @@ export default class BulletHell extends Phaser.Scene {
                     break;
                 case 'F':
                     // Create female enemy
-                    this.fEnemyManager.requestEnemy(x, y, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+                    this.fEnemyManager.requestEnemy(x, y, new FireShotgunAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
                     this.numEnemiesRemaining++;
                     break;
                 case 'M':
@@ -689,7 +762,7 @@ export default class BulletHell extends Phaser.Scene {
                     break;
                 case 'O':
                     // Create other enemy
-                    this.oEnemyManager.requestEnemy(x, y, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="purple" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+                    this.oEnemyManager.requestEnemy(x, y, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="purple" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
                     this.numEnemiesRemaining++;
                     break;
                 case 'P':

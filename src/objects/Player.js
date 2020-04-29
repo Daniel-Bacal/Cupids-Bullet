@@ -138,7 +138,7 @@ export default class Player {
     }
 
     getDirection(){
-        return new Vector2(x, y);
+        return new Vector2(this.directionX, this.directionY);
     }
     
     fireBullet(clickX, clickY, mouseDown, currentTime, doubleBullet = false){

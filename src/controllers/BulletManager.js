@@ -62,6 +62,7 @@ export default class BulletManager {
                 this.collisionData[i].otherGroup,
                 this.group,
                 (obj1, obj2) => {
+                    if(obj1.isDying) return;
                     if (obj1 != obj2.lastCollision){
                         this.collisionData[i].callback(obj1, obj2);
                         obj2.lastCollision = obj1;

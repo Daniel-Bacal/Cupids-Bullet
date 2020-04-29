@@ -3,9 +3,9 @@ import Behavior from "./Behavior"
 
 const Vector2 = Phaser.Math.Vector2;
 
-export default class FireAtPlayerBehavior extends Behavior{
+export default class FireShotgunAtPlayerBehavior extends Behavior{
     setUpEnemy(enemy){
-        enemy.bulletCoolDown = 1000;
+        enemy.bulletCoolDown = 2000;
         enemy.lastBulletFired = -1000;
         enemy.bulletSpeed = 200;
         enemy.currentDirection = new Vector2();
@@ -50,9 +50,15 @@ export default class FireAtPlayerBehavior extends Behavior{
                 enemy.lastBulletFired = this.scene.time.now + Math.floor(Math.random()*200);
                 let enemyPosition = enemy.getCenter();
                 let playerPosition = this.player.getCenter();
-                let dir = new Vector2(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
+                let playerDir = this.player.getDirection();
+                let dir = new Vector2(playerPosition.x + playerDir.x*100 - enemyPosition.x, playerPosition.y + playerDir.y*100 - enemyPosition.y);
                 dir = dir.normalize();
-                enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, dir.x, dir.y, enemy.bulletSpeed, enemy.damage, "blue");
+                let angle = Math.atan2(dir.y, dir.x);
+                for(let i = 0; i < 6; i++){
+                    dir.setToPolar(angle + Math.random()*Math.PI/6, 1);
+                    let speed = enemy.bulletSpeed*(Math.random() + 0.5);
+                    enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, dir.x, dir.y, speed, enemy.damage, "blue");
+                } 
             }
         }
         else{
