@@ -50,7 +50,7 @@ export default class BulletHell extends Phaser.Scene {
         this.numEnemiesRemaining;
         console.log("day: " + this.player.day);
         this.setUpLevel(this.player.day);
-        this.numEnemiesRemainingText = this.add.text(240, 10, "", {fontFamily: "NoPixel", fontSize: "16px", color: "white"});
+        this.numEnemiesRemainingText = this.add.text(240, 20, "", {fontFamily: "NoPixel", fontSize: "16px", color: "white"});
         this.numEnemiesRemainingText.setScrollFactor(0, 0);
         this.endTimer = null;
 
@@ -124,8 +124,9 @@ export default class BulletHell extends Phaser.Scene {
                     if(this.player.day === 2){
                         // You've won (for now) TODO: finish this
                         this.goToScene("GameWin");
+                    } else {
+                        this.goToScene("EndOfDay");
                     }
-                    this.goToScene("EndOfDay");
                 }    
             }
             if (Phaser.Input.Keyboard.JustDown(space)){
@@ -821,6 +822,15 @@ export default class BulletHell extends Phaser.Scene {
             this.scene.stop("Controls");
         }});
         this.scene.bringToTop("Controls");
+    }
+
+    goToHelp(){
+        this.scene.sleep("PauseMenu");
+        this.scene.launch("Help", {returnCallback: () => {
+            this.scene.wake("PauseMenu");
+            this.scene.stop("Help");
+        }});
+        this.scene.bringToTop("Help");
     }
 
     initPlayerHealth(){

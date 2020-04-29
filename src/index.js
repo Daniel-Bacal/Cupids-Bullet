@@ -26,6 +26,7 @@ import ChooseDate from "./ChooseDate";
 import EndOfDay from "./EndOfDay"
 import GameWin from "./GameWin"
 import GameOver from "./GameOver";
+import Help from "./Help";
 
 const config = {
   type: Phaser.AUTO,
@@ -47,7 +48,7 @@ const config = {
     }
   },
   plugins: ['SceneManager', 'Clock'],
-  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DayStart, SkillTree, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell, YesNoModal, ChooseDate, EndOfDay, GameWin, GameOver]
+  scene: [Boot, SplashScreen, MainMenu, Backstory, Controls, Login, Signup, About, LevelSelect, DayStart, SkillTree, DatingSim, Home, Matches, Gym, Haikus, Jokes, Math, Ads, PauseMenu, BulletHell, YesNoModal, ChooseDate, EndOfDay, GameWin, GameOver, Help]
 };
 
 

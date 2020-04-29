@@ -35,7 +35,14 @@ export default class ChooseDate extends Phaser.Scene{
         let x = 74 - 600;
         let y = 27;
         let xInc = 93;
+
+        this.numMatches = 0;
+        let groups = [];
         for(let i = 0; i < this.matches.length; i++){
+            if(this.matches[i].relationshipMeter > 60){
+                this.numMatches++;
+            }
+
             let elements = [];
 
             // Add background
@@ -107,6 +114,7 @@ export default class ChooseDate extends Phaser.Scene{
                 elements.push(gs);
             }
 
+            groups.push(elements);
             this.add.tween({
                 targets: elements,
                 x: '+=600',
@@ -142,7 +150,6 @@ export default class ChooseDate extends Phaser.Scene{
             this.game.music.songName = "level-select"
         }
 
-        // TODO: animate this text
         this.selectText = this.add.text(87 + 600, 199, "Select a date", {fontFamily: "NoPixel", fontSize: "48px", color: "#431c5c"}).setOrigin(0, 0);
 
         this.add.tween({
@@ -161,9 +168,44 @@ export default class ChooseDate extends Phaser.Scene{
             yoyo: true,
             loop: -1
         });
+
+        this.loseTimer = Infinity;
+        if(this.numMatches === 0){
+            // No matches, lose game
+            let noMatchesBackground = this.add.image(0, 197 - 400, "end-of-day-banner").setOrigin(0, 0);
+            let noMatches = this.add.text(87, 199 - 400, "No Matches!", {fontFamily: "NoPixel", fontSize: "48px", color: "#431c5c"}).setOrigin(0, 0);
+
+            this.add.tween({
+                targets: [noMatches, noMatchesBackground],
+                y: "+=400",
+                duration: 1000,
+                delay: 1000,
+                ease: "power2"
+            });
+
+            let d = 0;
+            for(let i in groups){
+                this.add.tween({
+                    targets: groups[i],
+                    delay: 2000 + d,
+                    alpha: {from: 1, to: 0},
+                    scale: {from: 1, to: 0},
+                    rotation: 10,
+                    duration: 1000,
+                    ease: "Sine.easeInOut"
+                });
+                d += 200;
+            }
+        }
     }
 
     update(){
-        this.selectText
+        if(this.numMatches === 0 && this.loseTimer === Infinity){
+            this.loseTimer = this.time.now + 5000;
+        }
+
+        if(this.time.now >= this.loseTimer){
+            this.scene.start("GameOver");
+        }
     }
 }

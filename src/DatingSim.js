@@ -200,6 +200,15 @@ export default class DatingSim extends Phaser.Scene{
         this.scene.bringToTop("Controls");
     }
 
+    goToHelp(){
+        this.scene.sleep("PauseMenu");
+        this.scene.launch("Help", {returnCallback: () => {
+            this.scene.wake("PauseMenu");
+            this.scene.stop("Help");
+        }});
+        this.scene.bringToTop("Help");
+    }
+
     startMusic(){
         let musicName = "Day" + 1;//this.player.getName();
         if(this.game.music && this.game.music.isPlaying){

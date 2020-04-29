@@ -69,7 +69,7 @@ export default class Player {
         this.bulletManager = bulletManager;
 
         this.lastBulletFired = -1000;
-        this.bulletCoolDown = 300 - this.stats.hum;
+        this.bulletCoolDown = 300 - this.stats.int;
         this.bulletSpeed = 500;
 
         this.speed = 150 + this.stats.hum;

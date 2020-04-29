@@ -44,9 +44,11 @@ export default class LevelSelect extends Phaser.Scene {
 
         let currentDay = player.getDay();
 
+        this.add.text(98, 65, currentDay + 1, {fontFamily: "NoPixel", fontSize: "24px", color: "white"}).setOrigin(0.5, 0.5);
+
         // this.add.image(, "level-select-circle");
 
-        for(let i = currentDay + 1; i <= 3; i++){
+        for(let i = 0; i < currentDay; i++){
             this.add.image(locations[i].x, locations[i].y, "level-select-x");
         }
 
@@ -61,7 +63,13 @@ export default class LevelSelect extends Phaser.Scene {
         levelSelectButtons[0].setButtonHoverColor("#431c5c");
 
         levelSelectButtons[1].setButtonOnClick(() => {
-            this.scene.start("DayStart");
+            if(currentDay === 0){
+                this.scene.start("Help", {returnCallback(){
+                    this.scene.start("DayStart");
+                }});
+            } else {
+                this.scene.start("DayStart");
+            }
         });
     }
 
