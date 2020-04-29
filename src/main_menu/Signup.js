@@ -3,6 +3,7 @@ import TextField from "../ui_elements/TextField.js";
 import Button from "../ui_elements/Button";
 import Player from "../objects/Player";
 import MathGenerator from "../utils/MathGenerator";
+import { playerBioText } from "../utils/PlayerBioText"
 
 let mathExp;
 let mathGen;
@@ -47,6 +48,8 @@ export default class Signup extends Phaser.Scene{
             this.answerButtons[i].setButtonOnClick(() => {
                 let incStats = this.question["answers"][i]["inc"].split(" ");
                 let decStats = this.question["answers"][i]["dec"].split(" ");
+                this.player.bio += playerBioText[this.pageNum][i] + " ";
+                console.log(this.player.bio);
                 for (let j = 0; j < incStats.length; j++){
                     this.player.incrementStat(incStats[j], 1);
                 }
@@ -158,6 +161,7 @@ export default class Signup extends Phaser.Scene{
                         this.answerButtons[i].setButtonOnClick(() => {
                         let incStats = this.question["answers"][i]["inc"].split(" ");
                         let decStats = this.question["answers"][i]["dec"].split(" ");
+                        this.player.bio += playerBioText[this.pageNum][i] + " ";
                         for (let j = 0; j < incStats.length; j++){
                             this.player.incrementStat(incStats[j], 1);
                         }
@@ -179,9 +183,11 @@ export default class Signup extends Phaser.Scene{
                 if (this.answerButtons[0].value){
                     if (this.answerButtons[0].value == currentProblem.value){
                         this.player.incrementStat("int", 3);
+                        this.player.bio += playerBioText[this.pageNum][0] + " ";
                     }
                     else{
                         this.player.incrementStat("int", -2);
+                        this.player.bio += playerBioText[this.pageNum][1] + " ";
                     }
                     this.pageNum++;
                     this.destroyText = true;

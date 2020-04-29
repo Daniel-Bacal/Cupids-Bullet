@@ -40,8 +40,8 @@ export default class Home extends AbstractTab{
         this.generateBio();
 
         let bio = this.parent.player.getBio()
-        let bioText = this.add.text(170, 200, bio, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px", align: "center", wordWrap: { width: 320, useAdvancedWrap: true }});
-        bioText.setOrigin(0.5, 0.5);
+        let bioText = this.add.text(170, 170, bio, {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", align: "center", wordWrap: { width: 320, useAdvancedWrap: true }});
+        bioText.setOrigin(0.5, 0);
 
     }
 
