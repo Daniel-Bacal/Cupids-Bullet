@@ -28,6 +28,9 @@ export default class DayStart extends Phaser.Scene{
         this.personText = this.add.text(240, 130, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
         this.personText.setOrigin(0.5, 0.5);
 
+        this.bioText = this.add.text(240, 150, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px",  wordWrap: { width: 170, useAdvancedWrap: true }});
+        this.personText.setOrigin(0.5, 0);
+
         let like = Button(this, 370, 135, "", "8px", "heart-button", 54, 54);
         like.setButtonOnClick(() => {
             this.handleMatch();
@@ -60,7 +63,9 @@ export default class DayStart extends Phaser.Scene{
         this.personText.setText(name);
 
         let appearance = this.personArray[this.index].getAppearance();
-        let preferenceText = this.personArray[this.index].getPreferences();
+        let bioText = this.personArray[this.index].getBio();
+        this.bioText.setText(bioText);
+        this.bioText.setOrigin(0.5, 0);
 
         for(let i in appearance){
             let image = this.add.image(240, 60, appearance[i]);

@@ -1,5 +1,6 @@
-import { randIntFrom } from "../utils/MathUtils"
+import { randIntFrom } from "../utils/MathUtils";
 import NameGenerator from "../utils/NameGenerator";
+import BioGenerator from "../utils/BioGenerator";
 import Phaser from "phaser";
 
 export default class Person {
@@ -11,6 +12,7 @@ export default class Person {
         this.gender = 0;
         this.bio = "";
         this.nameGenerator = new NameGenerator();
+        this.bioGenerator = new BioGenerator();
         this.relationshipMeter = 0;
         this.messagesRecieved = {jock : 0, flirt: 0, hum: 0, int: 0, sinc: 0};
         this.nextMessageTime = Infinity;
@@ -97,6 +99,7 @@ export default class Person {
         this.generateRandomName();
         this.generateRandomPreferences();
         this.generateRandomAppearance();
+        this.generateBio();
         this.relationshipMeter = Math.floor(Math.random()*20);
     }
 
@@ -128,7 +131,9 @@ export default class Person {
     }
 
     generateBio(){
-        //todo
+        this.bioGenerator.setPreferences(this.preferences);
+        this.bio = this.bioGenerator.generateBio();
+
     }
 
     saveToSession(){
