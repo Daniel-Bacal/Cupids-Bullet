@@ -26,13 +26,7 @@ export default class Matches extends AbstractTab{
         this.matchMessageX = 230;
         this.messages = [null, null, null, null, null];
         this.messageTexts = [null, null, null, null, null];
-        
-        this.preferences = [];
-        let y = 150;
-        for(let i = 0; i <= 5; i++){
-            this.preferences.push(this.add.text(60, y, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"}));
-            y = y + 10;
-        }
+        this.bioText = this.add.text(15, 150, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", wordWrap: { width: 150, useAdvancedWrap: true }});
 
         this.initMessaging();
 
@@ -82,14 +76,8 @@ export default class Matches extends AbstractTab{
         this.personText.setText(name);
 
         this.appearance = person.getAppearance();
-        this.preferenceText = person.getPreferences();
-
-        this.add.text(60, 140, "preferences:", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px"});
-
-        let i = 0;
-        for(let key in this.preferenceText){
-            this.preferences[i++].text = key + ": " + this.preferenceText[key];
-        }
+        let tempBioText = person.getBio();
+        this.bioText.setText(tempBioText);
 
         for(let i in this.appearance){
             this.add.image(61, 88, this.appearance[i]);
