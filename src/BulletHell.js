@@ -747,8 +747,37 @@ export default class BulletHell extends Phaser.Scene {
             type = level.charAt(i);
             switch(type){
                 case 'W':
-                    // Create wall
-                    this.addWall(x, y);
+                    this.addWall(x, y, "wall");
+                    break;
+                case 'L':
+                    this.addWall(x, y, "left-wall");
+                    break;
+                case 'R':
+                    this.addWall(x, y, "right-wall");
+                    break;
+                case 'V':
+                    this.addWall(x, y, "vertical-wall");
+                    break;
+                case 'H':
+                    this.addWall(x, y, "horizontal-wall");
+                    break;
+                case 'T':
+                    this.addWall(x, y, "top-wall");
+                    break;
+                case 'B':
+                    this.addWall(x, y, "bot-wall");
+                    break;
+                case '1':
+                    this.addWall(x, y, "TL-wall");
+                    break;
+                case '2':
+                    this.addWall(x, y, "TR-wall");
+                    break;
+                case '3':
+                    this.addWall(x, y, "BL-wall");
+                    break;
+                case '4':
+                    this.addWall(x, y, "BR-wall");
                     break;
                 case 'F':
                     // Create female enemy
@@ -802,8 +831,8 @@ export default class BulletHell extends Phaser.Scene {
         });
     }
 
-    addWall(x, y){
-        let wall = this.walls.create(x, y, "wall");
+    addWall(x, y, key){
+        let wall = this.walls.create(x, y, key);
     }
 
     updatePlayer(){

@@ -63,7 +63,6 @@ export default class Boot extends Phaser.Scene{
         this.load.image("x-button", "assets/x-button.png");
         this.load.image("player", "assets/player.png");
         this.load.image("bullet-hell-background", "assets/bullet-hell-background.png");
-        this.load.image("wall", "assets/wall.png");
         this.load.image("modal", "assets/modal.png");
         this.load.image("skill-tree", "assets/skill-tree.png")
         this.load.image("person-message", "assets/person-message.png");
@@ -75,6 +74,19 @@ export default class Boot extends Phaser.Scene{
         this.load.image("game-over", "assets/game-over.png");
         this.load.image("choice-background", "assets/choice-background.png");
         this.load.image("end-of-day-banner", "assets/end-of-day-banner.png");
+
+        this.load.image("wall", "assets/walls/wall.png");
+        this.load.image("left-wall", "assets/walls/left-wall.png");
+        this.load.image("horizontal-wall", "assets/walls/horizontal-wall.png");
+        this.load.image("right-wall", "assets/walls/right-wall.png");
+        this.load.image("top-wall", "assets/walls/top-wall.png");
+        this.load.image("vertical-wall", "assets/walls/vertical-wall.png");
+        this.load.image("bot-wall", "assets/walls/bot-wall.png");
+        this.load.image("TL-wall", "assets/walls/TL-wall.png");
+        this.load.image("TR-wall", "assets/walls/TR-wall.png");
+        this.load.image("BL-wall", "assets/walls/BL-wall.png");
+        this.load.image("BR-wall", "assets/walls/BR-wall.png");
+        this.load.image("empty-wall", "assets/walls/empty-wall.png");
 
         // Load sprites
         this.load.spritesheet("bullet", "assets/bullet.png", {
