@@ -13,7 +13,21 @@ export default class ChooseDate extends Phaser.Scene{
     }
 
     create(){
-        this.background = this.add.image(0, 0, "end-of-day").setOrigin(0, 0);
+        this.anims.create({
+            key: "pick-date",
+            frames: this.anims.generateFrameNumbers("heart", {
+                start: 0,
+                end: 15
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        // this.background = this.add.image(0, 0, "end-of-day-banner").setOrigin(0, 0);
+        this.background = this.add.sprite(0, 0, 'pick-date').setOrigin(0,);
+        this.background.anims.play("pick-date", true);
+
+        let banner = this.add.image(0, 200, "end-of-day-banner").setOrigin(0, 0);
 
         this.matches = this.game.matches;
 

@@ -16,6 +16,19 @@ export default class DayStart extends Phaser.Scene{
     }
 
     create(){
+        this.anims.create({
+            key: "swipe-date",
+            frames: this.anims.generateFrameNumbers("heart", {
+                start: 0,
+                end: 15
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.background = this.add.sprite(0, 0, 'swipe-date').setOrigin(0,0);
+        this.background.anims.play("swipe-date", true);
+
         let home = this.add.image(0, 0, "swipe");
         home.setOrigin(0, 0);
 

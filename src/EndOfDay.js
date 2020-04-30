@@ -22,9 +22,21 @@ export default class EndOfDay extends Phaser.Scene{
     }
 
     create(){
-        let background = this.add.graphics();
-        background.fillStyle(0x000000);
-        background.fillRect(0, 0, 480, 270);
+        this.anims.create({
+            key: "got-date",
+            frames: this.anims.generateFrameNumbers("night", {
+                start: 0,
+                end: 24
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.background = this.add.sprite(0, 0, 'got-date').setOrigin(0,0);
+        this.background.anims.play("got-date", true);
+        // let background = this.add.graphics();
+        // background.fillStyle(0x000000);
+        // background.fillRect(0, 0, 480, 270);
 
         let text = "Day " + (this.game.player.day) + " Complete";
         let x = 75 - 600;

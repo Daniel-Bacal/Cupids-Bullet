@@ -109,6 +109,12 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("arm", "assets/arm.png", {
             frameWidth: 186, frameHeight: 157
         });
+        this.load.spritesheet("night", "assets/night-sheet.png", {
+            frameWidth: 480, frameHeight: 270
+        });
+        this.load.spritesheet("heart", "assets/heart-sheet.png", {
+            frameWidth: 480, frameHeight: 270
+        });
 
         // Load JSON Files
         this.load.json("questionnaire","text_data/questionnaire.json");
