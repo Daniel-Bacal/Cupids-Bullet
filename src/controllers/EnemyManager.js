@@ -48,7 +48,7 @@ export default class EnemyManager{
         }
     }
 
-    requestEnemy(xPos, yPos, behavior, enemyHealth, enemyDamage){
+    requestEnemy(xPos, yPos, behavior, enemyHealth, enemyDamage, enemyScale){
         let enemy = this.deadEnemies.pop();
         enemy.isAlive = true;
 
@@ -62,6 +62,7 @@ export default class EnemyManager{
         enemy.health = enemyHealth;
         enemy.maxHealth = enemy.health;
         enemy.damage = enemyDamage;
+        enemy.setScale(enemyScale, enemyScale);
 
         enemy.behavior.setUpEnemy(enemy);
     }

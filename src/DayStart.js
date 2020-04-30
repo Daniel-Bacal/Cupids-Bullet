@@ -25,6 +25,11 @@ export default class DayStart extends Phaser.Scene{
         this.index = 0;
         this.numRejections = 0;
 
+        this.rejectionsRemaining = 5;
+        this.matchesRemaining = 5;
+
+        this.matchesRemainingText = this.add.text(10, 10, "", {fill: "#ffffff", fontFamily: "NoPixel", fontSize: "16px"});
+        this.rejectionsRemainingText = this.add.text(300, 10, "", {fill: "#ffffff", fontFamily: "NoPixel", fontSize: "16px"});
         this.personText = this.add.text(240, 130, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
         this.personText.setOrigin(0.5, 0.5);
 
@@ -35,19 +40,22 @@ export default class DayStart extends Phaser.Scene{
         like.setButtonOnClick(() => {
             this.handleMatch();
             this.sound.play("SwipeRightSFX");
+            this.matchesRemaining--;
         });
 
         let dislike = Button(this, 110, 135, "", "8px", "x-button", 54, 54);
         dislike.setButtonOnClick(() => {
             this.handleReject();
             this.sound.play("SwipeLeftSFX");
+            this.rejectionsRemaining--;
         });
 
         this.displayCurrentPerson();
     }
 
     update(){
-
+        this.matchesRemainingText.setText("Matches Remaining: " + this.matchesRemaining);
+        this.rejectionsRemainingText.setText("Rejections Remaining: " + this.rejectionsRemaining);
     }
 
     displayCurrentPerson(){
