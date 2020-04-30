@@ -27,7 +27,9 @@ export default class Matches extends AbstractTab{
         this.matchMessageX = 245;
         this.messages = [null, null, null, null, null];
         this.messageTexts = [null, null, null, null, null];
-        this.bioText = this.add.text(15, 150, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", wordWrap: { width: 150, useAdvancedWrap: true }});
+        this.bioText = this.add.text(15, 145, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", wordWrap: { width: 150, useAdvancedWrap: true }});
+
+        this.initRelationshipMeter();
 
         this.initMessaging();
 
@@ -79,6 +81,8 @@ export default class Matches extends AbstractTab{
             }
         }
 
+        this.updateRelationshipMeter();
+
         this.drawMessages();
     }
 
@@ -102,6 +106,22 @@ export default class Matches extends AbstractTab{
         } else {
             this.hideMessageOptions();
         }
+    }
+
+    updateRelationshipMeter(){
+        this.relationshipMeter.clear();
+        this.relationshipMeter.fillStyle(0xFF83AC);
+        this.relationshipMeter.fillRect(110, 142, 10, -this.currentPerson.relationshipMeter);
+    }
+
+    initRelationshipMeter(){
+        this.relationshipMeter = this.add.graphics();
+        this.relationshipMeter.setScrollFactor(0, 0);
+
+        this.relationshipMeterBox = this.add.graphics();
+        this.relationshipMeterBox.lineStyle(2, 0x431C5C);
+        this.relationshipMeterBox.strokeRect(110, 42, 10, 100);
+        this.relationshipMeterBox.setScrollFactor(0, 0);
     }
 
     initMatchButtons(){
