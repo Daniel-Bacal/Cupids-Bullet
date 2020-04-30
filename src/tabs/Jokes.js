@@ -41,7 +41,7 @@ export default class Jokes extends AbstractTab{
     }
 
     initTextField(){
-        this.textField = TextField(this, 180, 180, 200, 20, 20, {fontFamily: "NoPixel", fontSize: "32px", color: "white", backgroundColor: "rgba(255, 255, 255, 0.1)"});
+        this.textField = TextField(this, 180, 180, 200, 20, 100, {fontFamily: "NoPixel", fontSize: "32px", color: "white", backgroundColor: "rgba(255, 255, 255, 0.1)"});
         this.textFields.push(this.textField);
     }
 

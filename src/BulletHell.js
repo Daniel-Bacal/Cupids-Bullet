@@ -781,17 +781,17 @@ export default class BulletHell extends Phaser.Scene {
                     break;
                 case 'F':
                     // Create female enemy
-                    this.fEnemyManager.requestEnemy(x, y, new FireShotgunAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+                    this.fEnemyManager.requestEnemy(x, y, new FireShotgunAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="pink" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50, this.enemyScale ? this.enemyScale : 1);
                     this.numEnemiesRemaining++;
                     break;
                 case 'M':
                     // Create male enemy
-                    this.mEnemyManager.requestEnemy(x, y, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+                    this.mEnemyManager.requestEnemy(x, y, new FireAtPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="blue" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50, this.enemyScale ? this.enemyScale : 1);
                     this.numEnemiesRemaining++;
                     break;
                 case 'O':
                     // Create other enemy
-                    this.oEnemyManager.requestEnemy(x, y, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="purple" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50);
+                    this.oEnemyManager.requestEnemy(x, y, new ExplodeOnPlayerBehavior(this.player, this, this.slowerEnemies ? 50 : 100), this.weakEnemy=="purple" ? 300-this.player.stats.flirt : 600-this.player.stats.flirt, 50, this.enemyScale ? this.enemyScale : 1);
                     this.numEnemiesRemaining++;
                     break;
                 case 'P':

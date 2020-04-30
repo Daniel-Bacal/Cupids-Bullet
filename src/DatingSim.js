@@ -42,7 +42,7 @@ export default class DatingSim extends Phaser.Scene{
             targets: this.feedbackText,
             alpha: 0,
             y: "-=50",
-            duration: 1000,
+            duration: 2000,
             ease: 'Power2'
         }, this);
         cheatSkip = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F1);

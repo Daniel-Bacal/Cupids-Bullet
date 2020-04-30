@@ -2,6 +2,7 @@ import Phaser, {} from "phaser"
 import AbstractTab from "./AbstractTab"
 import Person from "../objects/Person"
 import Button from "../ui_elements/Button"
+import { randomFrom } from "../utils/MathUtils"
 
 export default class Matches extends AbstractTab{
     constructor(){
@@ -22,11 +23,13 @@ export default class Matches extends AbstractTab{
         this.personText.setOrigin(0.5, 0.5);
 
         this.messageLocations = [50, 85, 120, 155, 190];
-        this.playerMessageX = 285;
-        this.matchMessageX = 230;
+        this.playerMessageX = 270;
+        this.matchMessageX = 245;
         this.messages = [null, null, null, null, null];
         this.messageTexts = [null, null, null, null, null];
-        this.bioText = this.add.text(15, 150, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", wordWrap: { width: 150, useAdvancedWrap: true }});
+        this.bioText = this.add.text(15, 145, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "8px", wordWrap: { width: 150, useAdvancedWrap: true }});
+
+        this.initRelationshipMeter();
 
         this.initMessaging();
 
@@ -44,6 +47,18 @@ export default class Matches extends AbstractTab{
 
         if(this.currentPerson.notRead){
             this.currentPerson.readMessage();
+            // Get last message type
+            let lastMessage = this.currentPerson.getLastPlayerMessage();
+            let type = lastMessage.type;
+            // Increment Stats
+            console.log("Here");
+            if(this.currentPerson.likesMessage(type) === 1){
+                this.parent.player.incrementStat("flirt", 1);
+                this.parent.displayProgress("flirt", 1);
+            } else if(this.currentPerson.likesMessage(type) === -1){
+                this.parent.player.incrementStat("flirt", -1);
+                this.parent.displayProgress("flirt", -1);
+            }
         }
 
         let x = 147;
@@ -65,6 +80,8 @@ export default class Matches extends AbstractTab{
                 this.shadeGraphics[i].clear();
             }
         }
+
+        this.updateRelationshipMeter();
 
         this.drawMessages();
     }
@@ -89,10 +106,22 @@ export default class Matches extends AbstractTab{
         } else {
             this.hideMessageOptions();
         }
+    }
 
-        if(person.notRead){
-            person.readMessage();
-        }
+    updateRelationshipMeter(){
+        this.relationshipMeter.clear();
+        this.relationshipMeter.fillStyle(0xFF83AC);
+        this.relationshipMeter.fillRect(110, 142, 10, -this.currentPerson.relationshipMeter);
+    }
+
+    initRelationshipMeter(){
+        this.relationshipMeter = this.add.graphics();
+        this.relationshipMeter.setScrollFactor(0, 0);
+
+        this.relationshipMeterBox = this.add.graphics();
+        this.relationshipMeterBox.lineStyle(2, 0x431C5C);
+        this.relationshipMeterBox.strokeRect(110, 42, 10, 100);
+        this.relationshipMeterBox.setScrollFactor(0, 0);
     }
 
     initMatchButtons(){
@@ -155,17 +184,16 @@ export default class Matches extends AbstractTab{
     sendMessage(type){
         console.log("sent");
         this.sound.play("MessageSentSFX");
-        this.currentPerson.sendMessage(type, this.time.now);
+        let messages = {
+            jock: ["Wanna go to the gym?", "i have a six pack.","r u flexible?","need a spotter?","I can bench 200lb"],
+            int: ["I'm reading a great book rn.", "Do you like math?", "wanna grab coffee? I need a <br/>","I have a 4.0 ;)"],
+            hum: ["You like raisins? How about a date?","ru garbage? I wanna take u out"],
+            sinc: ["You're so beautiful", "Want to be my one and only?", "I can recite poetry for you"],
+            flirt: ["want to come over later?", "hey there sexy"]
+        };
+        let message = randomFrom(messages[type]);
+        this.currentPerson.sendMessage(message, type, this.time.now);
         this.hideMessageOptions();
-
-        // Increment Stats
-        if(this.currentPerson.likesMessage(type) === 1){
-            this.parent.player.incrementStat("flirt", 1);
-            this.parent.displayProgress("flirt", 1);
-        } else if(this.currentPerson.likesMessage(type) === -1){
-            this.parent.player.incrementStat("flirt", -1);
-            this.parent.displayProgress("flirt", -1);
-        }
     }
 
     showMessageOptions(){

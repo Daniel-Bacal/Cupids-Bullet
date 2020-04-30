@@ -1,4 +1,4 @@
-import { randIntFrom } from "../utils/MathUtils";
+import { randIntFrom, randomFrom } from "../utils/MathUtils";
 import NameGenerator from "../utils/NameGenerator";
 import BioGenerator from "../utils/BioGenerator";
 import Phaser from "phaser";
@@ -46,29 +46,18 @@ export default class Person {
         this.awaitingMessage = flag;
     }
 
-    sendMessage(type, time){
+    sendMessage(message, type, time){
         // Add to history
-        this.messageHistory.push({text: type, sender: "player"});
-
-        // Increment relationship meter
-        this.relationshipMeter += this.likesMessage(type)*Math.floor(Math.random()*4 + 1) + (this.likesMessage(type) === 0 ? Math.floor(Math.random()*2) : 0);
-        console.log(this.relationshipMeter);
-        // Every other message type grows less stale
-        for(let key in this.messagesRecieved){
-            this.messagesRecieved[key] -= 1;
-        }
-        this.messagesRecieved[type] += 2;
-
-        // Messages grow stale - be diverse
-        this.relationshipMeter -= Math.floor(this.messagesRecieved[type]/5);
-
-        // Restrict relationship meter to 0 and 100
-        this.relationshipMeter = Phaser.Math.Clamp(this.relationshipMeter, 0, 100);
+        this.messageHistory.push({text: message, sender: "player", type: type});
 
         // Set message cooldown
         this.nextMessageTime = time + Math.floor(Math.random()*10000 + 5000 - 45*this.relationshipMeter);
 
         this.awaitingMessage = false;
+    }
+
+    getLastPlayerMessage(){
+        return this.messageHistory[this.messageHistory.length - 2];
     }
 
     incrementRelationshipMeter(inc){
@@ -81,7 +70,26 @@ export default class Person {
     }
 
     messagePlayer(){
-        this.messageHistory.push({text: "hello", sender: "person"});
+        let lastMessage = this.messageHistory[this.messageHistory.length - 1];
+        let type = lastMessage.type;
+
+        // Increment relationship meter
+        this.relationshipMeter += this.likesMessage(type)*Math.floor(Math.random()*4 + 1) + (this.likesMessage(type) === 0 ? Math.floor(Math.random()*2) : 0);
+        // Every other message type grows less stale
+        for(let key in this.messagesRecieved){
+            this.messagesRecieved[key] -= 1;
+        }
+        this.messagesRecieved[type] += 2;
+
+        // Messages grow stale - be diverse
+        this.relationshipMeter -= 3*Math.floor(this.messagesRecieved[type]/5);
+
+        // Restrict relationship meter to 0 and 100
+        this.relationshipMeter = Phaser.Math.Clamp(this.relationshipMeter, 0, 100);
+
+        let responses = [["´","¹","µ"],["¶","º"],["·","²","¯"]];
+        let response = randomFrom(responses[this.likesMessage(lastMessage.type) + 1]);
+        this.messageHistory.push({text: response, sender: "person", type: ""});
         this.awaitingMessage = true;
         this.notRead = true;
     }
@@ -100,7 +108,7 @@ export default class Person {
         this.generateRandomPreferences();
         this.generateRandomAppearance();
         this.generateBio();
-        this.relationshipMeter = Math.floor(Math.random()*20);
+        this.relationshipMeter = Math.floor(Math.random()*20 + 20);
     }
 
     generateRandomName(){
