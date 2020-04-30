@@ -74,7 +74,7 @@ export default class SkillTree extends Phaser.Scene{
                     } else {
                         let button = Button(this, x, y, "", "16px", key, 16, 16);
                         button.setButtonOnClick(() => this.handleSelection(key));
-                        button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, "white"));
+                        button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, 0xFFFFFF));
                         button.setButtonOnStopHover(() => this.tooltip.hideTooltip());
                     }
                 } else {
@@ -104,7 +104,7 @@ export default class SkillTree extends Phaser.Scene{
                         } else {
                             let button = Button(this, x, y, "", "16px", key, 16, 16);
                             button.setButtonOnClick(() => this.handleSelection(key));
-                            button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, "white"));
+                            button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, 0xFFFFFF));
                             button.setButtonOnStopHover(() => this.tooltip.hideTooltip());
                         }
                     } else {

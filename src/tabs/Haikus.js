@@ -16,6 +16,10 @@ export default class Haikus extends AbstractTab{
         this.background = this.add.image(0, 0, "haikus");
         this.background.setOrigin(0, 0);
 
+        this.haikuBackground = this.add.image(38, 0, "haiku-background").setOrigin(0, 0);
+        this.haikuBackground.setScale(2.3, 2.3);
+        this.haikuBackground.setCrop(0, 63/2.3, 285/2.3, 171/2.3);
+
         this.haikuGenerator = new HaikuGenerator();
         this.currentHaiku = null;
 
@@ -33,7 +37,7 @@ export default class Haikus extends AbstractTab{
     }
 
     initHaikuText(){
-        this.haikuText = this.add.text(180, 120, "", {fontFamily: "NoPixel", fontSize: "16px", color: "white", align: "center"});
+        this.haikuText = this.add.text(180, 120, "", {fontFamily: "NoPixel", fontSize: "16px", color: "#431c5c", align: "center"});
     
         this.feedbackText = this.add.text(180, 150, "",  {fontFamily: "NoPixel", fontSize: "72px", color: "white"})
         this.feedbackTextFade = this.tweens.add({
@@ -45,11 +49,11 @@ export default class Haikus extends AbstractTab{
     }
 
     initHaikuButtons(){
-        this.isHaikuButton = Button(this, 120, 220, "It's a haiku.", "8px");
+        this.isHaikuButton = Button(this, 120, 220, "It's a haiku", "8px", "accept-btn", 49, 15);
         this.isHaikuButton.setButtonColor("white");
         this.isHaikuButton.setButtonHoverColor("#DDDDDD");
         this.isHaikuButton.setButtonOnClick(() => this.evaluateResponse(true));
-        this.isNotHaikuButton = Button(this, 240, 220, "It's not.", "8px");
+        this.isNotHaikuButton = Button(this, 240, 220, "It's not", "8px", "reject-btn", 49, 15);
         this.isNotHaikuButton.setButtonColor("white");
         this.isNotHaikuButton.setButtonHoverColor("#DDDDDD");
         this.isNotHaikuButton.setButtonOnClick(() => this.evaluateResponse(false));

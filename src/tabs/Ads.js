@@ -15,7 +15,7 @@ export default class Ads extends Phaser.Scene{
         let background = this.add.image(0, 0, "purple-background");
         background.setOrigin(0, 0);
 
-        this.add.image(360, 18, "ad-1").setOrigin(0, 0);
-        this.add.image(360, 18 + 126, "ad-2").setOrigin(0, 0);
+        this.add.image(360, 18, "da-1").setOrigin(0, 0);
+        this.add.image(360, 18 + 126, "da-2").setOrigin(0, 0);
     }
 }

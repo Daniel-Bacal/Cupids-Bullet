@@ -1,4 +1,4 @@
-import { randIntFrom } from "../utils/MathUtils";
+import { randIntFrom, randomFrom } from "../utils/MathUtils";
 import NameGenerator from "../utils/NameGenerator";
 import BioGenerator from "../utils/BioGenerator";
 import Phaser from "phaser";
@@ -46,9 +46,9 @@ export default class Person {
         this.awaitingMessage = flag;
     }
 
-    sendMessage(type, time){
+    sendMessage(message, type, time){
         // Add to history
-        this.messageHistory.push({text: type, sender: "player"});
+        this.messageHistory.push({text: message, sender: "player", type: type});
 
         // Increment relationship meter
         this.relationshipMeter += this.likesMessage(type)*Math.floor(Math.random()*4 + 1) + (this.likesMessage(type) === 0 ? Math.floor(Math.random()*2) : 0);
@@ -71,6 +71,10 @@ export default class Person {
         this.awaitingMessage = false;
     }
 
+    getLastPlayerMessage(){
+        return this.messageHistory[this.messageHistory.length - 2];
+    }
+
     incrementRelationshipMeter(inc){
         this.relationshipMeter += inc;
         this.relationshipMeter = Phaser.Math.Clamp(this.relationshipMeter, 0, 100);
@@ -81,7 +85,10 @@ export default class Person {
     }
 
     messagePlayer(){
-        this.messageHistory.push({text: "hello", sender: "person"});
+        let lastMessage = this.messageHistory[this.messageHistory.length - 1];
+        let responses = [["´","¹","µ"],["¶","º"],["·","²","¯"]];
+        let response = randomFrom(responses[this.likesMessage(lastMessage.type) + 1]);
+        this.messageHistory.push({text: response, sender: "person", type: ""});
         this.awaitingMessage = true;
         this.notRead = true;
     }
