@@ -250,7 +250,7 @@ export default class BulletHell extends Phaser.Scene {
             key: "player_front_walk",
             frames: this.anims.generateFrameNumbers("bhPlayer", {
                 start: 22,
-                end: 29
+                end: 28
             }),
             frameRate: 8,
             repeat: -1
