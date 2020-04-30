@@ -45,8 +45,8 @@ export default class MainMenu extends Phaser.Scene {
 
     // Create buttons
     let buttons = [
-      Button(this, 380, 120, "Log-In", "24px"),
-      Button(this, 380, 150, "Sign-Up", "24px"),
+      Button(this, 380, 150, "Log-In", "24px"),
+      Button(this, 380, 120, "Sign-Up", "24px"),
       Button(this, 380, 180, "Backstory", "24px"),
       Button(this, 380, 210, "Controls", "24px"),
       Button(this, 380, 240, "About", "24px")

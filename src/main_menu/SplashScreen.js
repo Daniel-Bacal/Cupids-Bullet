@@ -20,19 +20,19 @@ export default class SpashScreen extends Phaser.Scene{
             this.scene.start("MainMenu");
         }, this);
 
-        // if(this.game.music && this.game.music.isPlaying){
-        //     if(this.game.music.songName !== "MainMenu"){
-        //       this.game.music.stop();
-        //       this.game.music = this.sound.add("MainMenu", {loop: true});
-        //       this.game.music.play();
-        //       this.game.music.isPlaying = true;
-        //       this.game.music.songName = "MainMenu"
-        //     }
-        //   } else {
-        //     this.game.music = this.sound.add("MainMenu", {loop: true});
-        //     this.game.music.play();
-        //     this.game.music.isPlaying = true;
-        //     this.game.music.songName = "MainMenu"
-        // }
+        if(this.game.music && this.game.music.isPlaying){
+            if(this.game.music.songName !== "MainMenu"){
+              this.game.music.stop();
+              this.game.music = this.sound.add("MainMenu", {loop: true});
+              this.game.music.play();
+              this.game.music.isPlaying = true;
+              this.game.music.songName = "MainMenu"
+            }
+          } else {
+            this.game.music = this.sound.add("MainMenu", {loop: true});
+            this.game.music.play();
+            this.game.music.isPlaying = true;
+            this.game.music.songName = "MainMenu"
+        }
     }
 }
