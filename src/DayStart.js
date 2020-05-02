@@ -32,8 +32,10 @@ export default class DayStart extends Phaser.Scene{
         let home = this.add.image(0, 0, "swipe");
         home.setOrigin(0, 0);
 
-        this.personArray = [new Person(), new Person(), new Person(), new Person(), new Person(),
-            new Person(), new Person(), new Person(), new Person(), new Person()];
+        let gender = this.game.player.skills[0];
+
+        this.personArray = [new Person(gender), new Person(gender), new Person(gender), new Person(gender),
+            new Person(gender), new Person(gender), new Person(gender), new Person(gender), new Person(gender), new Person(gender)];
         this.matches = [];
         this.index = 0;
         this.numRejections = 0;
@@ -77,7 +79,7 @@ export default class DayStart extends Phaser.Scene{
                 this.matches.push(this.personArray[i]);
             }
             this.game.matches = this.matches;
-            this.scene.start("SkillTree");
+            this.scene.start("DatingSim");
         }
 
         let name = this.personArray[this.index].getName();
@@ -99,7 +101,7 @@ export default class DayStart extends Phaser.Scene{
 
         if(this.matches.length === 5){
             this.game.matches = this.matches;
-            this.scene.start("SkillTree");
+            this.scene.start("DatingSim");
         }
         this.index++;
         this.displayCurrentPerson();

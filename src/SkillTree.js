@@ -123,7 +123,7 @@ export default class SkillTree extends Phaser.Scene{
 
     update(){
         if(this.player.skillPoints === 0){
-            this.scene.start("DatingSim");
+            this.scene.start("DayStart");
         }
         if(this.skillText.text !== "" + this.player.skillPoints){
             this.skillText.text = this.player.skillPoints;

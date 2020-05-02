@@ -5,11 +5,10 @@ import Phaser from "phaser";
 
 export default class Person {
 
-    constructor(){
+    constructor(gender){
         this.preferences = {jock : -1, flirt: -1, hum: -1, int: -1, sinc: -1};
         this.name = "";
         this.appearance = ["", "", "", "", "", ""];
-        this.gender = 0;
         this.bio = "";
         this.nameGenerator = new NameGenerator();
         this.bioGenerator = new BioGenerator();
@@ -19,7 +18,7 @@ export default class Person {
         this.awaitingMessage = true;
         this.notRead = false;
         this.messageHistory = [];
-        this.generateRandomPerson();
+        this.generateRandomPerson(gender);
     }
 
     getName(){
@@ -102,8 +101,15 @@ export default class Person {
         this.notRead = false;
     }
 
-    generateRandomPerson(){
-        this.gender = randIntFrom(0, 2);
+    generateRandomPerson(gender){
+        if(gender == "sm"){
+            this.gender = 0;
+        } else if(gender == "sf"){
+            this.gender = 1;
+        } else{
+            this.gender = randIntFrom(0, 2);
+        }
+
         this.generateRandomName();
         this.generateRandomPreferences();
         this.generateRandomAppearance();
