@@ -3,6 +3,7 @@ import AbstractTab from "./AbstractTab"
 import Person from "../objects/Person"
 import Button from "../ui_elements/Button"
 import { randomFrom } from "../utils/MathUtils"
+import { messageText } from "../utils/MessageText"
 
 export default class Matches extends AbstractTab{
     constructor(){
@@ -163,11 +164,11 @@ export default class Matches extends AbstractTab{
                 Consider changing this to randomly generate 5 messages of any type
         */
         this.messageChoices = {
-            jock: Button(this, 180, 206, "1) Send Jock Message", "8px"),
-            flirt: Button(this, 180, 214, "2) Send Flirty Message", "8px"),
-            int: Button(this, 180, 222, "3) Send Intelligent Message", "8px"),
-            hum: Button(this, 180, 230, "4) Send Funny Message", "8px"),
-            sinc: Button(this, 180, 238, "5) Send Sincere Message", "8px"),
+            jock: Button(this, 180, 206, "Send Jock Message", "8px"),
+            flirt: Button(this, 180, 214, "Send Flirty Message", "8px"),
+            int: Button(this, 180, 222, "Send Intelligent Message", "8px"),
+            hum: Button(this, 180, 230, "Send Funny Message", "8px"),
+            sinc: Button(this, 180, 238, "Send Sincere Message", "8px"),
         }
 
         for(let key in this.messageChoices){
@@ -184,13 +185,7 @@ export default class Matches extends AbstractTab{
     sendMessage(type){
         console.log("sent");
         this.sound.play("MessageSentSFX");
-        let messages = {
-            jock: ["Wanna go to the gym?", "i have a six pack.","r u flexible?","need a spotter?","I can bench 200lb"],
-            int: ["I'm reading a great book rn.", "Do you like math?", "wanna grab coffee? I need a <br/>","I have a 4.0 ;)"],
-            hum: ["You like raisins? How about a date?","ru garbage? I wanna take u out"],
-            sinc: ["You're so beautiful", "Want to be my one and only?", "I can recite poetry for you"],
-            flirt: ["want to come over later?", "hey there sexy"]
-        };
+        let messages = messageText; //from utils/MessageText.js
         let message = randomFrom(messages[type]);
         this.currentPerson.sendMessage(message, type, this.time.now);
         this.hideMessageOptions();

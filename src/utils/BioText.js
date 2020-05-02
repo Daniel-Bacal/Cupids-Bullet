@@ -13,7 +13,7 @@ export const bioText = {
         "I do care about your height and your weight. But the most important number is how much you can bench.",
         "Must be okay with getting rides in my Lamborghini.",
         "Must be okay with me being the breadwinner (obviously).",
-        "I Never skip leg day, and neither should you.",
+        "I never skip leg day, and neither should you.",
         "Saturdays are for the peeps."
         ],
     antiJock: ["If all you can talk about is your gains, you're probably compensating for something.",
