@@ -20,7 +20,7 @@ export default class Matches extends AbstractTab{
 
         this.initMatchButtons();
 
-        this.personText = this.add.text(61, 130, "", {fill: "#FFFFFF", fontFamily: "NoPixel", fontSize: "8px"});
+        this.personText = this.add.text(61, 125, "", {fill: "#FFFFFF", fontFamily: "NoPixel", fontSize: "8px"});
         this.personText.setOrigin(0.5, 0.5);
 
         this.messageLocations = [50, 85, 120, 155, 190];
@@ -98,7 +98,7 @@ export default class Matches extends AbstractTab{
         this.bioText.setText(tempBioText);
 
         for(let i in this.appearance){
-            this.add.image(61, 88, this.appearance[i]);
+            this.add.image(61, 82, this.appearance[i]);
         }
 
         // Show message if possible
@@ -109,10 +109,18 @@ export default class Matches extends AbstractTab{
         }
     }
 
+    displayPersonIcon(x, y, person){
+        for(let i in person.getAppearance()){
+            let image = this.add.image(x, y, person.getAppearance()[i]);
+            image.setScale(0.375, 0.375);
+            image.setCrop(0, 0, 59, 55);
+        }
+    }
+
     updateRelationshipMeter(){
         this.relationshipMeter.clear();
         this.relationshipMeter.fillStyle(0xFF83AC);
-        this.relationshipMeter.fillRect(110, 142, 10, -this.currentPerson.relationshipMeter);
+        this.relationshipMeter.fillRect(110, 133, 10, -this.currentPerson.relationshipMeter);
     }
 
     initRelationshipMeter(){
@@ -121,35 +129,41 @@ export default class Matches extends AbstractTab{
 
         this.relationshipMeterBox = this.add.graphics();
         this.relationshipMeterBox.lineStyle(2, 0x431C5C);
-        this.relationshipMeterBox.strokeRect(110, 42, 10, 100);
+        this.relationshipMeterBox.strokeRect(110, 42, 10, 91);
         this.relationshipMeterBox.setScrollFactor(0, 0);
     }
 
     initMatchButtons(){
         let y = 44.5;
         let yOff = 21;
+
+        this.displayPersonIcon(156, y+3, this.parent.personArray[0]);
         this.match1 = Button(this, 156.5, y, "1", "16px");
-        this.match1.setButtonColor("#431c5c");
+        this.match1.setButtonColor("#FFFFFF");
         this.match1.setButtonHoverColor("#330c4c");
         this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.parent.personArray[0]));
 
+        this.displayPersonIcon(156, y+yOff*1+3, this.parent.personArray[1])
         this.match1 = Button(this, 156.5, y+yOff*1, "2", "16px");
-        this.match1.setButtonColor("#431c5c");
+        this.match1.setButtonColor("#FFFFFF");
         this.match1.setButtonHoverColor("#330c4c");
         this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.parent.personArray[1]));
 
+        this.displayPersonIcon(156, y+yOff*2+3, this.parent.personArray[2])
         this.match1 = Button(this, 156.5, y+yOff*2, "3", "16px");
-        this.match1.setButtonColor("#431c5c");
+        this.match1.setButtonColor("#FFFFFF");
         this.match1.setButtonHoverColor("#330c4c");
         this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.parent.personArray[2]));
 
+        this.displayPersonIcon(156, y+yOff*3+3, this.parent.personArray[3])
         this.match1 = Button(this, 156.5, y+yOff*3, "4", "16px");
-        this.match1.setButtonColor("#431c5c");
+        this.match1.setButtonColor("#FFFFFF");
         this.match1.setButtonHoverColor("#330c4c");
         this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.parent.personArray[3]));
 
+        this.displayPersonIcon(156, y+yOff*4+3, this.parent.personArray[4])
         this.match1 = Button(this, 156.5, y+yOff*4, "5", "16px");
-        this.match1.setButtonColor("#431c5c");
+        this.match1.setButtonColor("#FFFFFF");
         this.match1.setButtonHoverColor("#330c4c");
         this.match1.setButtonOnClick(() => this.displayCurrentPerson(this.parent.personArray[4]));
     }
