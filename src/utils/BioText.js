@@ -10,37 +10,42 @@ export const bioText = {
         "My first tattoo was \"rise and grind\" tatted on my left forearm.",
         "In the morning, the first thing I do is take my fish oil pills and wash them down with a chocolate protein shake.",
         "If that doesn't sound like you, don't even bother swiping on me.",
-        "I do care about your height and your weight. But the most important number is how much you can bench.",
+        "I do care about your height and your weight, but the most important number is how much you can bench.",
         "Must be okay with getting rides in my Lamborghini.",
         "Must be okay with me being the breadwinner (obviously).",
-        "I Never skip leg day, and neither should you.",
-        "Saturdays are for the peeps."
+        "I never skip leg day, and neither should you.",
+        "Saturdays are for the peeps.",
+        "No pain no gain is my life motto."
         ],
     antiJock: ["If all you can talk about is your gains, you're probably compensating for something.",
         "I don't particularly care for abs, or the ego they bring.",
-        "My ex was a gym rat. If that's you, STAY AWAY!",
+        "My ex was a gym rat, if that's you, STAY AWAY!",
         "The only thing harder to choke down than a protein shake is a conversation with those who drink ‘em.",
         "I honestly don't care to see any numbers in your bio, I'm not that shallow.",
         "If you spend more time in the gym than you do with me, we're going to have serious problems.",
         "If you were a varsity or college athlete, keep looking.",
-        "Some people think being sweaty is hot. I am not one of those people.",
+        "Some people think being sweaty is hot, I am not one of those people.",
         "Every time you do a squat, I'm gonna take a shot.",
-        "I heard people with giant muscles can't reach all of their back when they shower. That's gross."
+        "I heard people with giant muscles can't reach all of their back when they shower, that's gross.",
+        "I prefer scrawnier people honestly.",
+        "Swipe left if you've ever punched a hole in your wall."
         ],
     proFlirt: ["If you're good to me, you can call me whatever you like.",
         "You know exactly what I'm on here for.",
-        "I've been told I'm pretty good at many things. Maybe you'll be lucky enough to see for yourself.",
-        "If you think you can impress me, I'll give you a chance. I might reward you for your efforts.",
+        "I've been told I'm pretty good at many things, maybe you'll be lucky enough to see for yourself.",
+        "If you think you can impress me, I'll give you a chance, I might reward you for your efforts.",
         "You shouldn't be able to finish anything in under a minute, except maybe unlocking your phone.",
-        "The best thing about me is that I'm pretty flexible."
+        "The best thing about me is that I'm pretty flexible.",
+        "Let's smash, and I'm not talking about the video game."
         ],
     antiFlirt: ["Keep it in your pants, please.",
         "I much prefer a corn dog to a horn dog.",
         "I'm looking for more than just sex, if you're not I don't want to know about it.",
         "A body count in the double digits is going to be a red flag for me.",
         "The only kind of flexibility I want to know about is in your schedule.",
-        "No unsolicited pictures. Please.",
-        "People who say that they're \"impressive\" in bed are usually not that impressive."
+        "No unsolicited pictures, please.",
+        "People who say that they're \"impressive\" in bed are usually not that impressive.",
+        "Don't invite me over on the first date, it's not gonna happen."
         ],
     proHumor: ["My proudest moment so far is when I convinced my 5-year-old cousin I did in fact have her nose.",
         "I usually stay up late at night crafting the perfect response to an argument I lost 5 years ago. Man, what I'd give to just go back and win that damn thing.",
@@ -49,15 +54,17 @@ export const bioText = {
         "I've been told I'm the life of the party. Most parties I go to are dead. I don't go to many parties, and no one has actually ever told me that.",
         "I like being the smartest person in the room. That's because it would mean I'm the only person in the room, and I'm pretty shy.",
         "Lorem ipsum dolor sit amet… haha, just kidding.",
-        "Every time I hear a new knock-knock joke, I can't help but burst out into hysterical laughter. It tickles my very soul."
+        "Every time I hear a new knock-knock joke, I can't help but burst out into hysterical laughter, it tickles my very soul.",
+        "I hate velcro, it's such a rip-off."
         ],
     antiHumor: ["Nobody wants to date a clown, seriously.",
         "If your bio is full of crappy jokes, you're not original. I promise.",
-        "Don't message me just to get on the front page of ReadIt. People who do that need to grow up.",
-        "This is not your audition for a stand-up gig. Please don't message me some terrible pickup line.",
-        "I've been on R/grynder before. Think you're the only one with a ReadIt account?",
-        "Funny people remind me of chipmunks. I'm not really looking to mess around with a chipmunk.",
-        "I've never been told a joke that actually made me laugh. Don't assume you'll be the exception."
+        "Don't message me just to get on the front page of ReadIt, people who do that need to grow up.",
+        "This is not your audition for a stand-up gig, please don't message me some terrible pickup line.",
+        "I've been on R/grynder before, think you're the only one with a ReadIt account?",
+        "Funny people remind me of chipmunks, I'm not really looking to mess around with a chipmunk.",
+        "I've never been told a joke that actually made me laugh, don't assume you'll be the exception.",
+        "I prefer actual conversation over endless jokes."
         ],
     proInt: ["There is nothing more satisfying than finally solving a tricky third order differential equation, am I right?",
         "I'm fluent in 4 languages, 13 if you include programming languages.",
@@ -68,7 +75,9 @@ export const bioText = {
         "Did you know that the human heart beats approximately 100,000 times a day? Maybe I could make yours beat approximately 99,999 times.",
         "My hobbies include solving Roobix Cubes in under 10 seconds while blindfolded and with one hand tied behind my back, and gardening.",
         "Not to brag, but I can type 120 words per minute. 115 with my toes.",
-        "I love analzying 18th century British literature, and wouldn't mind some company."],
+        "I love analyzing 18th century British literature, and wouldn't mind some company.",
+        "I prefer if you have a PHD but I can settle for a Master's degree."
+        ],
     antiInt: ["Nerds GTFO. Don't even bother messaging me if you're a nerd.",
         "If you were picked on in High School for being a dork, you probably deserved it.",
         "It's not that I despise math, but I definitely hate it a lot.",
@@ -78,7 +87,9 @@ export const bioText = {
         "It's not a conspiracy theory if it's true! 5G towers are the enemy! Who are you going to trust, your government or me?",
         "It's like kinda crazy that birds are actually just robots sent to spy on us. Makes me scared to go outside.",
         "My favorite piece in chess is the horsey! I like that he can move forwards and backwards.",
-        "I would say that anyone with a triple digit IQ is a no-go for me."],
+        "I would say that anyone with a triple digit IQ is a no-go for me.",
+        "I think programmers are lame, all they do is sit at a computer and press buttons."
+        ],
     proSinc: ["I swear I don't get how anyone can make it through The Spiral Notebook without crying.",
         "I know why a lot of people are on here, but honestly I just want someone to cuddle with.",
         "Looking for someone whose hand fits perfectly in mine.",
@@ -92,7 +103,10 @@ export const bioText = {
         "You can often find me with my large caramel macchiato with almond milk, 2 pumps of vanilla, one shot, and light whip on top at a local CupO'Java.",
         "Always looking to pay it forward.",
         "Always giving back to those in need.",
-        "I just wish I could hug everyone who needs a hug."],
+        "I just wish I could hug everyone who needs a hug.",
+        "Tell me all about yourself, I'm a great listener.",
+        "You can expect breakfast in bed every morning if you're with me."
+        ],
     antiSinc: ["I can not STAND sappy people.",
         "Please don't even contact me if you've ever cried during The Spiral Notebook.",
         "Nice folk finish last, what can I say?",
@@ -102,7 +116,8 @@ export const bioText = {
         "If you want to find true love, why are you on this site?",
         "Only willing to cuddle after you satisfy my needs.",
         "I don't need to hear about how your day went. We're not friends, we're friends with benefits.",
-        "The only thing I hate more than emotional wrecks is poetry. Yuck."
+        "The only thing I hate more than emotional wrecks is poetry. Yuck.",
+        "I don't really care about your hobbies, keep that to yourself."
         ]
 }
 

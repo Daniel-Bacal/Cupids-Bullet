@@ -65,10 +65,10 @@ export default class LevelSelect extends Phaser.Scene {
         levelSelectButtons[1].setButtonOnClick(() => {
             if(currentDay === 0){
                 this.scene.start("Help", {returnCallback(){
-                    this.scene.start("DayStart");
+                    this.scene.start("SkillTree");
                 }});
             } else {
-                this.scene.start("DayStart");
+                this.scene.start("SkillTree");
             }
         });
     }
