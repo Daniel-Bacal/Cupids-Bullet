@@ -79,6 +79,8 @@ export default class Boot extends Phaser.Scene{
         this.load.image("accept-btn", "assets/accept-button.png");
         this.load.image("reject-btn", "assets/reject-button.png");
         this.load.image("haiku-background", "assets/haiku-background.png");
+        this.load.image("confirm-modal", "assets/confirm-modal.png");
+        this.load.image("pause-symbol", "assets/pause-symbol.png");
 
         this.load.image("wall", "assets/walls/wall.png");
         this.load.image("left-wall", "assets/walls/left-wall.png");

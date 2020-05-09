@@ -72,3 +72,5 @@ dist/NoPixel.*
 dist/src.*
 dist/index.html
 dist/NoChalk.*
+dist/cursor.*
+dist/text-cursor.*

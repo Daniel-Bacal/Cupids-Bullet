@@ -105,77 +105,92 @@ export default class BulletHell extends Phaser.Scene {
                 this.countdownAnimation.restart();
             }
         } else {
+            // Do UI
+            this.handleNumEnemiesRemaining();
+
+            // Do player stuff
             this.updatePlayer();
-            this.numEnemiesRemainingText.text = "Enemies Remaining: " + this.numEnemiesRemaining;
-            this.numEnemiesRemainingText.setOrigin(0.5, 0.5);
-            if(this.numEnemiesRemaining <= 0){
-                if(this.endTimer === null){
-                    this.endTimer = this.time.now + 3000;
-                    this.victoryText = this.add.text(240, 135, "Date Secured", {fontFamily: "NoPixel", fontSize: "48px", color: "white"});
-                    this.victoryText.setOrigin(0.5, 0.5);
-                    this.victoryText.setScrollFactor(0, 0);
-                    this.victoryTextAnimation = this.tweens.add({
-                        targets: this.victoryText,
-                        x: {from: -200, to: 240}, 
-                        duration: 1000,
-                        ease: 'Power2'
-                      }, this);
-                      this.victoryTextAnimation.restart();
-                }
-                if(this.time.now > this.endTimer){
-                    if(this.player.day === 2){
-                        // You've won (for now) TODO: finish this
-                        this.goToScene("GameWin");
-                    } else {
-                        this.goToScene("EndOfDay");
-                    }
-                }    
-            }
-            if (Phaser.Input.Keyboard.JustDown(space)){
-                if (this.activeFreeze){
-                  this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
-                  this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
-                }
-                if (this.activeAOEDamage){
-                  this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.fEnemyManager.killEnemy(enemy);}}}});
-                  this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.mEnemyManager.killEnemy(enemy);}}}});
-                }
-                if(this.invisiblePlayer){
-                    console.log("triggerInvis")
-                    this.player.isInvisible = true;
-                    this.player.invisibilityCountdownTimer = this.time.now + 5000;
-                    this.player.getSprite().alpha = 0.2;
-                }
-            }
+            this.handlePlayerActiveSkills();
+
+            // Do enemy behaviors
             this.fEnemyManager.doBehaviors();
             this.mEnemyManager.doBehaviors();
             this.oEnemyManager.doBehaviors();
+        }
+    }
 
-            if(this.randomEnemyDeath){
-                let chance = Math.random();
-                let group;
-                let em;
-                if(chance < 0.33){
-                    group = this.fEnemyGroup;
-                    em = this.fEnemyManager;
-                } else if(chance < 0.66){
-                    group = this.mEnemyGroup;
-                    em = this.mEnemyManager;
-                } else {
-                    group = this.oEnemyGroup;
-                    em = this.oEnemyManager;
-                }
-
-                let killedEnemy = false;
-                group.children.iterate((enemy) => {
-                    if(!killedEnemy && enemy.isAlive && Math.random() < 0.0005){
-                        console.log("Killed Enemy");
-                        em.killEnemy(enemy);
-                        this.numEnemiesRemaining--;
-                        killedEnemy = true;
-                    }
-                });
+    handlePlayerActiveSkills(){
+        // Check for special keyboard inputs
+        if (Phaser.Input.Keyboard.JustDown(space)){
+            if (this.activeFreeze){
+                this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
+                this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
             }
+            if (this.activeAOEDamage){
+                this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.fEnemyManager.killEnemy(enemy);}}}});
+                this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.mEnemyManager.killEnemy(enemy);}}}});
+            }
+            if(this.invisiblePlayer){
+                console.log("triggerInvis")
+                this.player.isInvisible = true;
+                this.player.invisibilityCountdownTimer = this.time.now + 5000;
+                this.player.getSprite().alpha = 0.2;
+            }
+        }
+
+        // Check for random enemy death perk
+        if(this.randomEnemyDeath){
+            let chance = Math.random();
+            let group;
+            let em;
+            if(chance < 0.33){
+                group = this.fEnemyGroup;
+                em = this.fEnemyManager;
+            } else if(chance < 0.66){
+                group = this.mEnemyGroup;
+                em = this.mEnemyManager;
+            } else {
+                group = this.oEnemyGroup;
+                em = this.oEnemyManager;
+            }
+
+            let killedEnemy = false;
+            group.children.iterate((enemy) => {
+                if(!killedEnemy && enemy.isAlive && Math.random() < 0.0005){
+                    console.log("Killed Enemy");
+                    em.killEnemy(enemy);
+                    this.numEnemiesRemaining--;
+                    killedEnemy = true;
+                }
+            });
+        }
+    }
+
+    handleNumEnemiesRemaining(){
+        this.numEnemiesRemainingText.text = "Enemies Remaining: " + this.numEnemiesRemaining;
+        this.numEnemiesRemainingText.setOrigin(0.5, 0.5);
+        if(this.numEnemiesRemaining <= 0){
+            if(this.endTimer === null){
+                this.endTimer = this.time.now + 3000;
+                this.victoryText = this.add.text(240, 135, "Date Secured", {fontFamily: "NoPixel", fontSize: "48px", color: "white"});
+                this.victoryText.setOrigin(0.5, 0.5);
+                this.victoryText.setScrollFactor(0, 0);
+                this.victoryTextAnimation = this.tweens.add({
+                    targets: this.victoryText,
+                    x: {from: -200, to: 240}, 
+                    duration: 1000,
+                    ease: 'Power2'
+                    }, this);
+                    this.victoryTextAnimation.restart();
+            }
+            if(this.time.now > this.endTimer){
+                if(this.player.day === 2){
+                    // You've won (for now) TODO: finish this
+                    this.goToScene("GameWin");
+                } else {
+                    this.goToScene("EndOfDay");
+                }
+            }    
         }
     }
 
@@ -880,10 +895,10 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     initPauseButton(){
-        this.pauseButton = Button(this, 450, 10, "\u23F8");
+        this.pauseButton = Button(this, 450, 10, "", "16px", "pause-symbol", 16, 16);
         this.pauseButton.setButtonColor("white");
         this.pauseButton.setButtonOnClick(() => this.pauseGame(true));
-        this.pauseButton.setScrollFactor(0, 0);
+        this.pauseButton.buttonBackgroundImage.setScrollFactor(0, 0);
     }
 
     pauseGame(flag){

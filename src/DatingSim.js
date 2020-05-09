@@ -31,6 +31,8 @@ export default class DatingSim extends Phaser.Scene{
         this.initTabs();
 
         this.initTimer();
+
+        this.initHelp();
         
         console.log(this.player.skills);
         this.initPauseButton();
@@ -67,6 +69,8 @@ export default class DatingSim extends Phaser.Scene{
 
         if(this.previousTime === null) this.setTimer();
         this.handleTimer();
+
+        this.handleHelp();
 
         this.handleMessaging();
     }
@@ -107,6 +111,7 @@ export default class DatingSim extends Phaser.Scene{
         this.timeActive += this.time.now - this.previousTime;
         this.previousTime = this.time.now;
         let timeRemaining = this.totalTime - this.timeActive/1000;
+        this.timeRemaining = timeRemaining;
 
         if(timeRemaining <= 0){
             this.endDay();
@@ -126,6 +131,78 @@ export default class DatingSim extends Phaser.Scene{
         this.timerText.text = minutesRemaining + ":" + secondsRemaining;
         this.timerText.setOrigin(0.5, 0.5);
 
+    }
+
+    initHelp(){
+        this.gymHelp = {
+            happened: false,
+            titleText: "The Gym",
+            text: "Go to the gym makes you stronger. Some people will like you more, and you'll boost your attack."
+        }
+        this.haikuHelp = {
+            happened: false,
+            titleText: "Haikus",
+            text: "Reading haikus makes you more sincere. Some people will like you more, and you'll boost your health."
+        }
+        this.jokeHelp = {
+            happened: false,
+            titleText: "Jokes",
+            text: "Participating in jokes make you funnier. Some people will like you more, and you'll boost your movement speed."
+        }
+        this.mathHelp = {
+            happened: false,
+            titleText: "Math",
+            text: "Doing math makes you smarter. Some people will like you more, and you'll boost your fire rate."
+        }
+    }
+
+    handleHelp(){
+        if(this.player.day !== 0) return;
+        // Day 1, show help
+        if(this.timeRemaining < (4*60 + 31) && !this.gymHelp.happened){
+            this.scene.pause(this.currentTab);
+            this.scene.pause();
+            this.scene.launch("ConfirmModal", {titleText: this.gymHelp.titleText, text: this.gymHelp.text, confirmCallback: () => {
+                this.scene.sleep("ConfirmModal");
+                this.scene.resume(this.currentTab);
+                this.scene.resume();
+                this.previousTime = null;
+            }});
+            this.gymHelp.happened = true;
+        }
+        if(this.timeRemaining < (4*60 + 1) && !this.haikuHelp.happened){
+            this.scene.pause(this.currentTab);
+            this.scene.pause();
+            this.scene.launch("ConfirmModal", {titleText: this.haikuHelp.titleText, text: this.haikuHelp.text, confirmCallback: () => {
+                this.scene.sleep("ConfirmModal");
+                this.scene.resume(this.currentTab);
+                this.scene.resume();
+                this.previousTime = null;
+            }});
+            this.haikuHelp.happened = true;
+        }
+        if(this.timeRemaining < (3*60 + 31) && !this.jokeHelp.happened){
+            this.scene.pause(this.currentTab);
+            this.scene.pause();
+            this.scene.launch("ConfirmModal", {titleText: this.jokeHelp.titleText, text: this.jokeHelp.text, confirmCallback: () => {
+                this.scene.sleep("ConfirmModal");
+                this.scene.resume(this.currentTab);
+                this.scene.resume();
+                this.previousTime = null;
+            }});
+            this.jokeHelp.happened = true;
+        }
+        if(this.timeRemaining < (3*60 + 1) && !this.mathHelp.happened){
+            this.scene.pause(this.currentTab);
+            this.scene.pause();
+            this.scene.launch("ConfirmModal", {titleText: this.mathHelp.titleText, text: this.mathHelp.text, confirmCallback: () => {
+                this.scene.sleep("ConfirmModal");
+                this.scene.resume(this.currentTab);
+                this.scene.resume();
+                this.previousTime = null;
+            }});
+            this.mathHelp.happened = true;
+        }
     }
 
     endDay(){
@@ -170,7 +247,7 @@ export default class DatingSim extends Phaser.Scene{
     }
 
     initPauseButton(){
-        this.pauseButton = Button(this, 450, 10, "\u23F8");
+        this.pauseButton = Button(this, 450, 10, "", "16px", "pause-symbol", 16, 16);
         this.pauseButton.setButtonColor("white");
         this.pauseButton.setButtonOnClick(() => this.pauseGame(true));
     }
