@@ -82,12 +82,24 @@ export default class DatingSim extends Phaser.Scene{
         this.scene.sleep("PauseMenu");
 
         this.buttons = {};
+
+        this.hideGraphics = [];
+        let n = 0;
+        let x = 127;
         
         for(let i = 0; i < this.tabs.length; i++){
             this.scene.launch(this.tabs[i], {parent: this});
-            this.buttons[this.tabs[i]] = Button(this, 38 + i*57, 11, this.tabs[i], "8px", "invisibutton", 49, 14);
-            this.buttons[this.tabs[i]].setButtonColor("#FFFFFF");
-            this.buttons[this.tabs[i]].setButtonOnClick(() => this.moveToTab(this.tabs[i]));
+            if(!(this.player.day === 0 && i > 1)){
+                this.buttons[this.tabs[i]] = Button(this, 38 + i*57, 11, this.tabs[i], "8px", "invisibutton", 49, 14);
+                this.buttons[this.tabs[i]].setButtonColor("#FFFFFF");
+                this.buttons[this.tabs[i]].setButtonOnClick(() => this.moveToTab(this.tabs[i]));
+            } else {
+                this.hideGraphics[n] = this.add.graphics();
+                this.hideGraphics[n].fillStyle(0xc8aed8, 1);
+                this.hideGraphics[n].fillRect(x, 4, 49, 14);
+                x += 57;
+                n++;
+            }
         }
 
         this.scene.sendToBack("Ads");
@@ -136,71 +148,87 @@ export default class DatingSim extends Phaser.Scene{
     initHelp(){
         this.gymHelp = {
             happened: false,
-            titleText: "The Gym",
-            text: "Go to the gym makes you stronger. Some people will like you more, and you'll boost your attack."
+            image: "gymda"
         }
         this.haikuHelp = {
             happened: false,
-            titleText: "Haikus",
-            text: "Reading haikus makes you more sincere. Some people will like you more, and you'll boost your health."
+            image: "haikuda"
         }
         this.jokeHelp = {
             happened: false,
-            titleText: "Jokes",
-            text: "Participating in jokes make you funnier. Some people will like you more, and you'll boost your movement speed."
+            image: "jokesda"
         }
         this.mathHelp = {
             happened: false,
-            titleText: "Math",
-            text: "Doing math makes you smarter. Some people will like you more, and you'll boost your fire rate."
+            image: "mathda"
         }
     }
 
     handleHelp(){
         if(this.player.day !== 0) return;
         // Day 1, show help
-        if(this.timeRemaining < (4*60 + 31) && !this.gymHelp.happened){
+        if(this.timeRemaining < (4*60 + 56) && !this.gymHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
-            this.scene.launch("ConfirmModal", {titleText: this.gymHelp.titleText, text: this.gymHelp.text, confirmCallback: () => {
+            this.scene.launch("ConfirmModal", {image: this.gymHelp.image, confirmCallback: () => {
                 this.scene.sleep("ConfirmModal");
                 this.scene.resume(this.currentTab);
                 this.scene.resume();
                 this.previousTime = null;
+                this.buttons["Gym"] = Button(this, 38 + 2*57, 11, "Gym", "8px", "invisibutton", 49, 14);
+                this.buttons["Gym"].setButtonColor("#FFFFFF");
+                this.buttons["Gym"].setButtonOnClick(() => this.moveToTab("Gym"));
+                this.hideGraphics[0].clear();
             }});
+            this.scene.bringToTop("ConfirmModal");
             this.gymHelp.happened = true;
         }
-        if(this.timeRemaining < (4*60 + 1) && !this.haikuHelp.happened){
+        if(this.timeRemaining < (4*60 + 51) && !this.haikuHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
-            this.scene.launch("ConfirmModal", {titleText: this.haikuHelp.titleText, text: this.haikuHelp.text, confirmCallback: () => {
+            this.scene.launch("ConfirmModal", {image: this.haikuHelp.image, confirmCallback: () => {
                 this.scene.sleep("ConfirmModal");
                 this.scene.resume(this.currentTab);
                 this.scene.resume();
                 this.previousTime = null;
+                this.buttons["Haikus"] = Button(this, 38 + 3*57, 11, "Haikus", "8px", "invisibutton", 49, 14);
+                this.buttons["Haikus"].setButtonColor("#FFFFFF");
+                this.buttons["Haikus"].setButtonOnClick(() => this.moveToTab("Haikus"));
+                this.hideGraphics[1].clear();
             }});
+            this.scene.bringToTop("ConfirmModal");
             this.haikuHelp.happened = true;
         }
-        if(this.timeRemaining < (3*60 + 31) && !this.jokeHelp.happened){
+        if(this.timeRemaining < (4*60 + 46) && !this.jokeHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
-            this.scene.launch("ConfirmModal", {titleText: this.jokeHelp.titleText, text: this.jokeHelp.text, confirmCallback: () => {
+            this.scene.launch("ConfirmModal", {image: this.jokeHelp.image, confirmCallback: () => {
                 this.scene.sleep("ConfirmModal");
                 this.scene.resume(this.currentTab);
                 this.scene.resume();
                 this.previousTime = null;
+                this.buttons["Jokes"] = Button(this, 38 + 4*57, 11, "Jokes", "8px", "invisibutton", 49, 14);
+                this.buttons["Jokes"].setButtonColor("#FFFFFF");
+                this.buttons["Jokes"].setButtonOnClick(() => this.moveToTab("Jokes"));
+                this.hideGraphics[2].clear();
             }});
+            this.scene.bringToTop("ConfirmModal");
             this.jokeHelp.happened = true;
         }
-        if(this.timeRemaining < (3*60 + 1) && !this.mathHelp.happened){
+        if(this.timeRemaining < (4*60 + 41) && !this.mathHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
-            this.scene.launch("ConfirmModal", {titleText: this.mathHelp.titleText, text: this.mathHelp.text, confirmCallback: () => {
+            this.scene.launch("ConfirmModal", {image: this.mathHelp.image, confirmCallback: () => {
                 this.scene.sleep("ConfirmModal");
                 this.scene.resume(this.currentTab);
                 this.scene.resume();
                 this.previousTime = null;
+                this.buttons["Math"] = Button(this, 38 + 5*57, 11, "Math", "8px", "invisibutton", 49, 14);
+                this.buttons["Math"].setButtonColor("#FFFFFF");
+                this.buttons["Math"].setButtonOnClick(() => this.moveToTab("Math"));
+                this.hideGraphics[3].clear();
             }});
+            this.scene.bringToTop("ConfirmModal");
             this.mathHelp.happened = true;
         }
     }

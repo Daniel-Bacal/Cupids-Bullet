@@ -63,13 +63,7 @@ export default class LevelSelect extends Phaser.Scene {
         levelSelectButtons[0].setButtonHoverColor("#431c5c");
 
         levelSelectButtons[1].setButtonOnClick(() => {
-            if(currentDay === 0){
-                this.scene.start("Help", {returnCallback(){
-                    this.scene.start("SkillTree");
-                }});
-            } else {
-                this.scene.start("SkillTree");
-            }
+            this.scene.start("SkillTree");
         });
     }
 

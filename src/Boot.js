@@ -81,6 +81,23 @@ export default class Boot extends Phaser.Scene{
         this.load.image("haiku-background", "assets/haiku-background.png");
         this.load.image("confirm-modal", "assets/confirm-modal.png");
         this.load.image("pause-symbol", "assets/pause-symbol.png");
+        this.load.spritesheet("gymda", "assets/das/gymda.png", {
+            frameWidth: 202,
+            frameHeight: 134
+        });
+        this.load.spritesheet("haikuda", "assets/das/haikuda.png", {
+            frameWidth: 202,
+            frameHeight: 134
+        });
+        this.load.spritesheet("jokesda", "assets/das/jokesda.png", {
+            frameWidth: 202,
+            frameHeight: 134
+        });
+        this.load.spritesheet("mathda", "assets/das/mathda.png", {
+            frameWidth: 202,
+            frameHeight: 134
+        });
+        this.load.image("close-icon", "assets/close-icon.png");
 
         this.load.image("wall", "assets/walls/wall.png");
         this.load.image("left-wall", "assets/walls/left-wall.png");
