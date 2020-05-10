@@ -82,6 +82,24 @@ export default class Player {
         this.playerSprite.anims.play('player_walk', true);
     }
 
+    initEndlessBulletHell(scene, bulletManager){
+        this.scene = scene;
+        this.bulletManager = bulletManager;
+
+        this.lastBulletFired = -1000;
+        this.bulletCoolDown = 250;
+        this.bulletSpeed = 500;
+
+        this.speed = 160;
+        this.maxHealth = 1600;
+        this.health = 1600;
+        this.damage = 75;
+
+        this.playerSprite = this.scene.physics.add.sprite(0, 0, "bhPlayer");
+        this.playerSprite.setCollideWorldBounds(true);
+        this.playerSprite.anims.play('player_walk', true);
+    }
+
     getHealthPercent(){
         return this.health/this.maxHealth;
     }
