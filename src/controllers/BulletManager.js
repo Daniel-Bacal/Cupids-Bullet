@@ -16,38 +16,6 @@ export default class BulletManager {
 
         // Init bullet data
         this.bulletTimeAlive = bulletTimeAlive;
-
-        this.deadBullets = [];
-        this.initBullets();
-        this.setUpBulletCollisions();
-    }
-
-    initBullets(){
-        let bullet;
-        for(let i = 0; i < this.maxNumBullets; i++){
-            // Create bullet
-            bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
-
-            if (this.bulletScale){
-                bullet.setScale(this.bulletScale, this.bulletScale);
-            }
-
-            bullet.health = this.bulletHealth;
-
-            bullet.timesFired = 0;
-
-            // Initially set to dead
-            bullet.isAlive = false;
-
-            // Add to physics group
-            this.group.add(bullet);
-
-            // Hide Bullet
-            bullet.disableBody(true, true);
-
-            // Add to dead bullet list
-            this.deadBullets.push(bullet);
-        }
     }
 
     setCollisionData(collisionData){
@@ -79,7 +47,19 @@ export default class BulletManager {
 
     requestBullet(xPos, yPos, xDir, yDir, bulletSpeed, damage, animKey){
         // Bring a bullet to life
-        let bullet = this.deadBullets.pop();
+        let bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
+        console.log(bullet);
+        if (this.bulletScale){
+            bullet.setScale(this.bulletScale, this.bulletScale);
+        }
+
+        bullet.health = this.bulletHealth;
+
+        bullet.timesFired = 0;
+
+        // Add to physics group
+        this.group.add(bullet);
+
         bullet.lastCollision = null;
         bullet.health = this.bulletHealth;
         bullet.isAlive = true;
@@ -112,8 +92,7 @@ export default class BulletManager {
 
     killBullet(bullet){
         bullet.isAlive = false;
-        bullet.disableBody(true, true);
-        this.deadBullets.push(bullet);
+        bullet.destroy();
     }
 
 }

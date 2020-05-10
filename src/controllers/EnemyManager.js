@@ -7,32 +7,8 @@ export default class EnemyManager{
         this.sprite = sprite;
         this.group = group;
         this.bulletManager = bulletManager
-
-        this.deadEnemies = [];
-        this.initEnemies();
     }
 
-    initEnemies(){
-        let enemy;
-        for(let i = 0; i < this.maxNumEnemies; i++){
-            enemy = this.scene.physics.add.sprite(0, 0, this.sprite);
-            enemy.bulletManager = this.bulletManager;
-            enemy.isAlive = false;
-            enemy.spriteName = this.sprite;
-
-            // Enemy Health Bar
-            this.initEnemyHealth(enemy);
-
-            // Add to physics group
-            this.group.add(enemy);
-
-            // Hide Enemy
-            enemy.disableBody(true, true);
-
-            // Add to dead enemy list
-            this.deadEnemies.push(enemy);
-        }
-    }
 
     setUpEnemyCollisions(){
         for(let i = 0; i < this.collisionData.length; i++){
@@ -49,7 +25,17 @@ export default class EnemyManager{
     }
 
     requestEnemy(xPos, yPos, behavior, enemyHealth, enemyDamage, enemyScale){
-        let enemy = this.deadEnemies.pop();
+        let enemy = this.scene.physics.add.sprite(0, 0, this.sprite);
+        enemy.bulletManager = this.bulletManager;
+        enemy.isAlive = false;
+        enemy.spriteName = this.sprite;
+
+        // Enemy Health Bar
+        this.initEnemyHealth(enemy);
+
+        // Add to physics group
+        this.group.add(enemy);
+
         enemy.isAlive = true;
 
         // Enable enemy
@@ -96,8 +82,7 @@ export default class EnemyManager{
 
     afterDeath(enemy){
         enemy.disableBody(true, true);
-        this.deadEnemies.push(enemy);
-        // Hide enemy health bar
+        enemy.destroy();
     }
 
     initEnemyHealth(enemy){

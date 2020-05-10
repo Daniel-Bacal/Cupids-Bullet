@@ -41,7 +41,7 @@ export default class BulletHell extends Phaser.Scene {
         // Set up game world
         if(this.endless){
             // TODO - make this bigger maybe?
-            this.physics.world.setBounds(0, 0, 4*480, 4*270);
+            this.physics.world.setBounds(0, 0, 2*480, 2*270);
             this.background = this.add.image(0, 0, "bullet-hell-background");
             this.background.setOrigin(0, 0);
         } else {
