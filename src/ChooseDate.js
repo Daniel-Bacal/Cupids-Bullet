@@ -38,7 +38,9 @@ export default class ChooseDate extends Phaser.Scene{
         let picY = 43;
         let nameX = 54 - 600;
         let nameY = 120;
-        let scoreX = 70 - 600;
+        let scoreLabelX = 15 - 600;
+        let scoreLabelY = 130
+        let scoreX = 66 - 600;
         let scoreY = 130;
         let buttonX = 19 - 600;
         let buttonY = 153;
@@ -74,8 +76,14 @@ export default class ChooseDate extends Phaser.Scene{
             // Add name
             let name = this.matches[i].getName();
             name = name.split(" ")[0];
+            if(name.length > 9){
+                name = name.substring(0, 9) + ".";
+            }
             let nameText = this.add.text(nameX, nameY, name, {fontFamily: "NoPixel", color: "#431c5c", fontSize: "16px"}).setOrigin(0.5, 0.5);
             elements.push(nameText);
+
+            let scoreLabelText = this.add.text(scoreLabelX, scoreLabelY, "Score: ",{fontFamily: "NoPixel", color: "#431c5c", fontSize: "16px"}).setOrigin(0, 0);
+            elements.push(scoreLabelText);
 
             // Add score
             let scoreColor;
@@ -142,6 +150,7 @@ export default class ChooseDate extends Phaser.Scene{
             bX += xInc;
             picX += xInc;
             nameX += xInc;
+            scoreLabelX += xInc;
             scoreX += xInc;
             buttonX += xInc;
             gX += xInc;

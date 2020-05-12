@@ -14,10 +14,9 @@ export default class EndOfDay extends Phaser.Scene{
         // Save player
         this.game.player.day++;
         console.log("day: " + this.game.player.day);
-        if(this.game.player.day > 3){
-            this.game.player.day = 3;
+        if(this.game.player.day <= 3){
+            this.game.player.skillPoints++;
         }
-        this.game.player.skillPoints++;
         this.game.player.saveToLocalStorage();
     }
 

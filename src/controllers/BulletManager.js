@@ -48,7 +48,6 @@ export default class BulletManager {
     requestBullet(xPos, yPos, xDir, yDir, bulletSpeed, damage, animKey){
         // Bring a bullet to life
         let bullet = this.scene.physics.add.sprite(0, 0, this.sprite);
-        console.log(bullet);
         if (this.bulletScale){
             bullet.setScale(this.bulletScale, this.bulletScale);
         }

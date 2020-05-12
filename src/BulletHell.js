@@ -6,7 +6,7 @@ import FireAtPlayerBehavior from "./behaviors/FireAtPlayerBehavior"
 import ExplodeOnPlayerBehavior from "./behaviors/ExplodeOnPlayerBehavior"
 import FireShotgunAtPlayerBehavior from "./behaviors/FireShotgunAtPlayerBehavior"
 import Button from "./ui_elements/Button"
-import { level1, level2, level3, endless } from "./levels/levels"
+import { level1, level2, level3, boss, endless } from "./levels/levels"
 
 const Vector2 = Phaser.Math.Vector2;
 
@@ -788,6 +788,9 @@ export default class BulletHell extends Phaser.Scene {
                 break;
             case 2:
                 level = level3;
+                break;
+            case 3:
+                level = boss;
                 break;
             default:
                 level = level1;

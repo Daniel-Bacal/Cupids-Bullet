@@ -52,19 +52,25 @@ export default class LevelSelect extends Phaser.Scene {
             this.add.image(locations[i].x, locations[i].y, "level-select-x");
         }
 
-        let levelSelectButtons = [
-            Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30),
-            Button(this, locations[currentDay].x, locations[currentDay].y, "", "16px", "level-select-circle", 88, 73)
-        ];
+        let levelSelectButtons;
+        if(currentDay < 4){
+            levelSelectButtons = [
+                Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30),
+                Button(this, locations[currentDay].x, locations[currentDay].y, "", "16px", "level-select-circle", 88, 73)
+            ];
+            levelSelectButtons[1].setButtonOnClick(() => {
+                this.scene.start("SkillTree");
+            });
+        } else {
+            levelSelectButtons = [
+                Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30),
+            ];
+        }
         levelSelectButtons[0].setButtonOnClick(() => {
             this.scene.start("MainMenu");
         });
         levelSelectButtons[0].setButtonColor("#431c5c");
         levelSelectButtons[0].setButtonHoverColor("#431c5c");
-
-        levelSelectButtons[1].setButtonOnClick(() => {
-            this.scene.start("SkillTree");
-        });
     }
 
 }

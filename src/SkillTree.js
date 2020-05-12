@@ -135,5 +135,6 @@ export default class SkillTree extends Phaser.Scene{
         this.player.skills.push(key);
         this.player.skillPoints--;
         this.sound.play("SkillPointSpentSFX");
+        this.scene.restart()
     }
 }
