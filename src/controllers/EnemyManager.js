@@ -29,6 +29,8 @@ export default class EnemyManager{
         enemy.bulletManager = this.bulletManager;
         enemy.isAlive = false;
         enemy.spriteName = this.sprite;
+        enemy.manager = this;
+        enemy.way = "";
 
         // Enemy Health Bar
         this.initEnemyHealth(enemy);
@@ -56,8 +58,8 @@ export default class EnemyManager{
     doBehaviors(){
         this.group.children.iterate((enemy) => {
             if(enemy.isAlive){
-                enemy.behavior.behave(enemy);
                 this.renderHealthBar(enemy);
+                enemy.behavior.behave(enemy);
             }
         })
     }

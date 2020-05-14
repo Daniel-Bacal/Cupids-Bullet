@@ -137,6 +137,12 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("heart", "assets/heart-sheet.png", {
             frameWidth: 480, frameHeight: 270
         });
+        this.load.spritesheet("boss", "assets/boss.png", {
+            frameWidth: 64, frameHeight: 64
+        });
+        this.load.spritesheet("bomb", "assets/bomb.png", {
+            frameWidth: 32, frameHeight: 32
+        });
 
         // Load JSON Files
         this.load.json("questionnaire","text_data/questionnaire.json");
@@ -202,7 +208,7 @@ export default class Boot extends Phaser.Scene{
         let mcKilla = new Player();
         mcKilla.setName("TheMcKillaGorilla");
         mcKilla.setBio("When I'm not teaching, programming, or gaming, I enjoy spending time with family and friends as well as playing the guitar and piano.");
-        mcKilla.setPlayerStats(300, 300, 300, 300, 300);
+        mcKilla.setPlayerStats(100, 100, 100, 100, 100);
         mcKilla.setDay(3);
         mcKilla.skillPoints = 3;
         mcKilla.saveToLocalStorage();

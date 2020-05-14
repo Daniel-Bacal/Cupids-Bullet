@@ -7,6 +7,7 @@ import ExplodeOnPlayerBehavior from "./behaviors/ExplodeOnPlayerBehavior"
 import FireShotgunAtPlayerBehavior from "./behaviors/FireShotgunAtPlayerBehavior"
 import Button from "./ui_elements/Button"
 import { level1, level2, level3, boss, endless } from "./levels/levels"
+import BossManager from "./controllers/BossManager"
 
 const Vector2 = Phaser.Math.Vector2;
 
@@ -166,6 +167,8 @@ export default class BulletHell extends Phaser.Scene {
             this.fEnemyManager.doBehaviors();
             this.mEnemyManager.doBehaviors();
             this.oEnemyManager.doBehaviors();
+            this.bombManager.doBehaviors();
+            this.bossManager.doBehaviors();
         }
     }
 
@@ -201,10 +204,13 @@ export default class BulletHell extends Phaser.Scene {
             if (this.activeFreeze){
                 this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
                 this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
+                this.oEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
+                this.bossGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
             }
             if (this.activeAOEDamage){
                 this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.fEnemyManager.killEnemy(enemy);}}}});
                 this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.mEnemyManager.killEnemy(enemy);}}}});
+                this.oEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.oEnemyManager.killEnemy(enemy);}}}});
             }
             if(this.invisiblePlayer){
                 console.log("triggerInvis")
@@ -248,8 +254,10 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     handleNumEnemiesRemaining(){
-        this.numEnemiesRemainingText.text = "Enemies Remaining: " + this.numEnemiesRemaining;
-        this.numEnemiesRemainingText.setOrigin(0.5, 0.5);
+        if(this.player.day !== 3){
+            this.numEnemiesRemainingText.text = "Enemies Remaining: " + this.numEnemiesRemaining;
+            this.numEnemiesRemainingText.setOrigin(0.5, 0.5);
+        }
         if(this.numEnemiesRemaining <= 0){
             if(this.endTimer === null){
                 this.endTimer = this.time.now + 3000;
@@ -265,7 +273,7 @@ export default class BulletHell extends Phaser.Scene {
                     this.victoryTextAnimation.restart();
             }
             if(this.time.now > this.endTimer){
-                if(this.player.day === 2){
+                if(this.player.day === 3){
                     // You've won (for now) TODO: finish this
                     this.goToScene("GameWin");
                 } else {
@@ -559,6 +567,90 @@ export default class BulletHell extends Phaser.Scene {
             repeat: -1
         });
 
+        // Boss
+        this.anims.create({
+            key: "boss_idle",
+            frames: this.anims.generateFrameNumbers("boss", {
+            start: 0,
+            end: 0
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 16,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "boss_death",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "boss_front_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_front_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: "bomb_normal",
+            frames: this.anims.generateFrameNumbers("bomb", {
+                start: 0,
+                end: 1
+            }),
+            frameRate: 16,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bomb_detonating",
+            frames: this.anims.generateFrameNumbers("bomb", {
+                start: 2,
+                end: 3
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bomb_death",
+            frames: this.anims.generateFrameNumbers("bomb", {
+                start: 2,
+                end: 2
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+
     }
 
     createGroups(){
@@ -567,6 +659,8 @@ export default class BulletHell extends Phaser.Scene {
         this.fEnemyGroup = this.physics.add.group();
         this.mEnemyGroup = this.physics.add.group();
         this.oEnemyGroup = this.physics.add.group();
+        this.bossGroup = this.physics.add.group();
+        this.bombGroup = this.physics.add.group();
         this.walls = this.physics.add.staticGroup();
     }
 
@@ -575,6 +669,7 @@ export default class BulletHell extends Phaser.Scene {
         this.physics.add.collider(this.mEnemyGroup, this.walls);
         this.physics.add.collider(this.oEnemyGroup, this.walls);
         this.physics.add.collider(this.player.getSprite(), this.walls);
+        this.physics.add.collider(this.bossGroup, this.walls);
 
         this.playerBulletManager.setCollisionData([{
             otherGroup: this.fEnemyGroup,
@@ -640,6 +735,29 @@ export default class BulletHell extends Phaser.Scene {
                   enemy.stunDuration = 90;
                 }
               }
+            }
+        },
+        {
+            otherGroup: this.bossGroup,
+            callback: (enemy, bullet) => {
+                console.log("Hit boss");
+                if(enemy.isDying){
+                    return;
+                }
+                enemy.anims.play(enemy.spriteName + enemy.way + '_damage', true);
+                enemy.on("animationcomplete", () => enemy.anims.play(enemy.spriteName + enemy.way + '_walk', true));
+                enemy.health -= bullet.damage;
+                this.sound.play("EnemyTakingDamageSFX");
+                if (enemy.health <= 0){
+                    this.bossManager.killBoss(enemy);
+                    this.numEnemiesRemaining--;
+                }
+                if (this.player.bulletStun){
+                    let rand = Math.random();
+                    if (rand >= 0.43 && rand < 0.48){
+                        enemy.stunDuration = 20;
+                    }
+                }
             }
         },
         {
@@ -765,12 +883,34 @@ export default class BulletHell extends Phaser.Scene {
             1000,
             this.enemyScale
         );
+
+        this.bossBulletManager = new BulletManager(
+            300,
+            this,
+            "bullet",
+            this.enemyBullets,
+            [],
+            5000,
+            1
+        );
+
+        this.bombBulletManager = new BulletManager(
+            300,
+            this,
+            "bullet",
+            this.enemyBullets,
+            [],
+            500,
+            1
+        );
     }
 
     setUpEnemies(){
         this.fEnemyManager = new EnemyManager(100, this, "fEnemy", this.fEnemyGroup, this.fEnemyBulletManager);
         this.mEnemyManager = new EnemyManager(100, this, "mEnemy", this.mEnemyGroup, this.mEnemyBulletManager);
         this.oEnemyManager = new EnemyManager(100, this, "oEnemy", this.oEnemyGroup, this.oEnemyBulletManager);
+        this.bombManager = new EnemyManager(100, this, "bomb", this.bombGroup, this.bombBulletManager);
+        this.bossManager = new BossManager(this, "boss", this.bossGroup, this.bossBulletManager, this.player, this.bombManager, [this.fEnemyManager, this.mEnemyManager, this.oEnemyManager]);
     }
 
     setUpLevel(day){
@@ -876,6 +1016,10 @@ export default class BulletHell extends Phaser.Scene {
                     // Create other enemy spawner
                     this.spawnLocations.push({enemy: 'O', x: x, y: y});
                     break;
+                case 'C':
+                    // Spawn the final boss
+                    this.bossManager.requestBoss(x, y);
+                    this.numEnemiesRemaining++;
                 default:
                     // Do nothing
             }

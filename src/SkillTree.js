@@ -123,7 +123,11 @@ export default class SkillTree extends Phaser.Scene{
 
     update(){
         if(this.player.skillPoints === 0){
-            this.scene.start("DayStart");
+            if(this.player.day === 3){
+                this.scene.start("BulletHell");
+            } else {
+                this.scene.start("DayStart");
+            }   
         }
         if(this.skillText.text !== "" + this.player.skillPoints){
             this.skillText.text = this.player.skillPoints;
@@ -135,6 +139,8 @@ export default class SkillTree extends Phaser.Scene{
         this.player.skills.push(key);
         this.player.skillPoints--;
         this.sound.play("SkillPointSpentSFX");
-        this.scene.restart()
+        if(this.player.skillPoints !== 0){
+            this.scene.restart()
+        }
     }
 }

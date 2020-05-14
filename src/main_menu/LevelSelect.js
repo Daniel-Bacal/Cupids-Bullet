@@ -58,9 +58,16 @@ export default class LevelSelect extends Phaser.Scene {
                 Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30),
                 Button(this, locations[currentDay].x, locations[currentDay].y, "", "16px", "level-select-circle", 88, 73)
             ];
-            levelSelectButtons[1].setButtonOnClick(() => {
-                this.scene.start("SkillTree");
-            });
+            if(this.currentDay === 3 && player.skillPoints === 0){
+                levelSelectButtons[1].setButtonOnClick(() => {
+                    // Go directly to final boss
+                    this.scene.start("BulletHell");
+                });
+            } else {
+                levelSelectButtons[1].setButtonOnClick(() => {
+                    this.scene.start("SkillTree");
+                });
+            }
         } else {
             levelSelectButtons = [
                 Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30),
