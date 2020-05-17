@@ -12,6 +12,20 @@ export default class SpashScreen extends Phaser.Scene{
     }
 
     create(){
+        this.add.image(0, 0, "mountains-background").setOrigin(0,0);
+
+        this.anims.create({
+            key: "mountain-lines",
+            frames: this.anims.generateFrameNumbers("lines", {
+                start: 0,
+                end: 81
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.background = this.add.sprite(0, 0, 'mountain-lines').setOrigin(0,0);
+        this.background.anims.play("mountain-lines", true);
+
         let splash = this.add.image(0, 0, "splash-screen");
 
         splash.setOrigin(0, 0);

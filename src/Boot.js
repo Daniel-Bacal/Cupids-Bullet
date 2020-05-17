@@ -144,6 +144,22 @@ export default class Boot extends Phaser.Scene{
             frameWidth: 32, frameHeight: 32
         });
 
+        this.load.spritesheet("lines", "assets/background-lines.png", {
+            frameWidth: 480, frameHeight: 270
+        });
+        this.load.image("mountains-background", "assets/mountains-background.png");
+
+        this.load.spritesheet("chad-art", "assets/chad-sheet.png", {
+            frameWidth: 480, frameHeight: 270
+        });
+        this.load.spritesheet("chad-background", "assets/chad-background.png", {
+            frameWidth: 480, frameHeight: 270
+        });
+        this.load.image("chad-back", "assets/walls/chad-back.png");
+        this.load.image("chad-front", "assets/walls/chad-front.png");
+        this.load.image("chad-left", "assets/walls/chad-left.png");
+        this.load.image("chad-right", "assets/walls/chad-right.png");
+
         // Load JSON Files
         this.load.json("questionnaire","text_data/questionnaire.json");
 

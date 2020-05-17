@@ -26,6 +26,8 @@ export default class MainMenu extends Phaser.Scene {
   }
 
   create(){
+    this.add.image(0, 0,"mountains-background").setOrigin(0, 0);
+
     mainMenu = this.add.image(0, 0, "main-menu");
     mainMenu.setOrigin(0, 0);
 
