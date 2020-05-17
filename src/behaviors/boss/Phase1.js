@@ -99,7 +99,7 @@ export default class Phase1 extends Behavior{
                     this.setEnemyVelocity(enemy, enemy.currentDirection.x*this.speed*4, enemy.currentDirection.y*this.speed*4);
                     
                     // Spawn Enemy
-                    if(enemy.numLungesLeft%2 === 1){
+                    if(enemy.numLungesLeft === 5){
                         let i = Math.floor(Math.random()*3);
                         let em = enemy.enemies[i];
                         let b = [FireShotgunAtPlayerBehavior, FireAtPlayerBehavior, ExplodeOnPlayerBehavior];

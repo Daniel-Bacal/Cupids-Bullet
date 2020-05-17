@@ -33,6 +33,7 @@ export default class BossManager{
         boss.bombs = this.bombs;
         boss.enemies = this.enemies;
         boss.way = "";
+        boss.inPhase2 = false;
 
         // Enemy Health Bar
         this.initBossHealth(boss);
@@ -49,7 +50,7 @@ export default class BossManager{
         boss.anims.play(this.sprite + '_walk', true);
 
         boss.behavior = new Phase1(this.player, this.scene, 100);
-        boss.health = 160000;
+        boss.health = 100000;
         boss.maxHealth = boss.health;
         boss.damage = 10;
 

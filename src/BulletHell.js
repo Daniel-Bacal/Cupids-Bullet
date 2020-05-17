@@ -8,6 +8,7 @@ import FireShotgunAtPlayerBehavior from "./behaviors/FireShotgunAtPlayerBehavior
 import Button from "./ui_elements/Button"
 import { level1, level2, level3, boss, endless } from "./levels/levels"
 import BossManager from "./controllers/BossManager"
+import Phase2 from "./behaviors/boss/Phase2"
 
 const Vector2 = Phaser.Math.Vector2;
 
@@ -751,6 +752,25 @@ export default class BulletHell extends Phaser.Scene {
                 if (enemy.health <= 0){
                     this.bossManager.killBoss(enemy);
                     this.numEnemiesRemaining--;
+                } else if(enemy.health <= enemy.maxHealth/2 && !enemy.inPhase2){
+                    enemy.behavior = new Phase2(this.player, this, 100);
+                    enemy.behavior.setUpEnemy(enemy);
+                    enemy.inPhase2 = true;
+                    let songName = "BossPhase2"
+                    if(this.game.music && this.game.music.isPlaying){
+                        if(this.game.music.songName !== songName){
+                            this.game.music.stop();
+                            this.game.music = this.sound.add(songName, {loop: true});
+                            this.game.music.play();
+                            this.game.music.isPlaying = true;
+                            this.game.music.songName = songName
+                        }
+                    } else {
+                        this.game.music = this.sound.add(songName, {loop: true});
+                        this.game.music.play();
+                        this.game.music.isPlaying = true;
+                        this.game.music.songName = songName
+                    }
                 }
                 if (this.player.bulletStun){
                     let rand = Math.random();
@@ -1243,19 +1263,24 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     startMusic(){
+        let songName = "Battle";
+        if(this.player.day === 3){
+            songName = "BossPhase1";
+        }
+
         if(this.game.music && this.game.music.isPlaying){
-            if(this.game.music.songName !== "Battle"){
-              this.game.music.stop();
-              this.game.music = this.sound.add("Battle", {loop: true});
-              this.game.music.play();
-              this.game.music.isPlaying = true;
-              this.game.music.songName = "Battle"
+            if(this.game.music.songName !== songName){
+                this.game.music.stop();
+                this.game.music = this.sound.add(songName, {loop: true});
+                this.game.music.play();
+                this.game.music.isPlaying = true;
+                this.game.music.songName = songName
             }
-          } else {
-            this.game.music = this.sound.add("Battle", {loop: true});
+        } else {
+            this.game.music = this.sound.add(songName, {loop: true});
             this.game.music.play();
             this.game.music.isPlaying = true;
-            this.game.music.songName = "Battle"
-          }
+            this.game.music.songName = songName
+        }
     }
 }
