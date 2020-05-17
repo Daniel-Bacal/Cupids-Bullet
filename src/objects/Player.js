@@ -70,12 +70,12 @@ export default class Player {
 
         this.lastBulletFired = -1000;
         this.bulletCoolDown = 300 - this.stats.int;
-        this.bulletSpeed = 500;
+        this.bulletSpeed = 500 + (this.bulletSpeedBoost ? this.bulletSpeedBoost : 0);
 
-        this.speed = 150 + this.stats.hum;
+        this.speed = 150 + this.stats.hum + (this.speedBoost ? this.speedBoost : 0);
         this.maxHealth = 1600 + this.stats.sinc;
         this.health = 1600 + this.stats.sinc;
-        this.damage = 50 + this.stats.jock;
+        this.damage = 50 + this.stats.jock + (this.damageBoost ? this.damageBoost : 0);
 
         this.playerSprite = this.scene.physics.add.sprite(0, 0, "bhPlayer");
         this.playerSprite.setCollideWorldBounds(true);

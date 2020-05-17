@@ -55,12 +55,12 @@ export default class MainMenu extends Phaser.Scene {
       Button(this, 380, 240, "About", "24px")
     ];
 
-    let b = Button(this, 100, 100, "Endless", "24px");
-    b.setButtonOnClick(() => {
-      this.game.player = new Player();
-      this.game.player.loadFromLocalStorage("test");
-      this.scene.start("BulletHell", {endless: true});
-    })
+    // let b = Button(this, 100, 100, "Endless", "24px");
+    // b.setButtonOnClick(() => {
+    //   this.game.player = new Player();
+    //   this.game.player.loadFromLocalStorage("test");
+    //   this.scene.start("BulletHell", {endless: true});
+    // })
 
     for(let i = 0; i < buttons.length; i++){
       buttons[i].setButtonColor("#FFFFFF");

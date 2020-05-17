@@ -68,8 +68,8 @@ export default class Phase1 extends Behavior{
                     }
                     let enemyPosition = enemy.getCenter();
                     let dir = new Vector2();
-                    for(let i = 0; i < 16; i++){
-                        dir.setToPolar(Math.PI*2/16*i + offset*Math.PI/16)
+                    for(let i = 0; i < 12; i++){
+                        dir.setToPolar(Math.PI*2/12*i + offset*Math.PI/12)
                         enemy.bulletManager.requestBullet(enemyPosition.x, enemyPosition.y, dir.x, dir.y, 100, 10, "blue");
                     }
 

@@ -21,7 +21,7 @@ export default class Phase1 extends Behavior{
 
         // Bullet wave
         enemy.nextBulletWave = null;
-        enemy.numBulletWavesLeft = 4;
+        enemy.numBulletWavesLeft = 3;
         enemy.currentAttack = currentAction.BULLET_WAVE;
         enemy.inBulletWave = false;
         enemy.bulletWaveEnd = null;
@@ -93,7 +93,7 @@ export default class Phase1 extends Behavior{
                     enemy.bulletOffset = 0;
                     enemy.numBulletWavesLeft--;
                 } else if(enemy.numBulletWavesLeft === 0){
-                    enemy.numBulletWavesLeft = 5;
+                    enemy.numBulletWavesLeft = 3;
                     enemy.nextBulletWave = null;
                     enemy.currentAttack = currentAction.LUNGE_AT_PLAYER;
                 }
@@ -133,12 +133,12 @@ export default class Phase1 extends Behavior{
                         enemy.lungeTime = this.scene.time.now + 800;
                     }
                     enemy.stopLungeTime = this.scene.time.now + 300;
-                    
+
                     enemy.numLungesLeft--;
                 } else if(enemy.numLungesLeft === 0 && (enemy.stopLungeTime !== null && this.scene.time.now >= enemy.stopLungeTime)){
                     enemy.lungeTime = null;
                     enemy.stopLungeTime = null;
-                    enemy.numLungesLeft = 5;
+                    enemy.numLungesLeft = 7;
                     enemy.currentAttack = currentAction.THROW_BOMBS;
                 }
                 
@@ -154,7 +154,7 @@ export default class Phase1 extends Behavior{
                         // Totally done with this move
                         enemy.throwNextBomb = null;
                         enemy.numBombWaves = 1;
-                        enemy.bombsLeft = 3;
+                        enemy.bombsLeft = 4;
                         enemy.currentAttack = currentAction.FIRE_LASER; 
                     } else {
                         enemy.throwNextBomb = this.scene.time.now + 2000;

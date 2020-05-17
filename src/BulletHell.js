@@ -66,13 +66,14 @@ export default class BulletHell extends Phaser.Scene {
 
         this.createGroups();
 
+        this.initPlayerSkills();
+
         this.setUpBulletManagers();
 
         if(this.endless){
             this.player.initEndlessBulletHell(this, this.playerBulletManager);
         } else {
             this.player.initBulletHell(this, this.playerBulletManager);
-            this.initPlayerSkills();
         }
 
         this.setUpCollisions();
@@ -201,7 +202,11 @@ export default class BulletHell extends Phaser.Scene {
 
     handlePlayerActiveSkills(){
         // Check for special keyboard inputs
-        if (Phaser.Input.Keyboard.JustDown(space)){
+        if(this.activeAOEDamage || this.activeFreeze || this.invisiblePlayer){
+            this.spacebarCooldown--;
+            this.updateCooldownGraphic();
+        }
+        if (Phaser.Input.Keyboard.JustDown(space) && this.spacebarCooldown < 0){
             if (this.activeFreeze){
                 this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
                 this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
@@ -209,9 +214,49 @@ export default class BulletHell extends Phaser.Scene {
                 this.bossGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
             }
             if (this.activeAOEDamage){
-                this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.fEnemyManager.killEnemy(enemy);}}}});
-                this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.mEnemyManager.killEnemy(enemy);}}}});
-                this.oEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){enemy.health-=this.activeAOEDamageAmount; if(enemy.health <= 0){this.oEnemyManager.killEnemy(enemy);}}}});
+                this.fEnemyGroup.children.iterate((enemy) => {
+                    if (enemy.isAlive){
+                        if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){
+                            enemy.health-=this.activeAOEDamageAmount;
+                            if(enemy.health <= 0){
+                                this.fEnemyManager.killEnemy(enemy);
+                                this.numEnemiesRemaining--;
+                            }
+                        }
+                    }
+                });
+                this.mEnemyGroup.children.iterate((enemy) => {
+                    if (enemy.isAlive){
+                        if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){
+                            enemy.health-=this.activeAOEDamageAmount;
+                            if(enemy.health <= 0){
+                                this.mEnemyManager.killEnemy(enemy);
+                                this.numEnemiesRemaining--;
+                            }
+                        }
+                    }
+                });
+                this.oEnemyGroup.children.iterate((enemy) => {
+                    if (enemy.isAlive){
+                        if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){
+                            enemy.health-=this.activeAOEDamageAmount;
+                            if(enemy.health <= 0){
+                                this.oEnemyManager.killEnemy(enemy);
+                                this.numEnemiesRemaining--;
+                            }
+                        }
+                    }
+                });
+                this.bossGroup.children.iterate((enemy) => {
+                    if (enemy.isAlive){
+                        if (Phaser.Math.Distance.Squared(enemy.getCenter().x,enemy.getCenter().y, this.player.getCenter().x, this.player.getCenter().y)<= this.activeAOEDamageRadius*this.activeAOEDamageRadius){
+                            enemy.health-=this.activeAOEDamageAmount;
+                            if(enemy.health <= 0){
+                                enemy.health = 1;
+                            }
+                        }
+                    }
+                });
             }
             if(this.invisiblePlayer){
                 console.log("triggerInvis")
@@ -219,6 +264,7 @@ export default class BulletHell extends Phaser.Scene {
                 this.player.invisibilityCountdownTimer = this.time.now + 5000;
                 this.player.getSprite().alpha = 0.2;
             }
+            this.spacebarCooldown = 1000;
         }
 
         // Check for random enemy death perk
@@ -688,7 +734,7 @@ export default class BulletHell extends Phaser.Scene {
               }
               if (this.player.bulletStun){
                 let rand = Math.random();
-                if (rand >= 0.43 && rand < 0.48){
+                if (rand < 0.1){
                   enemy.stunDuration = 90;
                 }
               }
@@ -710,7 +756,7 @@ export default class BulletHell extends Phaser.Scene {
               }
               if (this.player.bulletStun){
                 let rand = Math.random();
-                if (rand >= 0.43 && rand < 0.48){
+                if (rand < 0.1){
                   enemy.stunDuration = 90;
                 }
               }
@@ -732,7 +778,7 @@ export default class BulletHell extends Phaser.Scene {
               }
               if (this.player.bulletStun){
                 let rand = Math.random();
-                if (rand >= 0.43 && rand < 0.48){
+                if (rand < 0.1){
                   enemy.stunDuration = 90;
                 }
               }
@@ -774,8 +820,8 @@ export default class BulletHell extends Phaser.Scene {
                 }
                 if (this.player.bulletStun){
                     let rand = Math.random();
-                    if (rand >= 0.43 && rand < 0.48){
-                        enemy.stunDuration = 20;
+                    if (rand < 0.05){
+                        enemy.stunDuration = 50;
                     }
                 }
             }
@@ -860,6 +906,7 @@ export default class BulletHell extends Phaser.Scene {
 
     setUpBulletManagers(){
         // Player bullet manager
+        console.log("bulletScale: ", this.bulletScale);
         this.playerBulletManager = new BulletManager(
             100, 
             this,
@@ -1187,27 +1234,43 @@ export default class BulletHell extends Phaser.Scene {
         this.playerHealthBox.setScrollFactor(0, 0);
     }
 
+    initCooldownGraphic(){
+        this.cooldownBar = this.add.graphics();
+        this.cooldownBar.setScrollFactor(0, 0);
+
+        this.cooldownBox = this.add.graphics();
+        this.cooldownBox.lineStyle(2, 0xFFFFFF);
+        this.cooldownBox.strokeRect(5, 15, 100, 10);
+        this.cooldownBox.setScrollFactor(0, 0);
+    }
+
+    updateCooldownGraphic(){
+        this.cooldownBar.clear();
+        this.cooldownBar.fillStyle(0x0077FF);
+        this.cooldownBar.fillRect(5, 15, Math.ceil((1000 - Phaser.Math.Clamp(this.spacebarCooldown, 0, 1000))/1000*100), 10);
+    }
+
     initPlayerSkills(){
       let skills = this.player.skills;
-      console.log(skills[0]);
+      this.spacebarCooldown = 0;
       if (skills[0] == "sf"){
         this.weakEnemy = "pink";
         if (skills[1] == "sf1"){
-          this.player.speed += 100;
+          this.player.speedBoost = 100;
           if (skills[2] == "sf11"){
-            this.player.speed += 100;
+            this.player.speedBoost = 200;
           }
           else if (skills[2] == "sf12"){
             //Active Invisibility
             //If player is invis. Have them stop shooting and wander randomly.
             this.invisiblePlayer = true;
-            console.log("Player invis");
+            this.initCooldownGraphic();
           }
         }
         else if (skills[1] == "sf2"){
-          this.player.bulletSpeed += 250;
+          this.player.bulletSpeedBoost = 250;
           if (skills[2] == "sf21"){
-            this.player.bulletSpeed += 250;
+            this.player.bulletSpeedBoost = 500;
           }
           else if (skills[2] == "sf22"){
             this.player.bulletStun = true;
@@ -1217,9 +1280,9 @@ export default class BulletHell extends Phaser.Scene {
       else if (skills[0] == "sm"){
         this.weakEnemy = "blue";
         if (skills[1] == "sm1"){
-          this.player.damage += 50;
+          this.player.damageBoost = 50;
           if (skills[2] == "sm11"){
-            this.player.damage += 50;
+            this.player.damageBoost = 100;
           }
           else if (skills[2] == "sm12"){
             this.bulletHealth = 2;
@@ -1244,6 +1307,7 @@ export default class BulletHell extends Phaser.Scene {
           }
           else if (skills[2] == "sb12"){
             this.activeFreeze = true;
+            this.initCooldownGraphic();
           }
         }
         else if (skills[1] == "sb2"){
@@ -1257,6 +1321,7 @@ export default class BulletHell extends Phaser.Scene {
             this.activeAOEDamage = true;
             this.activeAOEDamageRadius = 100;
             this.activeAOEDamageAmount = 200;
+            this.initCooldownGraphic();
           }
         }
       }
