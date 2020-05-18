@@ -43,8 +43,8 @@ export default class DayStart extends Phaser.Scene{
         this.rejectionsRemaining = 5;
         this.matchesRemaining = 5;
 
-        this.matchesRemainingText = this.add.text(300, 10, "", {fill: "#ffffff", fontFamily: "NoPixel", fontSize: "16px"});
-        this.rejectionsRemainingText = this.add.text(10, 10, "", {fill: "#ffffff", fontFamily: "NoPixel", fontSize: "16px"});
+        this.matchesRemainingText = this.add.text(305, 10, "", {fill: "#ffffff", fontFamily: "NoPixel", fontSize: "16px"});
+        this.rejectionsRemainingText = this.add.text(5, 10, "", {fill: "#ffffff", fontFamily: "NoPixel", fontSize: "16px"});
         this.personText = this.add.text(240, 130, "", {fill: "#431c5c", fontFamily: "NoPixel", fontSize: "16px"});
         this.personText.setOrigin(0.5, 0.5);
 

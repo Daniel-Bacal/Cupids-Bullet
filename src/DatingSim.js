@@ -167,7 +167,7 @@ export default class DatingSim extends Phaser.Scene{
     handleHelp(){
         if(this.player.day !== 0) return;
         // Day 1, show help
-        if(this.timeRemaining < (4*60 + 56) && !this.gymHelp.happened){
+        if(this.timeRemaining < (4*60 + 30) && !this.gymHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
             this.scene.launch("ConfirmModal", {image: this.gymHelp.image, confirmCallback: () => {
@@ -183,7 +183,7 @@ export default class DatingSim extends Phaser.Scene{
             this.scene.bringToTop("ConfirmModal");
             this.gymHelp.happened = true;
         }
-        if(this.timeRemaining < (4*60 + 51) && !this.haikuHelp.happened){
+        if(this.timeRemaining < (4*60 + 0) && !this.haikuHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
             this.scene.launch("ConfirmModal", {image: this.haikuHelp.image, confirmCallback: () => {
@@ -199,7 +199,7 @@ export default class DatingSim extends Phaser.Scene{
             this.scene.bringToTop("ConfirmModal");
             this.haikuHelp.happened = true;
         }
-        if(this.timeRemaining < (4*60 + 46) && !this.jokeHelp.happened){
+        if(this.timeRemaining < (3*60 + 30) && !this.jokeHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
             this.scene.launch("ConfirmModal", {image: this.jokeHelp.image, confirmCallback: () => {
@@ -215,7 +215,7 @@ export default class DatingSim extends Phaser.Scene{
             this.scene.bringToTop("ConfirmModal");
             this.jokeHelp.happened = true;
         }
-        if(this.timeRemaining < (4*60 + 41) && !this.mathHelp.happened){
+        if(this.timeRemaining < (3*60 + 0) && !this.mathHelp.happened){
             this.scene.pause(this.currentTab);
             this.scene.pause();
             this.scene.launch("ConfirmModal", {image: this.mathHelp.image, confirmCallback: () => {

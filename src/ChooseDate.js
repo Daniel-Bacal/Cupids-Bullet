@@ -55,7 +55,7 @@ export default class ChooseDate extends Phaser.Scene{
         this.numMatches = 0;
         let groups = [];
         for(let i = 0; i < this.matches.length; i++){
-            if(this.matches[i].relationshipMeter > 60){
+            if(this.matches[i].relationshipMeter >= 55){
                 this.numMatches++;
             }
 
@@ -87,9 +87,9 @@ export default class ChooseDate extends Phaser.Scene{
 
             // Add score
             let scoreColor;
-            if(this.matches[i].relationshipMeter < 25){
+            if(this.matches[i].relationshipMeter < 30){
                 scoreColor = "#ac3232";
-            } else if(this.matches[i].relationshipMeter < 50){
+            } else if(this.matches[i].relationshipMeter < 55){
                 scoreColor = "#f08036"
             } else if(this.matches[i].relationshipMeter < 75){
                 scoreColor = "#f7b637";
@@ -104,8 +104,11 @@ export default class ChooseDate extends Phaser.Scene{
             let btn = Button(this, buttonX + 35, buttonY + 11, "Date", "16px", "btn-background", 69, 21);
             btn.setButtonColor("#431c5c");
             btn.setButtonHoverColor("#330c4c");
-            if(this.matches[i].relationshipMeter >= 60){
+            if(this.matches[i].relationshipMeter >= 55){
                 btn.setButtonOnClick(() => {
+                    if (this.matches[i].relationshipMeter >= 75){
+                        //Some bonus
+                    }
                     this.scene.start("BulletHell");
                 });
             }
@@ -113,7 +116,7 @@ export default class ChooseDate extends Phaser.Scene{
             elements.push(btn.buttonBackgroundImage);
 
             // If relationship meter is too low, prevent the date from happening
-            if(this.matches[i].relationshipMeter < 60){
+            if(this.matches[i].relationshipMeter < 55){
                 let g = this.add.graphics();
                 g.fillStyle(0x000000, 0.3);
                 g.fillRect(gX, gY, 80, 142);
@@ -129,7 +132,7 @@ export default class ChooseDate extends Phaser.Scene{
             }
 
             // Gray out heart status box if relationship meter is low
-            if(this.matches[i].relationshipMeter < 60){
+            if(this.matches[i].relationshipMeter < 55){
                 let gs = this.add.graphics();
                 gs.fillStyle(0x000000, 0.3);
                 gs.fillRect(gsX, gsY, 20, 20);

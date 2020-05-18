@@ -115,7 +115,8 @@ export const bioText = {
         "People who need to brag about \"giving back\" are sick.",
         "If you want to find true love, why are you on this site?",
         "Only willing to cuddle after you satisfy my needs.",
-        "I don't need to hear about how your day went. We're not friends, we're friends with benefits.",
+        "I don't really need to hear about how your day went.",
+        "We're not friends, we're friends with benefits.",
         "The only thing I hate more than emotional wrecks is poetry. Yuck.",
         "I don't really care about your hobbies, keep that to yourself."
         ]
