@@ -48,6 +48,23 @@ export default class Phase1 extends Behavior{
             return;
         }
 
+        let dir = this.player.getCenter().clone().subtract(enemy.getCenter()).normalize();
+        if(dir.x < 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
+            enemy.way = "_left";
+        }
+        if(dir.x > 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
+            enemy.way = "";
+        }
+        if(dir.y < 0 & ((dir.x < 0.5) && (dir.x > -0.5))){
+            enemy.way = "_back";
+        }
+        if(dir.y > 0 & ((dir.x < 0.5) && (dir.x > -0.5))){
+            enemy.way = "_front";
+        }
+
+        console.log(enemy.way);
+        enemy.anims.play("boss" + enemy.way, true);
+
         switch(enemy.currentAttack){
 
             case currentAction.BULLET_WAVE:

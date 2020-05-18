@@ -16,6 +16,7 @@ export default class SkillTree extends Phaser.Scene{
     }
 
     create(){
+        this.add.image(0, 0, "mountains-background").setOrigin(0, 0);
         this.background = this.add.image(0, 0, "skill-tree");
         this.background.setOrigin(0, 0);
 

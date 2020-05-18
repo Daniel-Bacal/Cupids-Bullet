@@ -616,7 +616,61 @@ export default class BulletHell extends Phaser.Scene {
 
         // Boss
         this.anims.create({
-            key: "boss_idle",
+            key: "boss",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 1,
+                end: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 1,
+                end: 1
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 1,
+                end: 1
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_left",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 2,
+                end: 2
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_left_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 2,
+                end: 2
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_left_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 2,
+                end: 2
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_front",
             frames: this.anims.generateFrameNumbers("boss", {
             start: 0,
             end: 0
@@ -625,43 +679,43 @@ export default class BulletHell extends Phaser.Scene {
             repeat: -1
         });
         this.anims.create({
-            key: "boss_walk",
-            frames: this.anims.generateFrameNumbers("boss", {
-                start: 0,
-                end: 0
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "boss_damage",
-            frames: this.anims.generateFrameNumbers("boss", {
-                start: 0,
-                end: 0
-            }),
-            frameRate: 16,
-            repeat: 0
-        });
-        this.anims.create({
-            key: "boss_death",
-            frames: this.anims.generateFrameNumbers("boss", {
-                start: 0,
-                end: 0
-            }),
-            frameRate: 8,
-            repeat: 0
-        });
-        this.anims.create({
             key: "boss_front_walk",
             frames: this.anims.generateFrameNumbers("boss", {
                 start: 0,
                 end: 0
             }),
-            frameRate: 8,
+            frameRate: 0,
             repeat: -1
         });
         this.anims.create({
             key: "boss_front_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "boss_back",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 3,
+                end: 3
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_back_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 3,
+                end: 3
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_back_damage",
             frames: this.anims.generateFrameNumbers("boss", {
                 start: 0,
                 end: 0

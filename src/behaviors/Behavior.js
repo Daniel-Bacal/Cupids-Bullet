@@ -29,7 +29,7 @@ export default class Behavior{
             return;
         }
         if(vX === 0 && vY === 0){
-            enemy.anims.play(enemy.spriteName + '_idle', true);
+
         } else {
             if(vX < 0){
                 enemy.way = "";
