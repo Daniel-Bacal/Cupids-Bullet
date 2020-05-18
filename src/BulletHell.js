@@ -57,6 +57,7 @@ export default class BulletHell extends Phaser.Scene {
         if(this.player === null){
             this.player = new Player();
         }
+        this.playerSpaceSprite = this.add.sprite(0, 0, "explosion");
 
         // Initialize bullet piercing and enemy scale
         this.bulletHealth = 1;
@@ -207,6 +208,16 @@ export default class BulletHell extends Phaser.Scene {
             this.updateCooldownGraphic();
         }
         if (Phaser.Input.Keyboard.JustDown(space) && this.spacebarCooldown < 0){
+            if(this.activeAOEDamage || this.activeFreeze || this.invisiblePlayer){
+                // Play animation
+                this.playerSpaceSprite.setPosition(this.player.getCenter().x, this.player.getCenter().y);
+                this.playerSpaceSprite.anims.play("explode");
+                this.playerSpaceSprite.on('animationcomplete', (animation, frame) => {
+                    if(animation.key === "explode"){
+                        this.playerSpaceSprite.anims.play("not_exploding");
+                    } 
+                });
+            }
             if (this.activeFreeze){
                 this.fEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
                 this.mEnemyGroup.children.iterate((enemy) => {if (enemy.isAlive){enemy.freezeDuration = 180;}});
@@ -751,7 +762,24 @@ export default class BulletHell extends Phaser.Scene {
             frameRate: 8,
             repeat: 0
         });
-
+        this.anims.create({
+            key: "not_exploding",
+            frames: this.anims.generateFrameNumbers("explosion", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 0,
+            repeat: -1
+        })
+        this.anims.create({
+            key: "explode",
+            frames: this.anims.generateFrameNumbers("explosion", {
+            start: 0,
+            end: 5
+            }),
+            frameRate: 40,
+            repeat: 0
+        });
     }
 
     createGroups(){
@@ -1306,6 +1334,7 @@ export default class BulletHell extends Phaser.Scene {
 
     initPlayerSkills(){
       let skills = this.player.skills;
+      console.log(skills)
       this.spacebarCooldown = 0;
       if (skills[0] == "sf"){
         this.weakEnemy = "pink";

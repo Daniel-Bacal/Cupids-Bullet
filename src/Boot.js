@@ -143,6 +143,9 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("bomb", "assets/bomb.png", {
             frameWidth: 32, frameHeight: 32
         });
+        this.load.spritesheet("explosion", "assets/explosion.png", {
+            frameWidth: 200, frameHeight: 200
+        });
         this.load.spritesheet("chad-background", "assets/chad-background.png", {
             frameWidth: 480, frameHeight: 270
         });
