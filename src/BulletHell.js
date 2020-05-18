@@ -643,6 +643,33 @@ export default class BulletHell extends Phaser.Scene {
             repeat: -1
         });
         this.anims.create({
+            key: "boss_left",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 2,
+                end: 2
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_left_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 2,
+                end: 2
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "boss_left_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 2,
+                end: 2
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
             key: "boss_front",
             frames: this.anims.generateFrameNumbers("boss", {
             start: 0,

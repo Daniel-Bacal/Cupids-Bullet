@@ -50,7 +50,7 @@ export default class Phase1 extends Behavior{
 
         let dir = this.player.getCenter().clone().subtract(enemy.getCenter()).normalize();
         if(dir.x < 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
-            enemy.way = "";
+            enemy.way = "_left";
         }
         if(dir.x > 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
             enemy.way = "";
