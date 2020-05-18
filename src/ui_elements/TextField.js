@@ -52,6 +52,12 @@ export default function TextField(scene, x, y, width, height, maxChars, style={}
             textFieldElement.cameFromFocus = false;
         }
     }
+
+    textFieldElement.onkeydown = (event) => {
+        if(event.keyCode === 9){
+            event.preventDefault();
+        }
+    }
     
     return textFieldElement;
 }

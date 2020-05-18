@@ -13,6 +13,7 @@ import Phase2 from "./behaviors/boss/Phase2"
 const Vector2 = Phaser.Math.Vector2;
 
 let space; 
+let esc;
 
 export default class BulletHell extends Phaser.Scene {
     constructor() {
@@ -111,6 +112,7 @@ export default class BulletHell extends Phaser.Scene {
         this.initPlayerHealth();
 
         space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         this.startMusic();
 
@@ -130,6 +132,10 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     update(time, delta) {
+        if (Phaser.Input.Keyboard.JustDown(esc)){
+            // Pause Game
+            this.pauseGame(true);
+        }
         if(!this.hasStarted){
             if(this.countdownTimer === null){
                 this.countdownTimer = this.time.now - 1;
