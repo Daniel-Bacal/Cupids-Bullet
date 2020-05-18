@@ -120,7 +120,7 @@ export default class Matches extends AbstractTab{
     updateRelationshipMeter(){
         this.relationshipMeter.clear();
         this.relationshipMeter.fillStyle(0xFF83AC);
-        this.relationshipMeter.fillRect(110, 133, 10, -this.currentPerson.relationshipMeter);
+        this.relationshipMeter.fillRect(110, 133, 10, -(Math.round(this.currentPerson.relationshipMeter*0.91)));
     }
 
     initRelationshipMeter(){
