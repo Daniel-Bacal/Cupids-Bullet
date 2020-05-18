@@ -7,6 +7,7 @@ export default class Person {
 
     constructor(gender){
         this.preferences = {jock : -1, flirt: -1, hum: -1, int: -1, sinc: -1};
+        this.gender;
         this.name = "";
         this.appearance = ["", "", "", "", "", ""];
         this.bio = "";
@@ -148,6 +149,18 @@ export default class Person {
         this.bioGenerator.setPreferences(this.preferences);
         this.bio = this.bioGenerator.generateBio();
 
+    }
+
+    static parsePerson(personObj){
+        let p = new Person("sm");
+        p.gender = personObj.gender;
+        p.preferences = personObj.preferences;
+        p.name = personObj.name;
+        p.appearance = personObj.appearance;
+        p.bio = personObj.bio;
+        p.gender = personObj.gender;
+        p.relationshipMeter = personObj.relationshipMeter;
+        return p;
     }
 
     saveToSession(){

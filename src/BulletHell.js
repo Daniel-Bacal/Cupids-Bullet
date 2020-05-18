@@ -137,6 +137,33 @@ export default class BulletHell extends Phaser.Scene {
             this.pauseGame(true);
         }
         if(!this.hasStarted){
+            if(this.player.day === 3){
+                if(this.countdownTimer === null){
+                    this.anims.create({
+                        key: "fire",
+                        frames: this.anims.generateFrameNumbers("chad-background", {
+                            start: 0,
+                            end: 7
+                        }),
+                        frameRate: 10,
+                        repeat: -1
+                    });
+                    this.chadBackground = this.add.sprite(0, 0, 'fire').setOrigin(0,0);
+                    this.chadBackground.anims.play("fire", true);
+                    this.chadBackground.setScrollFactor(0, 0);
+                    this.chadSprite = this.add.sprite(0, 0, 'chad-art');
+                    this.chadSprite.setScrollFactor(0, 0);
+                    this.countdownTimer = this.time.now + 3000;
+                } else {
+                    if(this.countdownTimer < this.time.now){
+                        this.hasStarted = true;
+                        this.chadBackground.destroy();
+                        this.chadSprite.destroy();
+                    }
+                }
+                return;
+            }
+
             if(this.countdownTimer === null){
                 this.countdownTimer = this.time.now - 1;
             }

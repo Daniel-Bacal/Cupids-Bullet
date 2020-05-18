@@ -59,22 +59,9 @@ export default class LevelSelect extends Phaser.Scene {
                 Button(this, 240, 240, "Return", "16px", "btn-background", 150, 30),
                 Button(this, locations[currentDay].x, locations[currentDay].y, "", "16px", "level-select-circle", 88, 73)
             ];
-            if(this.currentDay === 3 && player.skillPoints === 0){
+            if(currentDay === 3 && player.skillPoints === 0){
                 levelSelectButtons[1].setButtonOnClick(() => {
-                    // Go directly to final boss
-                    this.anims.create({
-                        key: "fire",
-                        frames: this.anims.generateFrameNumbers("chad-background", {
-                            start: 0,
-                            end: 7
-                        }),
-                        frameRate: 10,
-                        repeat: -1
-                    });
-                    this.background = this.add.sprite(0, 0, 'fire').setOrigin(0,0);
-                    this.background.anims.play("fire", true);
-                    let chad = this.add.sprite(0, 0, 'chad-art');
-                    this.scene.start("BulletHell");
+                    this.scene.start("ChooseDate");
                 });
             } else {
                 levelSelectButtons[1].setButtonOnClick(() => {
