@@ -14,6 +14,7 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     create(){
+        this.add.image(0, 0, "mountains-background").setOrigin(0,0);
         let levelSelect = this.add.image(0, 0, "level-select");
         levelSelect.setOrigin(0, 0);
 
@@ -61,6 +62,18 @@ export default class LevelSelect extends Phaser.Scene {
             if(this.currentDay === 3 && player.skillPoints === 0){
                 levelSelectButtons[1].setButtonOnClick(() => {
                     // Go directly to final boss
+                    this.anims.create({
+                        key: "fire",
+                        frames: this.anims.generateFrameNumbers("chad-background", {
+                            start: 0,
+                            end: 7
+                        }),
+                        frameRate: 10,
+                        repeat: -1
+                    });
+                    this.background = this.add.sprite(0, 0, 'fire').setOrigin(0,0);
+                    this.background.anims.play("fire", true);
+                    let chad = this.add.sprite(0, 0, 'chad-art');
                     this.scene.start("BulletHell");
                 });
             } else {

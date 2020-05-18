@@ -15,7 +15,7 @@ export default class Login extends Phaser.Scene{
     }
 
     create(){
-        let background = this.add.image(0, 0, "background");
+        let background = this.add.image(0, 0, "mountains-background");
         background.setOrigin(0, 0);
 
         this.player = null;
