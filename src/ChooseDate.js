@@ -62,10 +62,9 @@ export default class ChooseDate extends Phaser.Scene{
 
         this.numMatches = 0;
         let groups = [];
-        console.log(this.matches);
+
         for(let i = 0; i < this.matches.length; i++){
             if(this.matches[i] !== null){
-                console.log(this.matches[i]);
                 if(this.matches[i].relationshipMeter >= 55){
                     this.numMatches++;
                 }

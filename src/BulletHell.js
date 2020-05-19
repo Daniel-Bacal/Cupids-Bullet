@@ -427,7 +427,7 @@ export default class BulletHell extends Phaser.Scene {
             key: "player_damage",
             frames: this.anims.generateFrameNumbers("bhPlayer", {
                 start: 8,
-                end: 16
+                end: 12
             }),
             frameRate: 8,
             repeat: 0
@@ -463,7 +463,7 @@ export default class BulletHell extends Phaser.Scene {
             key: "player_back_walk",
             frames: this.anims.generateFrameNumbers("bhPlayer", {
                 start: 32,
-                end: 39
+                end: 38
             }),
             frameRate: 8,
             repeat: -1
@@ -471,7 +471,7 @@ export default class BulletHell extends Phaser.Scene {
         this.anims.create({
             key: "player_back_damage",
             frames: this.anims.generateFrameNumbers("bhPlayer", {
-                start: 40,
+                start: 39,
                 end: 43
             }),
             frameRate: 8,
@@ -1252,7 +1252,10 @@ export default class BulletHell extends Phaser.Scene {
     updatePlayer(){
         this.movePlayer();
         this.playerFireBullet();
-        this.player.getSprite().anims.play('player' + this.player.way + '_walk', true);
+
+        if(!this.player.getSprite().anims.getCurrentKey().includes("damage")){
+            this.player.getSprite().anims.play('player' + this.player.way + '_walk', true);
+        }
 
         if(this.player.isInvisible && this.time.now >= this.player.invisibilityCountdownTimer){
             this.player.isInvisible = false;

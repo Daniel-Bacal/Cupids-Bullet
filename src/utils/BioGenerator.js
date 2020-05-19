@@ -64,7 +64,6 @@ export default class BioGenerator {
             generatedBioText += " ";
         }
 
-        console.log(generatedBioText);
         return generatedBioText;
     }
 }
