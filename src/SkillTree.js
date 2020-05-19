@@ -41,6 +41,9 @@ export default class SkillTree extends Phaser.Scene{
             let y = baseLevel
             if(latestSkill === ""){
                 // Can choose any
+                let shade = this.add.graphics();
+                shade.fillStyle(0xFFFFFF, 0.3);
+                shade.fillRect(x-8, y-8, 16, 16);
                 let button = Button(this, x, y, "", "16px", skillGender, 16, 16);
                 button.setButtonOnClick(() => this.handleSelection(skillGender));
                 button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[skillGender].effect, 0xFFFFFF));
@@ -73,6 +76,9 @@ export default class SkillTree extends Phaser.Scene{
                         // Have selected
                         this.add.image(x, y, key);
                     } else {
+                        let shade = this.add.graphics();
+                        shade.fillStyle(0xFFFFFF, 0.3);
+                        shade.fillRect(x-8, y-8, 16, 16);
                         let button = Button(this, x, y, "", "16px", key, 16, 16);
                         button.setButtonOnClick(() => this.handleSelection(key));
                         button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, 0xFFFFFF));
@@ -103,6 +109,9 @@ export default class SkillTree extends Phaser.Scene{
                             // Have selected
                             this.add.image(x, y, key);
                         } else {
+                            let shade = this.add.graphics();
+                            shade.fillStyle(0xFFFFFF, 0.3);
+                            shade.fillRect(x-8, y-8, 16, 16);
                             let button = Button(this, x, y, "", "16px", key, 16, 16);
                             button.setButtonOnClick(() => this.handleSelection(key));
                             button.setButtonOnHover(() => this.tooltip.showTooltip(this.game.input.mousePointer.x, this.game.input.mousePointer.y, SkillText[key].effect, 0xFFFFFF));

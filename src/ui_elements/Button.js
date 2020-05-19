@@ -25,7 +25,7 @@ export default function Button(scene, x, y, text, fontSize="16px", backgroundIma
     button.setButtonHoverColor = (initColor) => {button.hoverColor = initColor;}
 
     // Button events
-    button.setInteractive({ cursor: 'url(assets/pointer.png), pointer' });
+    button.setInteractive({ cursor: 'url(assets/pointer.png) 12 0, pointer' });
 
     button.buttonOnHover = () => {};
     button.setButtonOnHover = (callback) => {
@@ -46,7 +46,7 @@ export default function Button(scene, x, y, text, fontSize="16px", backgroundIma
         button.on('pointerdown', () => {scene.sound.play("MouseClickSFX"); button.buttonOnClick()});
         button.setButtonOnClick = (callback) => {button.buttonOnClick = callback;}
 
-        background.setInteractive({ cursor: 'url(assets/pointer.png), pointer' });
+        background.setInteractive({ cursor: 'url(assets/pointer.png) 12 0, pointer' });
         background.on('pointerover', () => startButtonHoverState(button));
         background.on('pointerout', () => endButtonHoverState(button));
         background.on('pointerdown', () => {scene.sound.play("MouseClickSFX"); button.buttonOnClick();});

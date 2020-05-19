@@ -30,8 +30,23 @@ export default class SpashScreen extends Phaser.Scene{
 
         splash.setOrigin(0, 0);
         splash.setInteractive();
+        this.hasStarted = false;
         splash.on('pointerdown', () => {
-            this.scene.start("MainMenu");
+            if(!this.hasStarted){
+                this.time.addEvent({
+                    delay: 1000,
+                    callback: () => this.scene.start("MainMenu", {fromSplash: true}),
+                    loop: false
+                });
+                this.tweens.add({
+                    targets: splash,
+                    alpha: {from: 1, to: 0},
+                    ease: "Sine.Out",
+                    duration: 1000,
+                    repeat: 0
+                });
+                this.hasStarted = true;
+            }
         }, this);
 
         if(this.game.music && this.game.music.isPlaying){

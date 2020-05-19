@@ -8,12 +8,20 @@ export default function Tooltip(scene){
     this.showTooltip = (x, y, text, backgroundColor) => {
         this.text.visible = true;
         this.text.text = text;
-        this.text.x = x + this.padding;
-        this.text.y = y + this.padding;
         let w = this.text.displayWidth;
         let h = this.text.displayHeight;
-        this.background.fillStyle(backgroundColor);
-        this.background.fillRect(x, y, w + 2*this.padding, h + 2*this.padding);
+
+        if(x + w + 2*this.padding > 480){
+            this.text.x = x - this.padding - w;
+            this.text.y = y + this.padding;
+            this.background.fillStyle(backgroundColor);
+            this.background.fillRect(x, y, -(w + 2*this.padding), h + 2*this.padding);
+        } else {
+            this.text.x = x + this.padding;
+            this.text.y = y + this.padding;
+            this.background.fillStyle(backgroundColor);
+            this.background.fillRect(x, y, w + 2*this.padding, h + 2*this.padding);
+        }
     }
 
     this.hideTooltip = () => {
