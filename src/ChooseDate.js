@@ -13,6 +13,7 @@ export default class ChooseDate extends Phaser.Scene{
     }
 
     create(){
+        this.player = this.game.player;
         this.anims.create({
             key: "pick-date",
             frames: this.anims.generateFrameNumbers("heart", {
@@ -107,7 +108,7 @@ export default class ChooseDate extends Phaser.Scene{
             if(this.matches[i].relationshipMeter >= 55){
                 btn.setButtonOnClick(() => {
                     if (this.matches[i].relationshipMeter >= 75){
-                        //Some bonus
+                        this.player.healthBoost = 400;
                     }
                     this.scene.start("BulletHell");
                 });

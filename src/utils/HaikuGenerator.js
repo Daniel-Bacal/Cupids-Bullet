@@ -64,7 +64,7 @@ export default class HaikuGenerator{
         choice = randIntFrom(0, 6);
         if (choice === 0) {
             line3 += "";
-            count--;
+            //count--;
         }
         line3 += this.generateLine(count);
 

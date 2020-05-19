@@ -32,8 +32,8 @@ const noun2 = [
     "present",
     "feather",
     "scooter",
-    "fire",
-    "wire",
+    "magnet",
+    "melon",
     "quarter",
     "pencil"
 ];
@@ -70,14 +70,14 @@ const adj1 = [
     "big",
     "large",
     "thick",
-    "wild",
+    "deep",
     "false"
 ];
 const adj2 = [
     "sunny",
     "stinky",
     "fickle",
-    "sour",
+    "feisty",
     "tasty",
     "yummy",
     "yellow",
@@ -135,7 +135,7 @@ const verb2 = [
     "traces",
     "destroys",
     "forgets",
-    "destroys",
+    "ignores",
     "undoes",
     "reminds",
     "ignites",

@@ -45,7 +45,7 @@ export default class Gym extends AbstractTab{
 
         if (currentRepFrame >= maxRepFrames){
             currentRepFrame = 0;
-            maxRepFrames = 30 + 2*this.parent.player.stats.jock;
+            maxRepFrames = 30 + Math.round(this.parent.player.stats.jock/2);
             this.completedGains();
             this.feedbackTextFade.restart();
         }
