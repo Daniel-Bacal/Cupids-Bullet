@@ -62,8 +62,8 @@ export default class Phase1 extends Behavior{
             enemy.way = "_front";
         }
 
-        console.log(enemy.way);
-        enemy.anims.play("boss" + enemy.way, true);
+        console.log("boss" + enemy.way + "_walk");
+        enemy.anims.play("boss" + enemy.way + "_walk", true);
 
         switch(enemy.currentAttack){
 

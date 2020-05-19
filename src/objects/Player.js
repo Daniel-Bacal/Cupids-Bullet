@@ -12,6 +12,7 @@ export default class Player {
         this.day = 0;
         this.skillPoints = 1;
         this.matches = [];
+        this.way = "_front";
     }; 
 
     incrementStat(statType, step){
@@ -44,6 +45,14 @@ export default class Player {
 
     setDay(day){
         this.day = day;
+    }
+
+    getWay(){
+        return this.way;
+    }
+
+    setWay(way){
+        this.way = way;
     }
 
     getPlayerStats(){
@@ -131,8 +140,7 @@ export default class Player {
         }
 
         if(this.dir == "w"){
-            //should be back facing sprite
-            this.way = "_front";
+            this.way = "_back";
         }
         else if(this.dir == "a"){
             this.way = "";
