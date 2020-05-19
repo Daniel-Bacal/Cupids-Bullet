@@ -3,6 +3,8 @@ import TextField from "../ui_elements/TextField.js"
 import Button from "../ui_elements/Button"
 import Player from "../objects/Player"
 
+let enter; 
+
 export default class Login extends Phaser.Scene{
     constructor(){
         super({
@@ -15,6 +17,8 @@ export default class Login extends Phaser.Scene{
     }
 
     create(){
+        enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
         this.add.image(0, 0, "mountains-background").setOrigin(0, 0);
         this.anims.create({
             key: "mountain-lines",
@@ -35,10 +39,10 @@ export default class Login extends Phaser.Scene{
 
         let usernameText = this.add.text(160, 100, "Username:", {fontFamily: "NoPixel", fontSize: "16px"});
         usernameText.setOrigin(0.5, 0.5);
-        let username = new TextField(this, 300, 100, 160, 30, 20, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
+        this.username = new TextField(this, 300, 100, 160, 30, 20, {borderStyle: "solid", borderWidth: "0px 0px 2px 0px", borderColor: "white"});
 
-        let currentPlayerText = this.add.text(240, 150, "Current User:", {fontFamily: "NoPixel", fontSize: "16px"});
-        currentPlayerText.setOrigin(0.5, 0.5);
+        this.currentPlayerText = this.add.text(240, 150, "Current User:", {fontFamily: "NoPixel", fontSize: "16px"});
+        this.currentPlayerText.setOrigin(0.5, 0.5);
 
         let loginButtons = [
             Button(this, 100, 240, "Return", "16px", "btn-background", 80, 30),
@@ -47,25 +51,31 @@ export default class Login extends Phaser.Scene{
         ];
         loginButtons[0].setButtonOnClick(() => {
             this.scene.start("MainMenu");
-            username.remove();
+            this.username.remove();
         });
         loginButtons[0].setButtonColor("#431c5c");
         loginButtons[0].setButtonHoverColor("#431c5c");
 
         loginButtons[1].setButtonOnClick(() => {
+            if(this.player){
+                this.startGameOut.resume();
+                this.startGameOut.restart();
+            }
             this.player = null;
             window.sessionStorage.removeItem("current_player");
-            currentPlayerText.text = "Current User:"
+            this.currentPlayerText.text = "Current User:"
         });
         loginButtons[1].setButtonColor("#431c5c");
         loginButtons[1].setButtonHoverColor("#431c5c");
 
         loginButtons[2].setButtonOnClick(() => {
             if(this.player === null){
-                let name = username.value;
+                let name = this.username.value;
                 this.player = new Player();
                 if(this.player.loadFromLocalStorage(name)){
-                    currentPlayerText.text = "Current User: " + this.player.getName();
+                    this.currentPlayerText.text = "Current User: " + this.player.getName();
+                    this.startGameIn.resume();
+                    this.startGameIn.restart();
                 } else {
                     this.player = null;
                 }
@@ -74,25 +84,47 @@ export default class Login extends Phaser.Scene{
         loginButtons[2].setButtonColor("#431c5c");
         loginButtons[2].setButtonHoverColor("#431c5c");
 
-        this.startGameButton = Button(this, 240, 190, "", "48px");
-        this.startGameButton.setButtonColor("red");
-        this.startGameButton.setButtonHoverColor("#DD0000");
+        this.startGameButton = Button(this, -160, 190, "Start Game", "48px");
+        this.startGameButton.setButtonColor("#FFFFFF");
+        this.startGameButton.setButtonHoverColor("#DDDDDD");
         this.startGameButton.setButtonOnClick(() => {
-            this.game.player = this.player;
-            this.scene.start("LevelSelect");
-            username.remove();
+            if(this.player){
+                this.game.player = this.player;
+                this.scene.start("LevelSelect");
+                this.username.remove();
+            }
         });
+
+        this.startGameIn = this.add.tween({
+            targets: [this.startGameButton, this.startGameButton.buttonBackgroundImage],
+            x: {from: -160, to: 240},
+            ease: "power4",
+            duration: 1000,
+            delay: 0,
+            paused: true
+        });
+        this.startGameOut = this.add.tween({
+            targets: [this.startGameButton, this.startGameButton.buttonBackgroundImage],
+            x: {from: 240, to: 640},
+            ease: "Quart.easeIn",
+            duration: 800,
+            delay: 0,
+            paused: true
+        })
     }
 
     update(){
-        if(this.player !== null){
-            if(this.startGameButton.text === ""){
-                this.startGameButton.text = "Start Game";
-                this.startGameButton.setOrigin(0.5, 0.5);
-            }
-        } else {
-            if(this.startGameButton.text !== ""){
-                this.startGameButton.text = "";
+        if (Phaser.Input.Keyboard.JustDown(enter)){
+            if(this.player === null){
+                let name = this.username.value;
+                this.player = new Player();
+                if(this.player.loadFromLocalStorage(name)){
+                    this.currentPlayerText.text = "Current User: " + this.player.getName();
+                    this.startGameIn.resume();
+                    this.startGameIn.restart();
+                } else {
+                    this.player = null;
+                }
             }
         }
     }

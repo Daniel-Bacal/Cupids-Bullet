@@ -6,6 +6,7 @@ import Person from "./objects/Person"
 
 var cheatSkip;
 var cheatSkipOP;
+var esc;
 
 export default class DatingSim extends Phaser.Scene{
     constructor(){
@@ -49,6 +50,7 @@ export default class DatingSim extends Phaser.Scene{
         }, this);
         cheatSkip = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F1);
         cheatSkipOP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F2);
+        esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     }
 
     update(){
@@ -65,6 +67,9 @@ export default class DatingSim extends Phaser.Scene{
                 this.personArray[i].incrementRelationshipMeter(100);
             }
             this.goToScene("ChooseDate");
+        } else if(Phaser.Input.Keyboard.JustDown(esc)){
+            // Pause Game
+            this.pauseGame(true);
         }
 
         if(this.previousTime === null) this.setTimer();

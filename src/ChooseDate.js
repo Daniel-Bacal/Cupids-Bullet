@@ -14,6 +14,7 @@ export default class ChooseDate extends Phaser.Scene{
 
     create(){
         this.player = this.game.player;
+
         this.anims.create({
             key: "pick-date",
             frames: this.anims.generateFrameNumbers("heart", {
@@ -30,7 +31,13 @@ export default class ChooseDate extends Phaser.Scene{
 
         let banner = this.add.image(0, 200, "end-of-day-banner").setOrigin(0, 0);
 
-        this.matches = this.game.matches;
+        if(this.player.day === 3){
+            this.matches = [...this.player.matches];
+            this.matches.push(null);
+            this.matches.unshift(null);
+        } else {
+            this.matches = this.game.matches;
+        }
 
         let d = 400;
         let bX = 10 - 600;
@@ -55,100 +62,103 @@ export default class ChooseDate extends Phaser.Scene{
 
         this.numMatches = 0;
         let groups = [];
+
         for(let i = 0; i < this.matches.length; i++){
-            if(this.matches[i].relationshipMeter >= 55){
-                this.numMatches++;
+            if(this.matches[i] !== null){
+                if(this.matches[i].relationshipMeter >= 55){
+                    this.numMatches++;
+                }
+
+                let elements = [];
+
+                // Add background
+                let background = this.add.image(bX, bY, "choice-background").setOrigin(0, 0);
+                elements.push(background);
+
+                // Add profile picture
+                let appearance = this.matches[i].getAppearance();
+                for(let i in appearance){
+                    let image = this.add.image(picX, picY, appearance[i]);
+                    image.setOrigin(0, 0);
+                    elements.push(image);
+                }
+                
+                // Add name
+                let name = this.matches[i].getName();
+                name = name.split(" ")[0];
+                if(name.length > 9){
+                    name = name.substring(0, 9) + ".";
+                }
+                let nameText = this.add.text(nameX, nameY, name, {fontFamily: "NoPixel", color: "#431c5c", fontSize: "16px"}).setOrigin(0.5, 0.5);
+                elements.push(nameText);
+
+                let scoreLabelText = this.add.text(scoreLabelX, scoreLabelY, "Score: ",{fontFamily: "NoPixel", color: "#431c5c", fontSize: "16px"}).setOrigin(0, 0);
+                elements.push(scoreLabelText);
+
+                // Add score
+                let scoreColor;
+                if(this.matches[i].relationshipMeter < 30){
+                    scoreColor = "#ac3232";
+                } else if(this.matches[i].relationshipMeter < 55){
+                    scoreColor = "#f08036"
+                } else if(this.matches[i].relationshipMeter < 75){
+                    scoreColor = "#f7b637";
+                } else {
+                    scoreColor = "#63c855";
+                }
+                
+                let scoreText = this.add.text(scoreX, scoreY, this.matches[i].relationshipMeter, {fontFamily: "NoPixel", color: scoreColor, fontSize: "16px"}).setOrigin(0, 0);
+                elements.push(scoreText);
+
+                // Add date button
+                let btn = Button(this, buttonX + 35, buttonY + 11, "Date", "16px", "btn-background", 69, 21);
+                btn.setButtonColor("#431c5c");
+                btn.setButtonHoverColor("#330c4c");
+                if(this.matches[i].relationshipMeter >= 55){
+                    btn.setButtonOnClick(() => {
+                        this.player.matches.push(this.matches[i]);
+                        if (this.matches[i].relationshipMeter >= 75){
+                            this.player.healthBoost = 400;
+                        }
+                        this.scene.start("BulletHell");
+                    });
+                }
+                elements.push(btn);
+                elements.push(btn.buttonBackgroundImage);
+
+                // If relationship meter is too low, prevent the date from happening
+                if(this.matches[i].relationshipMeter < 55){
+                    let g = this.add.graphics();
+                    g.fillStyle(0x000000, 0.3);
+                    g.fillRect(gX, gY, 80, 142);
+                    elements.push(g);
+                }
+
+                // Add heart status box
+                let box = this.add.image(x, y, "heart-box").setOrigin(0, 0);
+                elements.push(box);
+                if(this.matches[i].relationshipMeter > 75){
+                    let heart = this.add.image(x+4, y+4, "status-heart").setOrigin(0, 0);
+                    elements.push(heart);
+                }
+
+                // Gray out heart status box if relationship meter is low
+                if(this.matches[i].relationshipMeter < 55){
+                    let gs = this.add.graphics();
+                    gs.fillStyle(0x000000, 0.3);
+                    gs.fillRect(gsX, gsY, 20, 20);
+                    elements.push(gs);
+                }
+
+                groups.push(elements);
+                this.add.tween({
+                    targets: elements,
+                    x: '+=600',
+                    duration: 1500,
+                    ease: 'Power2',
+                    delay: d
+                })
             }
-
-            let elements = [];
-
-            // Add background
-            let background = this.add.image(bX, bY, "choice-background").setOrigin(0, 0);
-            elements.push(background);
-
-            // Add profile picture
-            let appearance = this.matches[i].getAppearance();
-            for(let i in appearance){
-                let image = this.add.image(picX, picY, appearance[i]);
-                image.setOrigin(0, 0);
-                elements.push(image);
-            }
-            
-            // Add name
-            let name = this.matches[i].getName();
-            name = name.split(" ")[0];
-            if(name.length > 9){
-                name = name.substring(0, 9) + ".";
-            }
-            let nameText = this.add.text(nameX, nameY, name, {fontFamily: "NoPixel", color: "#431c5c", fontSize: "16px"}).setOrigin(0.5, 0.5);
-            elements.push(nameText);
-
-            let scoreLabelText = this.add.text(scoreLabelX, scoreLabelY, "Score: ",{fontFamily: "NoPixel", color: "#431c5c", fontSize: "16px"}).setOrigin(0, 0);
-            elements.push(scoreLabelText);
-
-            // Add score
-            let scoreColor;
-            if(this.matches[i].relationshipMeter < 30){
-                scoreColor = "#ac3232";
-            } else if(this.matches[i].relationshipMeter < 55){
-                scoreColor = "#f08036"
-            } else if(this.matches[i].relationshipMeter < 75){
-                scoreColor = "#f7b637";
-            } else {
-                scoreColor = "#63c855";
-            }
-            
-            let scoreText = this.add.text(scoreX, scoreY, this.matches[i].relationshipMeter, {fontFamily: "NoPixel", color: scoreColor, fontSize: "16px"}).setOrigin(0, 0);
-            elements.push(scoreText);
-
-            // Add date button
-            let btn = Button(this, buttonX + 35, buttonY + 11, "Date", "16px", "btn-background", 69, 21);
-            btn.setButtonColor("#431c5c");
-            btn.setButtonHoverColor("#330c4c");
-            if(this.matches[i].relationshipMeter >= 55){
-                btn.setButtonOnClick(() => {
-                    if (this.matches[i].relationshipMeter >= 75){
-                        this.player.healthBoost = 400;
-                    }
-                    this.scene.start("BulletHell");
-                });
-            }
-            elements.push(btn);
-            elements.push(btn.buttonBackgroundImage);
-
-            // If relationship meter is too low, prevent the date from happening
-            if(this.matches[i].relationshipMeter < 55){
-                let g = this.add.graphics();
-                g.fillStyle(0x000000, 0.3);
-                g.fillRect(gX, gY, 80, 142);
-                elements.push(g);
-            }
-
-            // Add heart status box
-            let box = this.add.image(x, y, "heart-box").setOrigin(0, 0);
-            elements.push(box);
-            if(this.matches[i].relationshipMeter > 75){
-                let heart = this.add.image(x+4, y+4, "status-heart").setOrigin(0, 0);
-                elements.push(heart);
-            }
-
-            // Gray out heart status box if relationship meter is low
-            if(this.matches[i].relationshipMeter < 55){
-                let gs = this.add.graphics();
-                gs.fillStyle(0x000000, 0.3);
-                gs.fillRect(gsX, gsY, 20, 20);
-                elements.push(gs);
-            }
-
-            groups.push(elements);
-            this.add.tween({
-                targets: elements,
-                x: '+=600',
-                duration: 1500,
-                ease: 'Power2',
-                delay: d
-            })
-
             d -= 100;
             x += xInc;
             bX += xInc;

@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Person from "./Person"
 
 const Vector2 = Phaser.Math.Vector2;
 
@@ -10,6 +11,8 @@ export default class Player {
         this.bio = "";
         this.day = 0;
         this.skillPoints = 1;
+        this.matches = [];
+        this.way = "_front";
     }; 
 
     incrementStat(statType, step){
@@ -42,6 +45,14 @@ export default class Player {
 
     setDay(day){
         this.day = day;
+    }
+
+    getWay(){
+        return this.way;
+    }
+
+    setWay(way){
+        this.way = way;
     }
 
     getPlayerStats(){
@@ -134,8 +145,7 @@ export default class Player {
         }
 
         if(this.dir == "w"){
-            //should be back facing sprite
-            this.way = "_front";
+            this.way = "_back";
         }
         else if(this.dir == "a"){
             this.way = "";
@@ -228,6 +238,7 @@ export default class Player {
         playerObj.bio = this.bio;
         playerObj.day = this.day;
         playerObj.skillPoints = this.skillPoints
+        playerObj.matches = this.matches;
 
         let current_player = JSON.stringify(playerObj);
         window.localStorage.setItem(playerObj.name, current_player);
@@ -243,6 +254,10 @@ export default class Player {
             this.bio = playerObj.bio;
             this.day = playerObj.day;
             this.skillPoints = playerObj.skillPoints;
+            this.matches = [];
+            for(let i = 0; i < playerObj.matches.length; i++){
+                this.matches.push(Person.parsePerson(playerObj.matches[i]));
+            }
             return true;
         }
         return false;

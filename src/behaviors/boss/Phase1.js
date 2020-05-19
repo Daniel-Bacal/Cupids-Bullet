@@ -48,22 +48,22 @@ export default class Phase1 extends Behavior{
             return;
         }
 
-        let dir = this.player.getCenter().clone().subtract(enemy.getCenter()).normalize();
-        if(dir.x < 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
-            enemy.way = "_left";
-        }
-        if(dir.x > 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
-            enemy.way = "";
-        }
-        if(dir.y < 0 & ((dir.x < 0.5) && (dir.x > -0.5))){
-            enemy.way = "_back";
-        }
-        if(dir.y > 0 & ((dir.x < 0.5) && (dir.x > -0.5))){
-            enemy.way = "_front";
-        }
+        // let dir = this.player.getCenter().clone().subtract(enemy.getCenter()).normalize();
+        // if(dir.x < 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
+        //     enemy.way = "_left";
+        // }
+        // if(dir.x > 0 & ((dir.y < 0.5) && (dir.y > -0.5))){
+        //     enemy.way = "";
+        // }
+        // if(dir.y < 0 & ((dir.x < 0.5) && (dir.x > -0.5))){
+        //     enemy.way = "_back";
+        // }
+        // if(dir.y > 0 & ((dir.x < 0.5) && (dir.x > -0.5))){
+        //     enemy.way = "_front";
+        // }
 
-        console.log(enemy.way);
-        enemy.anims.play("boss" + enemy.way, true);
+        // console.log("boss" + enemy.way + "_walk");
+        // enemy.anims.play("boss" + enemy.way + "_walk", true);
 
         switch(enemy.currentAttack){
 
@@ -71,6 +71,7 @@ export default class Phase1 extends Behavior{
                 // Initialize bullet waves
                 if(enemy.nextBulletWave === null){
                     enemy.nextBulletWave = this.scene.time.now + 1000;
+                    this.setEnemyVelocity(enemy, 0, 1);
                 }
 
                 // Do bullet wave

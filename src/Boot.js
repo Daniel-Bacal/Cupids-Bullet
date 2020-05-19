@@ -1,5 +1,6 @@
 import Phaser, {} from "phaser";
 import Player from "./objects/Player"
+import Person from "./objects/Person"
 
 export default class Boot extends Phaser.Scene{
     constructor(){
@@ -143,6 +144,9 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("bomb", "assets/bomb.png", {
             frameWidth: 32, frameHeight: 32
         });
+        this.load.spritesheet("explosion", "assets/explosion.png", {
+            frameWidth: 200, frameHeight: 200
+        });
         this.load.spritesheet("chad-background", "assets/chad-background.png", {
             frameWidth: 480, frameHeight: 270
         });
@@ -221,7 +225,14 @@ export default class Boot extends Phaser.Scene{
         mcKilla.setBio("When I'm not teaching, programming, or gaming, I enjoy spending time with family and friends as well as playing the guitar and piano.");
         mcKilla.setPlayerStats(100, 100, 100, 100, 100);
         mcKilla.setDay(3);
-        mcKilla.skillPoints = 3;
+        mcKilla.skillPoints = 0;
+        let p1 = new Person("sf");
+        p1.relationshipMeter = 0;
+        let p2 = new Person("sf");
+        p2.relationshipMeter = 70;
+        let p3 = new Person("sf");
+        p3.relationshipMeter = 100;
+        mcKilla.matches = [p1, p2, p3];
         mcKilla.saveToLocalStorage();
 
         let test = new Player();
