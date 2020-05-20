@@ -44,7 +44,7 @@ export default class EnemyManager{
         enemy.enableBody(true, xPos, yPos, true, true);
         enemy.setCollideWorldBounds(true);
 
-        enemy.anims.play(this.sprite + '_walk', true);
+        enemy.anims.play(this.sprite + '_idle', true);
 
         enemy.behavior = behavior;
         enemy.health = enemyHealth;

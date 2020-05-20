@@ -90,7 +90,7 @@ export default class Player {
 
         this.playerSprite = this.scene.physics.add.sprite(0, 0, "bhPlayer");
         this.playerSprite.setCollideWorldBounds(true);
-        this.playerSprite.anims.play('player_walk', true);
+        this.playerSprite.anims.play('player_idle', true);
 
         this.bulletSpeedBoost = 0;
         this.speedBoost = 0;
