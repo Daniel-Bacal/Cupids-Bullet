@@ -678,6 +678,15 @@ export default class BulletHell extends Phaser.Scene {
 
         // Boss
         this.anims.create({
+            key: "boss_idle",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 0
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
             key: "boss_front",
             frames: this.anims.generateFrameNumbers("boss", {
                 start: 0,
@@ -714,21 +723,12 @@ export default class BulletHell extends Phaser.Scene {
             repeat: 0
         });
         this.anims.create({
-            key: "boss",
-            frames: this.anims.generateFrameNumbers("boss", {
-                start: 24,
-                end: 24
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.anims.create({
             key: "boss_walk",
             frames: this.anims.generateFrameNumbers("boss", {
                 start: 24,
                 end: 29
             }),
-            frameRate: 0,
+            frameRate: 8,
             repeat: -1
         });
         this.anims.create({
@@ -737,35 +737,8 @@ export default class BulletHell extends Phaser.Scene {
                 start: 30,
                 end: 34
             }),
-            frameRate: 0,
-            repeat: 0
-        });
-        this.anims.create({
-            key: "boss_left",
-            frames: this.anims.generateFrameNumbers("boss", {
-                start: 2,
-                end: 2
-            }),
             frameRate: 8,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "boss_left_walk",
-            frames: this.anims.generateFrameNumbers("boss", {
-                start: 2,
-                end: 2
-            }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "boss_left_damage",
-            frames: this.anims.generateFrameNumbers("boss", {
-                start: 2,
-                end: 2
-            }),
-            frameRate: 0,
-            repeat: -1
+            repeat: 0
         });
         this.anims.create({
             key: "boss_back",
@@ -779,8 +752,8 @@ export default class BulletHell extends Phaser.Scene {
         this.anims.create({
             key: "boss_back_walk",
             frames: this.anims.generateFrameNumbers("boss", {
-                start: 3,
-                end: 3
+                start: 44,
+                end: 52
             }),
             frameRate: 8,
             repeat: -1
@@ -788,8 +761,8 @@ export default class BulletHell extends Phaser.Scene {
         this.anims.create({
             key: "boss_back_damage",
             frames: this.anims.generateFrameNumbers("boss", {
-                start: 0,
-                end: 0
+                start: 53,
+                end: 57
             }),
             frameRate: 8,
             repeat: 0
@@ -929,12 +902,15 @@ export default class BulletHell extends Phaser.Scene {
         {
             otherGroup: this.bossGroup,
             callback: (enemy, bullet) => {
-                console.log("Hit boss");
                 if(enemy.isDying){
                     return;
                 }
+                // TODO: Figure out a better system than this
+                if(enemy.anims.getCurrentKey() === "boss_idle"){
+                    enemy.way = "_front"
+                }
                 enemy.anims.play("boss" + enemy.way + '_damage', true);
-                enemy.on("animationcomplete", () => enemy.anims.play("boss" + enemy.way + '_walk', true));
+                enemy.on("animationcomplete", () => enemy.anims.play("boss_idle", true));
                 enemy.health -= bullet.damage;
                 this.sound.play("EnemyTakingDamageSFX");
                 if (enemy.health <= 0){

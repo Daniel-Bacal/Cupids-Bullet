@@ -115,7 +115,7 @@ export default class DatingSim extends Phaser.Scene{
     initTimer(){
         this.timeActive = 0;
         this.previousTime = null;
-        this.totalTime = 5*60 + 1;
+        this.totalTime = 5*60 + 1 - 60*this.player.day;
         this.timerText = this.add.text(420, 10, "Error", {color: "white", fontSize: "16px", fontFamily: "NoPixel"});
     }
 

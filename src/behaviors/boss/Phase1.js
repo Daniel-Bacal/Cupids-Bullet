@@ -44,7 +44,6 @@ export default class Phase1 extends Behavior{
                 enemy.freezeDuration--;
             }
 
-            console.log("Boss Frozen");
             return;
         }
 
@@ -71,7 +70,7 @@ export default class Phase1 extends Behavior{
                 // Initialize bullet waves
                 if(enemy.nextBulletWave === null){
                     enemy.nextBulletWave = this.scene.time.now + 1000;
-                    this.setEnemyVelocity(enemy, 0, 1);
+                    this.setEnemyVelocity(enemy, 0, 0);
                 }
 
                 // Do bullet wave
@@ -112,6 +111,7 @@ export default class Phase1 extends Behavior{
                 // Lunge at player
                 if(this.scene.time.now >= enemy.lungeTime && enemy.numLungesLeft > 0){
                     // Lunge
+                    console.log("New Lunge")
                     let enemyPosition = enemy.getCenter();
                     enemy.currentDirection = this.player.getCenter().clone().subtract(enemyPosition).normalize();
                     this.setEnemyVelocity(enemy, enemy.currentDirection.x*this.speed*4, enemy.currentDirection.y*this.speed*4);

@@ -77,6 +77,10 @@ export default class MathTab extends AbstractTab{
     }
 
     submitAnswer(){
+        if(this.textField.value === ""){
+            return;
+        }
+
         let value = parseInt(this.textField.value);
         if(value === this.currentProblem.value){
             // Increment intelligence
