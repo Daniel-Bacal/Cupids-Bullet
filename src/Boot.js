@@ -140,6 +140,9 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("heart", "assets/heart-sheet.png", {
             frameWidth: 480, frameHeight: 270
         });
+        this.load.spritesheet("heartbeat", "assets/heartbeat.png", {
+            frameWidth: 480, frameHeight: 270
+        });
         this.load.spritesheet("boss", "assets/chad-sheet.png", {
             frameWidth: 64, frameHeight: 64
         });

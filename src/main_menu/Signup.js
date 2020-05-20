@@ -27,8 +27,17 @@ export default class Signup extends Phaser.Scene{
 
         this.player = new Player();
 
-        let background = this.add.image(0, 0);
-        background.setOrigin(0, 0);
+        this.anims.create({
+          key: "active-heartbeat",
+          frames: this.anims.generateFrameNumbers("heartbeat", {
+            start: 0,
+            end: 33
+          }),
+          frameRate: 20,
+          repeat: -1
+        });
+        this.background = this.add.sprite(0, 0, 'heartbeat').setOrigin(0,0);
+        this.background.anims.play("active-heartbeat", true);
 
         this.pageNum = 0;
 
