@@ -99,7 +99,7 @@ export default class MathTab extends AbstractTab{
             this.parent.displayProgress("intelligence", incAmount);
 
             for(let i = 0; i < this.parent.personArray.length; i++){
-                if(this.parent.personArray[i].likesMessage("int")){
+                if(this.parent.personArray[i].likesMessage("int") >= 0){
                     this.parent.personArray[i].incrementRelationshipMeter(1);
                 }
             }
@@ -114,6 +114,12 @@ export default class MathTab extends AbstractTab{
 
             this.parent.player.incrementStat("int", -incAmount);
             this.parent.displayProgress("intelligence", -incAmount);
+
+            for(let i = 0; i < this.parent.personArray.length; i++){
+                if(this.parent.personArray[i].likesMessage("int") >= 0){
+                    this.parent.personArray[i].incrementRelationshipMeter(1);
+                }
+            }
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);
