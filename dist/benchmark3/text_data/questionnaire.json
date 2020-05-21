@@ -1,0 +1,34 @@
+{
+   "questions":[
+       {"text": "Do you play sports?", "answers":[
+        {"text": "Yes.", "inc": "jock flirt", "dec":"int"},{"text":"No.", "inc": "", "dec": ""},{"text": "Ew, sports are gross.", "inc":"int", "dec":"jock flirt"}
+       ]},
+       {"text": "When did you last read a book?", "answers":[
+        {"text": "Last night.", "inc":"int", "dec":"jock"}, {"text": "It's been a little while.", "inc":"sinc", "dec":"hum"}, {"text": "What's a book?", "inc":"hum", "dec":"int"}
+       ]},
+       {"text": "Do you laugh when you see someone get hurt?", "answers":[
+        {"text": "Only if the injury was funny.", "inc": "hum", "dec": "flirt"}, {"text":"No, never.", "inc": "sinc", "dec":"jock"}, {"text": "I'm laughing just thinking about it.", "inc": "jock", "dec": "sinc"}
+       ]},
+       {"text": "When you are speaking publicly, do you imagine the audience in their underwear?", "answers":[
+        {"text": "Yeah. I like it since I'm usually in my undies too.", "inc": "hum", "dec": "sinc"}, {"text":"Only if I see some cuties.", "inc": "flirt", "dec":"int"}, {"text": "Ew, never!", "inc": "sinc", "dec": "flirt"}
+       ]},
+       {"text": "How long, to the nearest second, do you soft boil an egg?", "answers":[
+        {"text": "I just drink my eggs raw.", "inc": "hum jock", "dec": "int"}, {"text":"5 minutes and 16 seconds.", "inc": "int sinc", "dec":"flirt"}, {"text": "7 minutes and 2 seconds. I prefer my eggs HARD boiled.", "inc": "flirt", "dec": "sinc"}
+       ]},
+       {"text": "Evaluate the following expression:", "answers":[
+        {"text": "", "inc": "int", "dec": "jock"}, {"text": "Nope.", "inc": "hum", "dec": "int"}, {"text":"That's what nerds and losers are for.", "inc": "jock", "dec":"sinc"}
+       ]},
+       {"text": "What are you seeking from this site?", "answers":[
+        {"text": "The one article of jewelry to rule them all.", "inc": "hum", "dec": "flirt"}, {"text":"Primarily just a good time. Let's see where things go.", "inc": "flirt", "dec":"sinc"}, {"text": "The love of my life.", "inc": "sinc", "dec": "jock"}
+       ]},
+       {"text": "What are you wearing right now?", "answers":[
+        {"text": "Only a scarf. Nothing else.", "inc": "flirt", "dec": "sinc"}, {"text":"Jeans and a soft T-shirt.", "inc": "sinc", "dec":"hum"}, {"text": "Business casual attire.", "inc": "int", "dec": "jock"}
+       ]},
+       {"text": "What is your ideal pet?", "answers":[
+        {"text": "A cat, obviously. Felines 'till I die!", "inc": "int sinc", "dec": "jock"}, {"text":"A dog, clearly. Canines all the way!", "inc": "jock sinc", "dec":"int"}, {"text": "A pet? Isn't that why I'm on here?", "inc": "flirt hum", "dec": "sinc"}
+       ]},
+       {"text": "Imagine you've just been kidnapped by a gang of violent Aliens from Planet Xenorp. What do you do?", "answers":[
+        {"text": "I'd fight them, since I could obviously take 'em.", "inc": "jock", "dec": "int"}, {"text":"I'd turn it into an Alien Orgy!", "inc": "flirt hum", "dec":"sinc int"}, {"text": "I'd just comply with their orders in hopes of surviving.", "inc": "sinc int", "dec": "jock hum"}
+       ]}
+   ]
+}

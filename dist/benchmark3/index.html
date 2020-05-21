@@ -1,11 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
+    <title>Cupid's Bullet</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benchmark 3</title>
-</head>
-<body>
-    This is where benchmark 3 will be deployed.
-</body>
+    <style>@font-face {
+        font-family: "NoPixel";
+        src: url('/NoPixel.cc5f53bf.ttf');
+        font-weight: 400;
+        font-weight: normal;
+      }
+      @font-face {
+        font-family: "NoChalk";
+        src: url('/NoChalk.9dfa25b4.ttf');
+      }
+      #game-container {
+        cursor: url('/cursor.f05e9774.png'), auto;
+      }
+      input[type = text]:hover{
+        cursor: url('/text-cursor.111e77ed.png'), auto;
+      }</style>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!-- <script src="//firebase/7.13.2/firebase-app.js"></script> -->
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <!-- <script src="//firebase/7.13.2/firebase-analytics.js"></script> -->
+
+    <!-- Initialize Firebase -->
+    <!-- <script src="/__/firebase/init.js"></script> -->
+  <link rel="stylesheet" href="/src.a2b27638.css"></head>
+
+  <body>
+    <div id="game-container"></div>
+    <div style="font-family:NoPixel; position: absolute; left:-1000px; visibility:hidden;">.</div>
+    <div style="font-family:NoChalk; position: absolute; left:-1000px; visibility:hidden;">.</div>
+    <script src="/src.a2b27638.js"></script>
+    <script>window.oncontextmenu = function () {
+  return false;
+};</script>
+  </body>
 </html>
