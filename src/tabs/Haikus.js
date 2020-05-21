@@ -82,7 +82,7 @@ export default class Haikus extends AbstractTab{
             this.parent.displayProgress("sincerity", incAmount);
 
             for(let i = 0; i < this.parent.personArray.length; i++){
-                if(this.parent.personArray[i].likesMessage("sinc")){
+                if(this.parent.personArray[i].likesMessage("sinc") >= 0){
                     this.parent.personArray[i].incrementRelationshipMeter(1);
                 }
             }
@@ -106,6 +106,12 @@ export default class Haikus extends AbstractTab{
             }
             this.parent.player.incrementStat("sinc", -incAmount);
             this.parent.displayProgress("sincerity", -incAmount);
+
+            for(let i = 0; i < this.parent.personArray.length; i++){
+                if(this.parent.personArray[i].likesMessage("sinc") >= 0){
+                    this.parent.personArray[i].incrementRelationshipMeter(-1);
+                }
+            }
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);
