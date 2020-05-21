@@ -192,6 +192,7 @@ export default class BulletHell extends Phaser.Scene {
             this.bossIntoPhase2 = false;
             this.bossTransition = true;
             this.phase2StartTime = this.time.now + 3000;
+            this.player.setDirection(0, 0);
             this.playerHealthBar.clear();
             this.playerHealthBox.clear();
             if(this.cooldownBar){
@@ -202,7 +203,8 @@ export default class BulletHell extends Phaser.Scene {
             this.chadBackground = this.add.sprite(0, 0, 'fire').setOrigin(0,0);
             this.chadBackground.anims.play("fire", true);
             this.chadBackground.setScrollFactor(0, 0);
-            this.chadSprite = this.add.sprite(0, 0, 'chad-art').setOrigin(0, 0);
+            this.chadSprite = this.add.sprite(0, 0, 'boss_phase2').setOrigin(0, 0);
+            this.chadSprite.anims.play('ripThroughShirt');
             this.chadSprite.setScrollFactor(0, 0);
         }
         
@@ -870,6 +872,118 @@ export default class BulletHell extends Phaser.Scene {
             repeat: 0
         });
 
+
+        // Shirtless
+        // Boss
+        this.anims.create({
+            key: "bossShirtless_idle",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0 + 58,
+                end: 0 + 58
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bossShirtless_front",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0 + 58,
+                end: 0 + 58
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bossShirtless_front_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0 + 58,
+                end: 7 + 58
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bossShirtless_front_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 8 + 58,
+                end: 12 + 58
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "bossShirtless_death",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 13 + 58,
+                end: 23 + 58
+            }),
+            frameRate: 2,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "bossShirtless_dead",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 23 + 58,
+                end: 23 + 58
+            }),
+            frameRate: 2,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "bossShirtless_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 24 + 58,
+                end: 29 + 58
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bossShirtless_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 30 + 58,
+                end: 34 + 58
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "bossShirtless_back",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 3 + 58,
+                end: 3 + 58
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bossShirtless_back_walk",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 44 + 58,
+                end: 52 + 58
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bossShirtless_back_damage",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 53 + 58,
+                end: 57 + 58
+            }),
+            frameRate: 8,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "ripThroughShirt",
+            frames: this.anims.generateFrameNumbers("boss_phase2", {
+                start: 0,
+                end: 19
+            }),
+            frameRate: 8,
+            repeat: 0
+        })
+
         this.anims.create({
             key: "bomb_normal",
             frames: this.anims.generateFrameNumbers("bomb", {
@@ -1011,10 +1125,10 @@ export default class BulletHell extends Phaser.Scene {
                 if(enemy.anims.getCurrentKey() === "boss_idle"){
                     enemy.way = "_front"
                 }
-                enemy.anims.play("boss" + enemy.way + '_damage', true);
+                enemy.anims.play(enemy.spriteName + enemy.way + '_damage', true);
                 enemy.on("animationcomplete", () => {
                     if(enemy.anims.getCurrentKey().includes("damage")){
-                        enemy.anims.play("boss_idle", true)
+                        enemy.anims.play(enemy.spriteName + "_idle", true)
                     }
                 });
                 enemy.health -= bullet.damage;
@@ -1025,6 +1139,7 @@ export default class BulletHell extends Phaser.Scene {
                     this.bossIsDead = true;
                 } else if(enemy.health <= enemy.maxHealth/2 && !enemy.inPhase2){
                     this.bossIntoPhase2 = true;
+                    enemy.spriteName = "bossShirtless"
                     enemy.behavior = new Phase2(this.player, this, 100);
                     enemy.behavior.setUpEnemy(enemy);
                     enemy.healthBox.clear();
