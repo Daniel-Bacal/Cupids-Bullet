@@ -128,6 +128,10 @@ export default class Matches extends AbstractTab{
         this.relationshipMeter.setScrollFactor(0, 0);
 
         this.relationshipMeterBox = this.add.graphics();
+        this.relationshipMeterBox.fillStyle(0x870074);
+        this.relationshipMeterBox.fillRect(110, 42+(100-55/0.91)+0.5, 10, -1);
+        this.relationshipMeterBox.fillStyle(0x9B30FF);
+        this.relationshipMeterBox.fillRect(110, 42+(100-75/0.91)+0.5, 10, -1);
         this.relationshipMeterBox.lineStyle(2, 0x431C5C);
         this.relationshipMeterBox.strokeRect(110, 42, 10, 91);
         this.relationshipMeterBox.setScrollFactor(0, 0);

@@ -13,5 +13,5 @@ export const messageText = {
             "you have pretty eyes", "what are your hobbies?", "do you want to see a movie?", "you deserve the world", "i would do anything for you", "always here to cuddle :)", "you make me blush", "i think ur incredible"],
     flirt: ["want to come over later?", "hey there sexy", "wyd? ;)", "u up?", "you won't be disappointed",
             "let's experiment", "is it hot in here or just u?", "awoooga", "im thinking 'bout u ;)", "what are u wearing?", "my parents aren't home...", "flip a coin for a kiss?", "help me take a shower? ;)", "im giving free kissing lessons",
-            "ill be whichever spoon u want", "wanna eat sushi off my body?", ""]
+            "ill be whichever spoon u want", "wanna eat sushi off my body?", "u like feet?"]
 }

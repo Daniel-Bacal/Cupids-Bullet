@@ -82,10 +82,21 @@ export default class MathTab extends AbstractTab{
         }
 
         let value = parseInt(this.textField.value);
+
+        let incAmount;
+        if (this.parent.player.getDay()===0){
+            incAmount = 2;
+        }
+        else if (this.parent.player.getDay()===1){
+            incAmount = 3;
+        }
+        else {
+            incAmount = 4;
+        }
         if(value === this.currentProblem.value){
             // Increment intelligence
-            this.parent.player.incrementStat("int", 2);
-            this.parent.displayProgress("intelligence", 2);
+            this.parent.player.incrementStat("int", incAmount);
+            this.parent.displayProgress("intelligence", incAmount);
 
             for(let i = 0; i < this.parent.personArray.length; i++){
                 if(this.parent.personArray[i].likesMessage("int")){
@@ -100,8 +111,9 @@ export default class MathTab extends AbstractTab{
             this.sound.play("CorrectSFX");
         } else {
             // Decrement intelligence
-            this.parent.player.incrementStat("int", -2);
-            this.parent.displayProgress("intelligence", -2);
+
+            this.parent.player.incrementStat("int", -incAmount);
+            this.parent.displayProgress("intelligence", -incAmount);
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);

@@ -77,7 +77,7 @@ export default class Jokes extends AbstractTab{
             });
         } else {
             // Not sure how to do this one, but oh well
-            if("haha lol lmao lmfao rofl".includes(this.textField.value.toLowerCase())){
+            if("haha lol lmao lmfao rofl hahaha classic nice".includes(this.textField.value.toLowerCase())){
                 correct = true;
             }
         }
@@ -88,10 +88,20 @@ export default class Jokes extends AbstractTab{
         if(this.jokePhase >= 3){
             this.currentJoke = null;
         }
-
+        
         if(correct){
-            this.parent.player.incrementStat("hum", 1);
-            this.parent.displayProgress("humor", 1);
+            let incAmount;
+            if (this.parent.player.getDay()===0){
+                incAmount = 1;
+            }
+            else if (this.parent.player.getDay()===1){
+                incAmount = 1;
+            }
+            else {
+                incAmount = 2;
+            }
+            this.parent.player.incrementStat("hum", incAmount);
+            this.parent.displayProgress("humor", incAmount);
 
             for(let i = 0; i < this.parent.personArray.length; i++){
                 if(this.parent.personArray[i].likesMessage("hum")){
@@ -106,9 +116,18 @@ export default class Jokes extends AbstractTab{
             this.sound.play("CorrectSFX");
         } else {
             // Decrement humor
-
-            this.parent.player.incrementStat("hum", -1);
-            this.parent.displayProgress("humor", -1);
+            let incAmount;
+            if (this.parent.player.getDay()===0){
+                incAmount = 1;
+            }
+            else if (this.parent.player.getDay()===1){
+                incAmount = 1;
+            }
+            else {
+                incAmount = 2;
+            }
+            this.parent.player.incrementStat("hum", -incAmount);
+            this.parent.displayProgress("humor", -incAmount);
 
             this.feedbackText.text = "Incorrect";
             this.feedbackText.setOrigin(0.5, 0.5);

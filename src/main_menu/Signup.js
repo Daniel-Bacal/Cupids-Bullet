@@ -173,10 +173,10 @@ export default class Signup extends Phaser.Scene{
                         let decStats = this.question["answers"][i]["dec"].split(" ");
                         this.player.bio += playerBioText[this.pageNum][i] + " ";
                         for (let j = 0; j < incStats.length; j++){
-                            this.player.incrementStat(incStats[j], 1);
+                            this.player.incrementStat(incStats[j], 5);
                         }
                         for (let j = 0; j < decStats.length; j++){
-                            this.player.incrementStat(decStats[j], -1);
+                            this.player.incrementStat(decStats[j], -2);
                         }
                         this.pageNum++;
                         this.destroyText = true;
@@ -192,11 +192,11 @@ export default class Signup extends Phaser.Scene{
             if (currentProblem){
                 if (this.answerButtons[0].value){
                     if (this.answerButtons[0].value == currentProblem.value){
-                        this.player.incrementStat("int", 3);
+                        this.player.incrementStat("int", 7);
                         this.player.bio += playerBioText[this.pageNum][0] + " ";
                     }
                     else{
-                        this.player.incrementStat("int", -2);
+                        this.player.incrementStat("int", -3);
                         this.player.bio += playerBioText[this.pageNum][1] + " ";
                     }
                     this.pageNum++;
