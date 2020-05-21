@@ -170,21 +170,22 @@ export default class BulletHell extends Phaser.Scene {
                 this.time.addEvent({
                     delay: 6000,
                     callback: () => {
-                        let blackScreen = this.add.graphics();
-                        blackScreen.fillStyle(0x000000);
-                        blackScreen.fillRect(0, 0, 480, 270);
-                        blackScreen.setScrollFactor(0, 0);
-                        blackScreen.depth = 2000;
+                        // let blackScreen = this.add.graphics();
+                        // blackScreen.fillStyle(0x000000);
+                        // blackScreen.fillRect(0, 0, 480, 270);
+                        // blackScreen.setScrollFactor(0, 0);
+                        // blackScreen.depth = 2000;
+                        this.goToScene("GameWin")
                     },
                     loop: false
                 });
 
-                this.time.addEvent({
-                    delay: 10000,
-                    callback: () => {
-                        this.goToScene("GameWin")},
-                    loop: false
-                });
+                // this.time.addEvent({
+                //     delay: 10000,
+                //     callback: () => {
+                //         this.goToScene("GameWin")},
+                //     loop: false
+                // });
             }
         }
 
