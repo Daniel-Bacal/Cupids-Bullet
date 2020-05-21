@@ -91,7 +91,7 @@ export default class MainMenu extends Phaser.Scene {
         this.tweens.add({
           targets: buttons[i],
           x: "-=200",
-          ease: "Quart.easeIn",
+          ease: "Quart",
           delay: d,
           duration: 500,
           repeat: 0

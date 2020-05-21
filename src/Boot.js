@@ -146,6 +146,9 @@ export default class Boot extends Phaser.Scene{
         this.load.spritesheet("boss", "assets/chad-sheet.png", {
             frameWidth: 64, frameHeight: 64
         });
+        this.load.spritesheet("boss_phase2", "assets/chad-phase-two.png", {
+            frameWidth: 480, frameHeight: 270
+        });
         this.load.spritesheet("bomb", "assets/bomb.png", {
             frameWidth: 32, frameHeight: 32
         });
@@ -230,7 +233,7 @@ export default class Boot extends Phaser.Scene{
         mcKilla.setBio("When I'm not teaching, programming, or gaming, I enjoy spending time with family and friends as well as playing the guitar and piano.");
         mcKilla.setPlayerStats(100, 100, 100, 100, 100);
         mcKilla.setDay(3);
-        mcKilla.skillPoints = 0;
+        mcKilla.skillPoints = 3;
         let p1 = new Person("sf");
         p1.relationshipMeter = 0;
         let p2 = new Person("sf");
