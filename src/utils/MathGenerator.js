@@ -2,7 +2,7 @@ import { randIntFrom, randomFrom } from "./MathUtils"
 
 export default class MathTest {
     constructor() {
-        this.operations = ["add", "sub", "mult"];
+        this.operations = ["add", "sub", "add", "sub", "add", "sub", "mult"];
         this.opConvert = { add: "+", sub: "-", mult: "*" };
 
         // Get this from the player's intelligence stat

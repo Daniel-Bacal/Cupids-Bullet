@@ -91,7 +91,7 @@ export default class BossManager{
     }
 
     initBossHealth(boss){
-        boss.nameText = this.scene.add.text(240, 240, "Chad", {fontFamily: "NoPixel", color: "white", fontSize: "24px"}).setOrigin(0.5, 0.5);
+        boss.nameText = this.scene.add.text(246, 241, "Chad", {fontFamily: "NoPixel", color: "white", fontSize: "24px"}).setOrigin(0.5, 0.5);
         boss.nameText.depth = 1000;
         boss.nameText.setScrollFactor(0, 0);
         boss.healthBox = this.scene.add.graphics();
@@ -103,6 +103,9 @@ export default class BossManager{
     }
 
     renderHealthBar(boss){
+        boss.nameText.text = "Chad";
+        boss.nameText.setOrigin(0.5, 0.5);
+
         boss.healthBox.clear();
         boss.healthBox.lineStyle(3, 0xFFFFFF);
         boss.healthBox.strokeRect(100, 250, 280, 8);

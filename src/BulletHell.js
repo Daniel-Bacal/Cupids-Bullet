@@ -1142,6 +1142,7 @@ export default class BulletHell extends Phaser.Scene {
                     enemy.spriteName = "bossShirtless"
                     enemy.behavior = new Phase2(this.player, this, 100);
                     enemy.behavior.setUpEnemy(enemy);
+                    enemy.nameText.text
                     enemy.healthBox.clear();
                     enemy.healthBar.clear();
                     enemy.inPhase2 = true;
@@ -1239,6 +1240,15 @@ export default class BulletHell extends Phaser.Scene {
             otherGroup: this.walls,
             callback: (wall, bullet) => {}
         }]);
+
+        this.physics.add.overlap(
+            this.bossGroup,
+            this.player.getSprite(),
+            (obj1, obj2) => {
+                // TODO: Chad contact damage to player
+                
+            }
+        )
     }
 
     setUpBulletManagers(){
