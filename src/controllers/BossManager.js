@@ -50,7 +50,7 @@ export default class BossManager{
         boss.anims.play(this.sprite + '_walk', true);
 
         boss.behavior = new Phase1(this.player, this.scene, 100);
-        boss.health = 100000;
+        boss.health = 1000;
         boss.maxHealth = boss.health;
         boss.damage = 10;
 
@@ -77,6 +77,7 @@ export default class BossManager{
 
         boss.anims.play(boss.spriteName + '_death', true);
 
+        boss.nameText.text = "";
         boss.healthBox.clear();
         boss.healthBar.clear();
         boss.isAlive = false;

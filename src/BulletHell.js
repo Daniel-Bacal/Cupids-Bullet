@@ -59,6 +59,13 @@ export default class BulletHell extends Phaser.Scene {
             this.player = new Player();
         }
         this.playerSpaceSprite = this.add.sprite(0, 0, "explosion");
+        this.playerIsDead = false;
+        this.killedPlayer = false;
+        this.bossIsDead = false;
+        this.startedBossEnd = false;
+        this.bossIntoPhase2 = false;
+        this.phase2StartTime = 0;
+        this.bossTransition = false;
 
         // Initialize bullet piercing and enemy scale
         this.bulletHealth = 1;
@@ -132,6 +139,83 @@ export default class BulletHell extends Phaser.Scene {
     }
 
     update(time, delta) {
+        if(this.playerIsDead){
+            if(!this.killedPlayer){
+                this.killPlayer()
+                this.killedPlayer= true;
+            }
+            return;
+        }
+        if(this.bossIsDead){
+            if(!this.startedBossEnd){
+                this.game.music.stop();
+                this.startedBossEnd = true;
+                // Start end sequence
+                this.cameras.main.shake(2000, 0.001, true);
+                this.time.addEvent({
+                    delay: 2000,
+                    callback: () => {
+                        this.cameras.main.shake(2000, 0.005, true);
+                        },
+                    loop: false
+                });
+                this.time.addEvent({
+                    delay: 4000,
+                    callback: () => {
+                        this.cameras.main.shake(2000, 0.01, true);
+                    },
+                    loop: false
+                });
+
+                this.time.addEvent({
+                    delay: 6000,
+                    callback: () => {
+                        let blackScreen = this.add.graphics();
+                        blackScreen.fillStyle(0x000000);
+                        blackScreen.fillRect(0, 0, 480, 270);
+                        blackScreen.setScrollFactor(0, 0);
+                        blackScreen.depth = 2000;
+                    },
+                    loop: false
+                });
+
+                this.time.addEvent({
+                    delay: 10000,
+                    callback: () => {
+                        this.goToScene("GameWin")},
+                    loop: false
+                });
+            }
+        }
+
+        if(this.bossIntoPhase2){
+            this.bossIntoPhase2 = false;
+            this.bossTransition = true;
+            this.phase2StartTime = this.time.now + 3000;
+            this.playerHealthBar.clear();
+            this.playerHealthBox.clear();
+            if(this.cooldownBar){
+                this.cooldownBar.clear();
+                this.cooldownBox.clear();
+            }
+            // Show phase 2 screen
+            this.chadBackground = this.add.sprite(0, 0, 'fire').setOrigin(0,0);
+            this.chadBackground.anims.play("fire", true);
+            this.chadBackground.setScrollFactor(0, 0);
+            this.chadSprite = this.add.sprite(0, 0, 'chad-art').setOrigin(0, 0);
+            this.chadSprite.setScrollFactor(0, 0);
+        }
+        
+        if(this.bossTransition){
+            if(this.phase2StartTime < this.time.now){
+                this.bossIntoPhase2 = false;
+                this.chadBackground.destroy();
+                this.chadSprite.destroy();
+                this.bossTransition = false;
+            }
+            return;
+        }
+
         if (Phaser.Input.Keyboard.JustDown(esc)){
             // Pause Game
             this.pauseGame(true);
@@ -442,6 +526,15 @@ export default class BulletHell extends Phaser.Scene {
             repeat: 0
         });
         this.anims.create({
+            key: "player_dead",
+            frames: this.anims.generateFrameNumbers("bhPlayer", {
+                start: 19,
+                end: 19
+            }),
+            frameRate: 1,
+            repeat: -1
+        });
+        this.anims.create({
             key: "player_front_walk",
             frames: this.anims.generateFrameNumbers("bhPlayer", {
                 start: 20,
@@ -717,9 +810,18 @@ export default class BulletHell extends Phaser.Scene {
             key: "boss_death",
             frames: this.anims.generateFrameNumbers("boss", {
                 start: 13,
-                end: 25
+                end: 23
             }),
-            frameRate: 8,
+            frameRate: 2,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "boss_dead",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 23,
+                end: 23
+            }),
+            frameRate: 2,
             repeat: 0
         });
         this.anims.create({
@@ -910,15 +1012,23 @@ export default class BulletHell extends Phaser.Scene {
                     enemy.way = "_front"
                 }
                 enemy.anims.play("boss" + enemy.way + '_damage', true);
-                enemy.on("animationcomplete", () => enemy.anims.play("boss_idle", true));
+                enemy.on("animationcomplete", () => {
+                    if(enemy.anims.getCurrentKey().includes("damage")){
+                        enemy.anims.play("boss_idle", true)
+                    }
+                });
                 enemy.health -= bullet.damage;
                 this.sound.play("EnemyTakingDamageSFX");
                 if (enemy.health <= 0){
                     this.bossManager.killBoss(enemy);
-                    this.numEnemiesRemaining--;
+                    //this.numEnemiesRemaining--;
+                    this.bossIsDead = true;
                 } else if(enemy.health <= enemy.maxHealth/2 && !enemy.inPhase2){
+                    this.bossIntoPhase2 = true;
                     enemy.behavior = new Phase2(this.player, this, 100);
                     enemy.behavior.setUpEnemy(enemy);
+                    enemy.healthBox.clear();
+                    enemy.healthBar.clear();
                     enemy.inPhase2 = true;
                     let songName = "BossPhase2"
                     if(this.game.music && this.game.music.isPlaying){
@@ -954,13 +1064,15 @@ export default class BulletHell extends Phaser.Scene {
             callback: (playerSprite, bullet) => {
                 this.player.getSprite().anims.stop();
                 this.player.getSprite().anims.play("player" + this.player.way + '_damage', true);
-                this.player.getSprite().on("animationcomplete", () => this.player.getSprite().anims.play("player" + this.player.way + '_walk', true));
+                this.player.getSprite().on("animationcomplete", () => {
+                    if(this.player.getSprite().anims.getCurrentKey().includes("damage")){
+                        this.player.getSprite().anims.play("player" + this.player.way + '_walk', true)
+                    }
+                });
                 this.player.health -= bullet.damage;
                 this.sound.play("PlayerTakingDamageSFX")
                 if (this.player.health <= 0){
-                    this.player.getSprite().anims.play("player_death", true);
-                    this.player.getSprite().on("animationcomplete", () =>
-                        this.goToScene("GameOver"));
+                    this.playerIsDead = true;
                 }
             }
         },
@@ -974,14 +1086,15 @@ export default class BulletHell extends Phaser.Scene {
             callback: (playerSprite, bullet) => {
                 this.player.getSprite().anims.stop();
                 this.player.getSprite().anims.play("player" + this.player.way + '_damage', true);
-                this.player.getSprite().on("animationcomplete", () =>
-                    this.player.health -= bullet.damage,
-                    this.sound.play("PlayerTakingDamageSFX")
-                );
+                this.player.getSprite().on("animationcomplete", () => {
+                    if(this.player.getSprite().anims.getCurrentKey().includes("damage")){
+                        this.player.getSprite().anims.play("player" + this.player.way + '_walk', true)
+                    }
+                });
+                this.player.health -= bullet.damage,
+                this.sound.play("PlayerTakingDamageSFX")
                 if (this.player.health <= 0){
-                    this.player.getSprite().anims.play("player_death", true);
-                    this.player.getSprite().on("animationcomplete", () =>
-                    this.goToScene("GameOver"));
+                    this.playerIsDead = true;
                 }
             }
         },
@@ -995,13 +1108,15 @@ export default class BulletHell extends Phaser.Scene {
             callback: (playerSprite, bullet) => {
                 this.player.getSprite().anims.stop();
                 this.player.getSprite().anims.play("player" + this.player.way + '_damage', true);
-                this.player.getSprite().on("animationcomplete", () => this.player.getSprite().anims.play("player" + this.player.way + '_walk', true));
+                this.player.getSprite().on("animationcomplete", () => {
+                    if(this.player.getSprite().anims.getCurrentKey().includes("damage")){
+                        this.player.getSprite().anims.play("player" + this.player.way + '_walk', true)
+                    }
+                });
                 this.player.health -= bullet.damage;
                 this.sound.play("PlayerTakingDamageSFX")
                 if (this.player.health <= 0){
-                    this.player.getSprite().anims.play("player_death", true);
-                    this.player.getSprite().on("animationcomplete", () =>
-                        this.goToScene("GameOver"));
+                    this.playerIsDead = true;
                 }
             }
         },
@@ -1245,6 +1360,9 @@ export default class BulletHell extends Phaser.Scene {
         }
 
         // Player Health
+        this.playerHealthBox.clear()
+        this.playerHealthBox.lineStyle(2, 0xFFFFFF);
+        this.playerHealthBox.strokeRect(5, 5, 200, 10);
         this.playerHealthBar.clear();
         this.playerHealthBar.fillStyle(0xFF0000);
         this.playerHealthBar.fillRect(5, 5, Math.ceil(200*this.player.getHealthPercent()), 10);
@@ -1269,6 +1387,49 @@ export default class BulletHell extends Phaser.Scene {
       else{
         this.player.fireBullet(this.input.mousePointer.x + this.cameras.main.scrollX, this.input.mousePointer.y + this.cameras.main.scrollY, this.mouseDown, this.time.now);
       }
+    }
+
+    killPlayer(){
+        // Stop all enemies
+        this.fEnemyGroup.children.iterate((enemy) => {enemy.behavior.setEnemyVelocity(enemy, 0, 0)})
+        this.mEnemyGroup.children.iterate((enemy) => {enemy.behavior.setEnemyVelocity(enemy, 0, 0)})
+        this.oEnemyGroup.children.iterate((enemy) => {enemy.behavior.setEnemyVelocity(enemy, 0, 0)})
+        this.bossGroup.children.iterate(  (enemy) => {enemy.behavior.setEnemyVelocity(enemy, 0, 0)})
+
+        // Player Health
+        this.playerHealthBox.clear()
+        this.playerHealthBox.lineStyle(2, 0xFFFFFF);
+        this.playerHealthBox.strokeRect(5, 5, 200, 10);
+        this.playerHealthBar.clear();
+        this.playerHealthBar.fillStyle(0xFF0000);
+        this.playerHealthBar.fillRect(5, 5, Math.ceil(200*this.player.getHealthPercent()), 10);
+        this.player.setDirection(0, 0);
+        this.player.getSprite().anims.play("player_death");
+        this.player.getSprite().on("animationcomplete", () => {
+            if(this.player.getSprite().anims.getCurrentKey() !== "player_dead"){
+                this.player.getSprite().anims.play("player_dead", true);
+            }
+        });
+        this.time.addEvent({
+            delay: 4000,
+            callback: () => {
+                console.log("dead")
+                this.goToScene("GameOver")},
+            loop: false
+        });
+        let blackScreen = this.add.graphics();
+        blackScreen.fillStyle(0x000000, 1);
+        blackScreen.fillRect(0, 0, 480, 270);
+        blackScreen.setScrollFactor(0, 0);
+        blackScreen.alpha = 0;
+        this.tweens.add({
+            targets: blackScreen,
+            alpha: {from: 0, to: 1},
+            ease: "Quad",
+            duration: 2000,
+            delay: 2000,
+            repeat: 0
+        })
     }
 
     initPauseMenu(){
@@ -1336,25 +1497,28 @@ export default class BulletHell extends Phaser.Scene {
 
     initPlayerHealth(){
         this.playerHealthBar = this.add.graphics();
+        this.playerHealthBar.depth = 1000;
         this.playerHealthBar.setScrollFactor(0, 0);
 
         this.playerHealthBox = this.add.graphics();
-        this.playerHealthBox.lineStyle(2, 0xFFFFFF);
-        this.playerHealthBox.strokeRect(5, 5, 200, 10);
+        this.playerHealthBox.depth = 1000;
         this.playerHealthBox.setScrollFactor(0, 0);
     }
 
     initCooldownGraphic(){
         this.cooldownBar = this.add.graphics();
         this.cooldownBar.setScrollFactor(0, 0);
+        this.cooldownBar.depth = 1000;
 
         this.cooldownBox = this.add.graphics();
-        this.cooldownBox.lineStyle(2, 0xFFFFFF);
-        this.cooldownBox.strokeRect(5, 15, 100, 10);
         this.cooldownBox.setScrollFactor(0, 0);
+        this.cooldownBox.depth = 1000;
     }
 
     updateCooldownGraphic(){
+        this.cooldownBox.clear();
+        this.cooldownBox.lineStyle(2, 0xFFFFFF);
+        this.cooldownBox.strokeRect(5, 15, 100, 10);
         this.cooldownBar.clear();
         this.cooldownBar.fillStyle(0x0077FF);
         this.cooldownBar.fillRect(5, 15, Math.ceil((1000 - Phaser.Math.Clamp(this.spacebarCooldown, 0, 1000))/1000*100), 10);
