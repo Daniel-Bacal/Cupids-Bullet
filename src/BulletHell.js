@@ -190,6 +190,10 @@ export default class BulletHell extends Phaser.Scene {
         }
 
         if(this.bossIntoPhase2){
+            // Stop player and chad from moving
+            this.bossGroup.children.iterate((boss) => boss.setVelocity(0, 0));
+            this.player.getSprite().setVelocity(0, 0);
+
             this.bossIntoPhase2 = false;
             this.bossTransition = true;
             this.phase2StartTime = this.time.now + 3000;
@@ -1246,8 +1250,32 @@ export default class BulletHell extends Phaser.Scene {
             this.bossGroup,
             this.player.getSprite(),
             (obj1, obj2) => {
-                // TODO: Chad contact damage to player
-                
+                // Only count the collision if the player and the boss are close enough
+                let enemyPosition = obj2.getCenter();
+                let vecBetween = this.player.getCenter().clone().subtract(enemyPosition);
+                if(vecBetween.lengthSq() < 30*30){
+                    if(this.player.invincibleUntil === null){
+                        this.invincibleUntil = this.time.now - 1;
+                    }
+
+                    if(this.player.invincibleUntil < this.time.now){
+                        this.player.health -= 50;
+                        this.sound.play("PlayerTakingDamageSFX")
+                        if (this.player.health <= 0){
+                            this.playerIsDead = true;
+                        }
+                    } 
+
+                    let moveAway = vecBetween.normalize();
+
+                    this.player.stunnedUntil = this.time.now + 80;
+                    this.player.invincibleUntil = this.time.now + 180;
+                    this.player.getSprite().setVelocity(moveAway.x*610, moveAway.y*610);
+
+                    if (this.player.health <= 0){
+                        this.player.getSprite().setVelocity(0, 0);
+                    }
+                }
             }
         )
     }
@@ -1550,6 +1578,7 @@ export default class BulletHell extends Phaser.Scene {
         blackScreen.fillRect(0, 0, 480, 270);
         blackScreen.setScrollFactor(0, 0);
         blackScreen.alpha = 0;
+        blackScreen.depth = 2000
         this.tweens.add({
             targets: blackScreen,
             alpha: {from: 0, to: 1},

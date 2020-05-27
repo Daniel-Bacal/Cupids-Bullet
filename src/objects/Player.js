@@ -92,6 +92,9 @@ export default class Player {
         this.playerSprite.setCollideWorldBounds(true);
         this.playerSprite.anims.play('player_idle', true);
 
+        this.stunnedUntil = null;
+        this.invincibleUntil = null;
+
         this.bulletSpeedBoost = 0;
         this.speedBoost = 0;
         this.damageBoost = 0;
@@ -131,7 +134,14 @@ export default class Player {
     setDirection(x, y){
         this.directionX = x;
         this.directionY = y;
-        this.playerSprite.setVelocity(x * this.speed, y * this.speed);
+
+        if(this.stunnedUntil === null){
+            this.stunnedUntil = this.scene.time.now - 1;
+        }
+
+        if(this.stunnedUntil < this.scene.time.now){
+            this.playerSprite.setVelocity(x * this.speed, y * this.speed);
+        }
 
         if(this.directionX !== 0){
             if(this.directionY === 0){
