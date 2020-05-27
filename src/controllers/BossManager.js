@@ -71,6 +71,34 @@ export default class BossManager{
     }
 
     killBoss(boss){
+        // Show Explosions
+        this.scene.anims.create({
+            key: "fire-explode",
+            frames: this.scene.anims.generateFrameNumbers("fire-explosion", {
+            start: 0,
+            end: 6
+            }),
+            frameRate: 20,
+            repeat: 0
+        });
+
+        let bossPosition = boss.getCenter();
+        
+        for(let i = 1; i < 10; i++){
+
+            this.scene.time.addEvent({
+                delay: 5500*i/10 + (Math.random()*400 - 200),
+                callback: () => {
+                    let e1 = this.scene.add.sprite("fire-explosion")
+                    e1.setPosition(bossPosition.x + Math.random()*64 - 32, bossPosition.y + Math.random()*64 - 32);
+                    e1.anims.play("fire-explode");
+                },
+                loop: false
+            })
+        }
+
+        
+
         boss.isDying = true;
 
         boss.setVelocity(0, 0);
