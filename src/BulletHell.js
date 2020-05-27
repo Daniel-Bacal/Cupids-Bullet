@@ -1444,15 +1444,17 @@ export default class BulletHell extends Phaser.Scene {
     setUpControls(){
         // Set up key controls
         this.input.keyboard.on("keydown", (event) => {
-            if("wasd".includes(event.key)){
-                this.player.dir = event.key;
-                this.keysPressed[event.key] = "wa".includes(event.key) ? -1 : 1;
+            if("wasdWASD".includes(event.key)){
+                let key = event.key.toLowerCase();
+                this.player.dir = key;
+                this.keysPressed[key] = "wa".includes(key) ? -1 : 1;
             }
         });
 
         this.input.keyboard.on("keyup", (event) => {
-            if("wasd".includes(event.key)){
-                this.keysPressed[event.key] = 0;
+            if("wasdWASD".includes(event.key)){
+                let key = event.key.toLowerCase();
+                this.keysPressed[key] = 0;
             }
         });
 
