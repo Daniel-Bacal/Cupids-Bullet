@@ -235,7 +235,7 @@ export default class Boot extends Phaser.Scene{
         let mcKilla = new Player();
         mcKilla.setName("TheMcKillaGorilla");
         mcKilla.setBio("When I'm not teaching, programming, or gaming, I enjoy spending time with family and friends as well as playing the guitar and piano.");
-        mcKilla.setPlayerStats(100, 100, 100, 100, 100);
+        mcKilla.setPlayerStats(200, 100, 100, 100, 100);
         mcKilla.setDay(3);
         mcKilla.skillPoints = 3;
         let p1 = new Person("sf");
